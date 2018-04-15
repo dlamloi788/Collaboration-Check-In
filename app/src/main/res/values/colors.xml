@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFA500</color>
+    <color name="colorPrimaryDark">#E59400</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="TopBarColor">#29b8c4</color>
+    <color name="ActionBarColor">#2dc9d6</color>
+    <color name="LoginRegisterLayoutBackground">#16223B</color>
+    <color name="LoginRegisterEditText_TextColorHint">#939393</color>
+</resources>

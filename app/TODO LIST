@@ -1,0 +1,11 @@
+TODO LIST
+
+LoginActivity
+- If successfully logged in, go to home screen
+- If email or password is incorrect display a message
+- Tidy up code
+
+
+RegisterActivity
+- Show visual feedback to why registration may have failed
+- Tidy up code

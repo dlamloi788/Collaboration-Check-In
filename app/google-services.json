@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "501628820373",
+    "firebase_url": "https://mad-application-69143.firebaseio.com",
+    "project_id": "mad-application-69143",
+    "storage_bucket": "mad-application-69143.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501628820373:android:d6194583bcb0d0ff",
+        "android_client_info": {
+          "package_name": "com.dlamloi.MAD"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501628820373-vdmn009d29ukst32seudp3qahr5oerkk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dlamloi.MAD",
+            "certificate_hash": "ec1865e2967d76ad3dd2035532d30558dcae996d"
+          }
+        },
+        {
+          "client_id": "501628820373-p74jpfs3dfv9riip76l8va60rlomdtmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0ehimYuALzVJZS_Uws9ZwGCg6iDY_Fiw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501628820373-p74jpfs3dfv9riip76l8va60rlomdtmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
