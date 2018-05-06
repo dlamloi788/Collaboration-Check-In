@@ -3,6 +3,7 @@
     package="com.dlamloi.MAD">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,15 +24,19 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".activity.RegisterActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".activity.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".CreateGroupActivity"
+            android:name=".activity.CreateGroupActivity"
             android:label="@string/title_activity_create_group"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.ViewGroupActivity"
+            android:label="@string/title_activity_view_group"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

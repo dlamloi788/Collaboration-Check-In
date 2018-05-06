@@ -6,26 +6,23 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="#EEEEEE"
-    tools:context="com.dlamloi.MAD.HomeActivity"
+    tools:context="com.dlamloi.MAD.activity.HomeActivity"
     tools:showIn="@layout/activity_home">
 
-    <ProgressBar
-        android:id="@+id/loading_progressbar"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="15dp"
-        android:indeterminateDrawable="@drawable/progressbar"
+        android:layout_height="wrap_content">
 
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/groups_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/groups_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 

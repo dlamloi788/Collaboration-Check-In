@@ -1,26 +1,26 @@
-package com.dlamloi.MAD;
+package com.dlamloi.MAD.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+
+import com.dlamloi.MAD.R;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CreateGroupActivity extends AppCompatActivity {
 
+
     public static final String GROUP_NAME_TAG = "group name";
     public static final String EMAILS_TAG = "emails";
-
 
 
     private EditText groupNameEt;
@@ -40,6 +40,9 @@ public class CreateGroupActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
 
         groupNameEt = findViewById(R.id.group_name_edittext);
         memberOneEt = findViewById(R.id.member_one_edittext);
@@ -94,5 +97,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }
