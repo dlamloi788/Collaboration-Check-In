@@ -51,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        Log.d("mUser profile picture", mUser.getPhotoUrl() + "");
         mRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         mGroupsRv = findViewById(R.id.groups_recyclerview);
         mGroupList = new ArrayList<>();
@@ -118,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
     private void createGroup(Intent data) {
         String groupName = data.getStringExtra(CreateGroupActivity.GROUP_NAME_TAG);
         ArrayList<String> groupMemberEmails = data.getStringArrayListExtra(CreateGroupActivity.EMAILS_TAG);
-        String groupId = UUID.randomUUID().toString();
+        String groupId = mDatabaseReference.push().getKey();
         Group group = new Group(groupId, groupName, mUser.getEmail(), groupMemberEmails);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference groupsReference = database.getReference();

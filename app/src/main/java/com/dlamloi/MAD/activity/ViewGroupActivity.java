@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,19 +12,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dlamloi.MAD.HomeFragment;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.adapter.ViewPagerAdapter;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ViewGroupActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    public static final String GROUP_KEY = "group";
-    private Group group;
+    public static final String GROUP_KEY = "mGroup";
+    public static final String USER_KEY = "user";
+    private Group mGroup;
+    private FirebaseUser mUser;
+    private FirebaseAuth mAuth;
     private ViewPager mViewPager;
 
 
@@ -33,10 +43,11 @@ public class ViewGroupActivity extends AppCompatActivity
         setContentView(R.layout.activity_view_group);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        group = (Group) getIntent().getParcelableExtra(GROUP_KEY);
-        setTitle(group.getName());
+        mGroup = (Group) getIntent().getParcelableExtra(GROUP_KEY);
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        setTitle(mGroup.getName());
 
-        group.getUpdates().add(new Update("Update #1", "29th April 2017", "Lorem ipsum dolor sit amet, orci porttitor id lorem varius, diam sit justo dui. Elementum arcu sed dolor nibh duis, massa adipiscing vivamus suspendisse in, eget convallis nulla. Vitae tortor, elementum consectetuer dolor pretium, fusce feugiat vestibulum morbi, porttitor pellentesque lectus nec eget enim id. Metus lacus etiam vel vulputate enim condimentum. Sed at vel suscipit. Faucibus tellus litora sed dictum in, tempor reiciendis donec duis vivamus enim, massa libero dui, morbi cras. Ornare erat ut quis, cursus mauris porta arcu metus vestibulum purus, mauris platea. Vel eu odio quis imperdiet eleifend malesuada. Egestas egestas suspendisse, nascetur sed vestibulum tellus at. Erat malesuada dolorum, lectus voluptas sed volutpat nascetur vivamus ac, hac faucibus ultricies metus vitae, convallis nulla eli", "Simon Lee"));
 
 
         mViewPager = findViewById(R.id.container_viewpager);
@@ -63,6 +74,21 @@ public class ViewGroupActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerLayout = navigationView.getHeaderView(0);
+        ImageView profilePictureIv = headerLayout.findViewById(R.id.profilePictureIv);
+        TextView usernameTv = headerLayout.findViewById(R.id.first_name_textview);
+        TextView emailTv = headerLayout.findViewById(R.id.profile_email_textview);
+
+        //Insert user profile picture into imageview by using glide
+        //and the picture URI
+        Glide.with(this)
+                .load(mUser.getPhotoUrl())
+                .into(profilePictureIv);
+
+        usernameTv.setText(mUser.getDisplayName());
+        emailTv.setText(mUser.getEmail());
+
+
     }
 
 
@@ -98,7 +124,6 @@ public class ViewGroupActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -125,11 +150,11 @@ public class ViewGroupActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        HomeFragment homeFragment = HomeFragment.newInstance(group.getUpdates());
-        HomeFragment homeFragment1 = HomeFragment.newInstance(group.getUpdates());
-        HomeFragment homeFragment2 = HomeFragment.newInstance(group.getUpdates());
-        HomeFragment homeFragment3 = HomeFragment.newInstance(group.getUpdates());
-        HomeFragment homeFragment4 = HomeFragment.newInstance(group.getUpdates());
+        HomeFragment homeFragment = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
+        HomeFragment homeFragment1 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
+        HomeFragment homeFragment2 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
+        HomeFragment homeFragment3 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
+        HomeFragment homeFragment4 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
         adapter.addFragment(homeFragment, "");
         adapter.addFragment(homeFragment1, "");
         adapter.addFragment(homeFragment2, "");

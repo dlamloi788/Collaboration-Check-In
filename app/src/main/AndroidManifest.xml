@@ -37,6 +37,10 @@
             android:name=".activity.ViewGroupActivity"
             android:label="@string/title_activity_view_group"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.PostUpdateActivity"
+            android:label="@string/title_activity_post_update"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

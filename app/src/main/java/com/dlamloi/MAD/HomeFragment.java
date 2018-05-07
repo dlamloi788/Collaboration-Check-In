@@ -1,5 +1,6 @@
 package com.dlamloi.MAD;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -10,27 +11,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dlamloi.MAD.activity.PostUpdateActivity;
 import com.dlamloi.MAD.adapter.UpdateAdapter;
+import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class HomeFragment extends Fragment {
 
     public static final String EXTRA_UPDATE = "updates";
+    public static final String EXTRA_GROUP = "group";
 
     private RecyclerView mUpdatesRecyclerView;
     private ArrayList<Update> mUpdates = new ArrayList<>();
+    private Group mGroup;
 
     public HomeFragment() {
 
     }
 
-    public static HomeFragment newInstance(ArrayList<Update> updates) {
+    public static HomeFragment newInstance(HashMap<String, Update> updates, Group group) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(EXTRA_UPDATE, updates);
+        args.putSerializable(EXTRA_UPDATE, updates);
+        args.putParcelable(EXTRA_GROUP, group);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,8 +48,11 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getArguments();
-        mUpdates = extras.getParcelableArrayList(EXTRA_UPDATE);
-
+        HashMap<String, Update> updateMap = (HashMap<String, Update>) extras.getSerializable(EXTRA_UPDATE);
+        for (Update item : updateMap.values()) {
+            mUpdates.add(item);
+        }
+        mGroup = extras.getParcelable(EXTRA_GROUP);
 
 
     }
@@ -60,7 +70,9 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent postActivityIntent = new Intent(getContext(), PostUpdateActivity.class);
+                postActivityIntent.putExtra(EXTRA_GROUP, mGroup);
+                startActivity(postActivityIntent);
             }
         });
 

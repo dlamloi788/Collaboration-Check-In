@@ -1,6 +1,7 @@
 package com.dlamloi.MAD.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,8 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends AppCompatActivity implements TextWatcher{
+
+    public static final String DEFAULT_PROFILE_PICTURE_URL = "https://firebasestorage.googleapis.com/v0/b/mad-application-69143.appspot.com/o/profile%20pictures%2Fdefault-profile.jpg?alt=media&token=3be71da7-0e32-4320-b916-b8fafdbcf54e";
 
     private FirebaseAuth mAuth;
     private EditText mFirstNameEt;
@@ -91,6 +95,11 @@ public class RegisterActivity extends AppCompatActivity implements TextWatcher{
                             userIntent.putExtra(LoginActivity.USER_EMAIL_KEY, user.getEmail());
                             setResult(LoginActivity.REGISTER_REQUEST_CODE, userIntent);
                             Log.d("UID", user.getUid());
+                            UserProfileChangeRequest profileBuilder = new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(Uri.parse(DEFAULT_PROFILE_PICTURE_URL))
+                                    .setDisplayName(mFirstNameEt.getText() + " " + mLastNameEt.getText())
+                                    .build();
+                            user.updateProfile(profileBuilder);
                             finish();
                         } else {
                             Toast.makeText(RegisterActivity.this,

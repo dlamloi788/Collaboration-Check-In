@@ -30,6 +30,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Log out</string>
+    <string name="title_activity_create_meeting">CreateMeetingActivity</string>
+    <string name="title_activity_post_update">PostUpdateActivity</string>
+    <string name="what_s_new">What\'s new?</string>
+    <string name="enter_update_title">Enter Update Title</string>
+    <string name="publish">publish</string>
 
 
 </resources>

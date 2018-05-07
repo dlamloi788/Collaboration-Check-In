@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.dlamloi.MAD.activity.PostUpdateActivity"
+    android:background="@android:color/white"
+    tools:showIn="@layout/activity_post_update"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/Post_Update_Hint_Color"
+        android:backgroundTint="#000000"
+        >
+
+        <EditText
+            android:id="@+id/update_title_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_update_title"
+            android:textColor="@android:color/black"
+            android:backgroundTint="@color/colorAccent"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <EditText
+        android:id="@+id/update_information_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/what_s_new"
+        android:gravity="top|start"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/Post_Update_Hint_Color"
+        android:backgroundTint="@android:color/transparent"
+        />
+
+
+
+
+</LinearLayout>

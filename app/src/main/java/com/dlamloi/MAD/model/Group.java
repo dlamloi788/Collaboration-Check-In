@@ -11,6 +11,7 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,12 @@ public class Group implements Parcelable {
     private String name;
     private String adminEmail;
     private ArrayList<String> memberEmails;
-    private ArrayList<Update> updates = new ArrayList<>();
+    private HashMap<String, Update> updates = new HashMap<>();
+    private ArrayList<MeetingPlan> meetingPlans = new ArrayList<>();
+    private ArrayList<String> fileUris = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<ChatMessage> chatMessages = new ArrayList<>();
+
 
 
     public Group() {
@@ -37,14 +43,16 @@ public class Group implements Parcelable {
         this.name = name;
         this.adminEmail = adminEmail;
         this.memberEmails = memberEmails;
+
     }
+
 
     public Group(Parcel in) {
         id = in.readString();
         name = in.readString();
         adminEmail = in.readString();
         memberEmails = in.createStringArrayList();
-        updates = in.createTypedArrayList(Update.CREATOR);
+        updates = in.readHashMap(Update.class.getClassLoader());
     }
 
     public static final Creator<Group> CREATOR = new Creator<Group>() {
@@ -89,12 +97,48 @@ public class Group implements Parcelable {
         this.memberEmails = memberEmails;
     }
 
-    public ArrayList<Update> getUpdates() {
+    public HashMap<String, Update> getUpdates() {
         return updates;
     }
 
-    public void setUpdates(ArrayList<Update> updates) {
+    public void setUpdates(HashMap<String, Update> updates) {
         this.updates = updates;
+    }
+
+    public ArrayList<MeetingPlan> getMeetingPlans() {
+        return meetingPlans;
+    }
+
+    public void setMeetingPlans(ArrayList<MeetingPlan> meetingPlans) {
+        this.meetingPlans = meetingPlans;
+    }
+
+    public ArrayList<String> getFileUris() {
+        return fileUris;
+    }
+
+    public void setFileUris(ArrayList<String> fileUris) {
+        this.fileUris = fileUris;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public ArrayList<ChatMessage> getChatMessages() {
+        return chatMessages;
+    }
+
+    public void setChatMessages(ArrayList<ChatMessage> chatMessages) {
+        this.chatMessages = chatMessages;
+    }
+
+    public static Creator<Group> getCREATOR() {
+        return CREATOR;
     }
 
     @Override
@@ -113,7 +157,7 @@ public class Group implements Parcelable {
         dest.writeString(name);
         dest.writeString(adminEmail);
         dest.writeStringList(memberEmails);
-        dest.writeTypedList(updates);
+        dest.writeMap(updates);
     }
 }
 

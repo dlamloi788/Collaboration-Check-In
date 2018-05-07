@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.activity.ViewGroupActivity;
 import com.dlamloi.MAD.model.Group;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -22,9 +24,8 @@ import ViewHolder.GroupViewHolder;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
 
-    Context mContext;
-    List<Group> mGroups;
-
+    private Context mContext;
+    private List<Group> mGroups;
 
     public GroupAdapter() {
 
