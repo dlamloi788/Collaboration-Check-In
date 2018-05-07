@@ -32,6 +32,7 @@ import java.util.UUID;
 public class HomeActivity extends AppCompatActivity {
 
     public static final int CREATE_GROUP_REQUEST_CODE = 1;
+    public static final String ON_CHILD_ADDED = "OnChildAdded";
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -60,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
-        getDataFireBase();
+        getDataFirebase();
 
         FloatingActionButton createGroupBtn = findViewById(R.id.create_group_button);
         createGroupBtn.setOnClickListener(view -> {
@@ -71,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 mGroupList.clear();
-                getDataFireBase();
+                getDataFirebase();
                 mRefreshLayout.setRefreshing(false);
             }
         });
@@ -125,36 +126,23 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void getDataFireBase() {
+    private void getDataFirebase() {
         mDatabaseReference = mFirebaseDatabase.getReference("groups");
 
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mRefreshLayout.setRefreshing(false);
-                Log.d("mGROUPLIST", mGroupList.size() + "");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
-        int count = 1;
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            findAllGroups(dataSnapshot);
+            Log.d(ON_CHILD_ADDED, "On child added called...");
+            mRefreshLayout.setRefreshing(false);
+            Group group = dataSnapshot.getValue(Group.class);
+            mGroupList.add(group);
             mGroupAdapter.notifyDataSetChanged();
 
         }
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            String key = dataSnapshot.getKey();
             Group group = dataSnapshot.getValue(Group.class);
             if (!mGroupList.isEmpty()) {
                 int index = indexOfGroup(group);
