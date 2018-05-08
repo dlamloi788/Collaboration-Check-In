@@ -24,35 +24,31 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RegisterActivity extends AppCompatActivity implements TextWatcher{
 
     public static final String DEFAULT_PROFILE_PICTURE_URL = "https://firebasestorage.googleapis.com/v0/b/mad-application-69143.appspot.com/o/profile%20pictures%2Fdefault-profile.jpg?alt=media&token=3be71da7-0e32-4320-b916-b8fafdbcf54e";
 
     private FirebaseAuth mAuth;
-    private EditText mFirstNameEt;
-    private EditText mLastNameEt;
-    private EditText mEmailEt;
-    private EditText mPasswordEt;
-    private EditText mConfirmPasswordEt;
-    private Button mRegisterButton;
-    private TextView mConfirmPasswordErrorTv;
-    private ProgressBar mRegisterPb;
+    @BindView(R.id.first_name_edittext) EditText mFirstNameEt;
+    @BindView(R.id.last_name_edittext) EditText mLastNameEt;
+    @BindView(R.id.email_edittext)EditText mEmailEt;
+    @BindView(R.id.password_edittext) EditText mPasswordEt;
+    @BindView(R.id.confirm_password_edittext) EditText mConfirmPasswordEt;
+    @BindView(R.id.register_button) Button mRegisterButton;
+    @BindView(R.id.confirm_password_error_textview)TextView mConfirmPasswordErrorTv;
+    @BindView(R.id.register_progressbar) ProgressBar mRegisterPb;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
-        mFirstNameEt = findViewById(R.id.first_name_edittext);
-        mLastNameEt = findViewById(R.id.last_name_edittext);
-        mEmailEt = findViewById(R.id.email_edittext);
-        mPasswordEt = findViewById(R.id.password_edittext);
-        mConfirmPasswordEt = findViewById(R.id.confirm_password_edittext);
-        mRegisterButton = findViewById(R.id.register_button);
-        mConfirmPasswordErrorTv = findViewById(R.id.confirm_password_error_textview);
-        mRegisterPb = findViewById(R.id.register_progressbar);
 
         mFirstNameEt.addTextChangedListener(this);
         mLastNameEt.addTextChangedListener(this);

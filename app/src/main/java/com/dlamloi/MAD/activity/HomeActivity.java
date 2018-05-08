@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.dlamloi.MAD.adapter.GroupAdapter;
 import com.dlamloi.MAD.R;
@@ -29,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class HomeActivity extends AppCompatActivity {
 
     public static final int CREATE_GROUP_REQUEST_CODE = 1;
@@ -36,12 +41,12 @@ public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private RecyclerView mGroupsRv;
+    @BindView(R.id.groups_loading_progressbar) ProgressBar mLoadingGroupsPb;
+    @BindView(R.id.groups_recyclerview) RecyclerView mGroupsRv;
     private GroupAdapter mGroupAdapter;
     private List<Group> mGroupList;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,34 +54,26 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
+
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         Log.d("mUser profile picture", mUser.getPhotoUrl() + "");
-        mRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        mGroupsRv = findViewById(R.id.groups_recyclerview);
         mGroupList = new ArrayList<>();
-        mRefreshLayout.setRefreshing(true);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mGroupAdapter = new GroupAdapter(this, mGroupList);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
-        getDataFirebase();
+        setupFirebaseDatabase();
 
         FloatingActionButton createGroupBtn = findViewById(R.id.create_group_button);
         createGroupBtn.setOnClickListener(view -> {
             startActivityForResult(new Intent(this, CreateGroupActivity.class), CREATE_GROUP_REQUEST_CODE);
         });
 
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mGroupList.clear();
-                getDataFirebase();
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
+
 
     }
 
@@ -127,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void getDataFirebase() {
+    private void setupFirebaseDatabase() {
         mDatabaseReference = mFirebaseDatabase.getReference("groups");
 
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
@@ -135,10 +132,12 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Log.d(ON_CHILD_ADDED, "On child added called...");
-            mRefreshLayout.setRefreshing(false);
+            mLoadingGroupsPb.setVisibility(View.INVISIBLE);
             Group group = dataSnapshot.getValue(Group.class);
-            mGroupList.add(group);
-            mGroupAdapter.notifyDataSetChanged();
+            if (isUserAMember(group)) {
+                mGroupList.add(group);
+            }
+            mGroupAdapter.notifyItemInserted(mGroupList.size());
 
         }
 
@@ -154,7 +153,9 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+            String key = dataSnapshot.getKey();
+            int index = indexOfGroupWithKey(key);
+            mGroupList.remove(index);
             mGroupAdapter.notifyDataSetChanged();
         }
 
@@ -170,13 +171,41 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void findAllGroups(DataSnapshot dataSnapshot) {
+    private boolean isUserAMember(Group group) {
+        String currentUserEmail = mUser.getEmail();
+        if (group.getAdminEmail().equals(currentUserEmail)) {
+            return true;
+        }
+
+        for (String email : group.getMemberEmails()) {
+            if (currentUserEmail.equals(email)) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+
+    /** private void findAllGroups(DataSnapshot dataSnapshot) {
         Group group = dataSnapshot.getValue(Group.class);
         if (group.getMemberEmails().contains(mUser.getEmail())
                 || mUser.getEmail().equals(group.getAdminEmail())) {
             mGroupList.add(dataSnapshot.getValue(Group.class));
         }
 
+    } */
+
+    private int indexOfGroupWithKey(String key) {
+        int index = 0;
+        for (Group group : mGroupList) {
+            if (group.getId().equals(key)) {
+                return index;
+            }
+            ++index;
+        }
+        return -1;
     }
 
     private int indexOfGroup(Group newGroup) {
@@ -187,7 +216,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             ++index;
         }
-        return index;
+        return -1;
     }
 
 

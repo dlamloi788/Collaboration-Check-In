@@ -91,7 +91,7 @@ public class Group implements Parcelable {
         this.adminEmail = adminEmail;
     }
 
-    public List<String> getMemberEmails() { return memberEmails; }
+    public ArrayList<String> getMemberEmails() { return memberEmails; }
 
     public void setMemberEmails(ArrayList<String> memberEmails) {
         this.memberEmails = memberEmails;

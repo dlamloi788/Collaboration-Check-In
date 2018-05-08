@@ -1,12 +1,14 @@
 package com.dlamloi.MAD.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,16 +19,22 @@ import com.dlamloi.MAD.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity implements TextWatcher{
 
     public static final int REGISTER_REQUEST_CODE = 1;
     public static final String USER_EMAIL_KEY = "user email";
 
-    private EditText mEmailEt;
-    private EditText mPasswordEt;
-    private Button loginBtn;
-    private TextView loginFailedTv;
-    private ProgressBar loginPb;
+    @BindView(R.id.email_edittext) EditText mEmailEt;
+    @BindView(R.id.password_edittext) EditText mPasswordEt;
+    @BindView(R.id.login_button) Button mLoginBtn;
+    @BindView(R.id.login_failed_textview) TextView mLoginFailedTv;
+    @BindView(R.id.login_progressbar) ProgressBar mLoginPb;
+    @BindView(R.id.username_imageview) ImageView mUsernameIv;
+    @BindView(R.id.password_imageview) ImageView mPasswordIv;
+
 
     private FirebaseAuth mAuth;
 
@@ -38,44 +46,37 @@ public class LoginActivity extends AppCompatActivity implements TextWatcher{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
 
         isEmailEmpty = true;
         isPasswordEmpty = true;
-        loginBtn = findViewById(R.id.login_button);
-        loginFailedTv = findViewById(R.id.login_failed_textview);
-        loginPb = findViewById(R.id.login_progressbar);
-
-        ImageView usernameIv = findViewById(R.id.username_imageview);
 
 
-        mEmailEt = findViewById(R.id.email_edittext);
         mEmailEt.addTextChangedListener(this);
 
         mEmailEt.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
-                usernameIv.setColorFilter(Color.WHITE);
+                mUsernameIv.setColorFilter(Color.WHITE);
                 mEmailEt.setHintTextColor(Color.WHITE);
                 mEmailEt.setTextColor(Color.WHITE);
             } else {
-                usernameIv.clearColorFilter();
+                mUsernameIv.clearColorFilter();
                 mEmailEt.setHintTextColor(Color.parseColor("#939393"));
                 mEmailEt.setTextColor(Color.parseColor("#939393"));
             }
         });
 
-        ImageView passwordIv = findViewById(R.id.password_imageview);
-        mPasswordEt = findViewById(R.id.password_edittext);
         mPasswordEt.addTextChangedListener(this);
 
         mPasswordEt.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
-                passwordIv.setColorFilter(Color.WHITE);
+                mPasswordIv.setColorFilter(Color.WHITE);
                 mPasswordEt.setHintTextColor(Color.WHITE);
                 mPasswordEt.setTextColor(Color.WHITE);
             } else {
-                passwordIv.clearColorFilter();
+                mPasswordIv.clearColorFilter();
                 mPasswordEt.setHintTextColor(Color.parseColor("#939393"));
                 mPasswordEt.setTextColor(Color.parseColor("#939393"));
             }
@@ -86,19 +87,21 @@ public class LoginActivity extends AppCompatActivity implements TextWatcher{
             startActivityForResult(new Intent(this, RegisterActivity.class), REGISTER_REQUEST_CODE);
         });
 
-        loginBtn.setOnClickListener(view -> {
-            loginPb.setVisibility(View.VISIBLE);
+        mLoginBtn.setOnClickListener(view -> {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getApplicationWindowToken(), 0);
+            mLoginPb.setVisibility(View.VISIBLE);
             String email = mEmailEt.getText().toString();
             String password = mPasswordEt.getText().toString();
 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
-                        loginPb.setVisibility(View.INVISIBLE);
+                        mLoginPb.setVisibility(View.INVISIBLE);
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             login(user);
                         } else {
-                            loginFailedTv.setText(getString(R.string.invalid_username_password));
+                            mLoginFailedTv.setText(getString(R.string.invalid_username_password));
                         }
                     });
         });
@@ -120,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements TextWatcher{
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
             } else {
-                loginFailedTv.setText(getString(R.string.email_not_verified));
+                mLoginFailedTv.setText(getString(R.string.email_not_verified));
             }
         }
     }
@@ -141,11 +144,11 @@ public class LoginActivity extends AppCompatActivity implements TextWatcher{
     private void shouldLoginBeEnabled() {
         boolean anyAnyEmptyFields = mEmailEt.getText().length() == 0
                 || mPasswordEt.getText().length() == 0;
-        loginBtn.setEnabled(!anyAnyEmptyFields);
+        mLoginBtn.setEnabled(!anyAnyEmptyFields);
         if (!anyAnyEmptyFields) {
-            loginBtn.setBackground(getDrawable(R.drawable.round_button_enabled));
+            mLoginBtn.setBackground(getDrawable(R.drawable.round_button_enabled));
         } else {
-            loginBtn.setBackground(getDrawable(R.drawable.round_button_disable));
+            mLoginBtn.setBackground(getDrawable(R.drawable.round_button_disable));
         }
     }
 

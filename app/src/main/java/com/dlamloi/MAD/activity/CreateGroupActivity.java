@@ -16,6 +16,9 @@ import com.dlamloi.MAD.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CreateGroupActivity extends AppCompatActivity {
 
 
@@ -23,12 +26,12 @@ public class CreateGroupActivity extends AppCompatActivity {
     public static final String EMAILS_TAG = "emails";
 
 
-    private EditText groupNameEt;
-    private EditText memberOneEt;
-    private EditText memberTwoEt;
-    private EditText memberThreeEt;
-    private EditText memberFourEt;
-    private EditText memberFiveEt;
+    @BindView(R.id.group_name_edittext) EditText groupNameEt;
+    @BindView(R.id.member_one_edittext)EditText memberOneEt;
+    @BindView(R.id.member_two_edittext)EditText memberTwoEt;
+    @BindView(R.id.member_three_edittext) EditText memberThreeEt;
+    @BindView(R.id.member_four_edittext) EditText memberFourEt;
+    @BindView(R.id.member_five_edittext) EditText memberFiveEt;
     private EditText[] memberEts;
 
 
@@ -40,16 +43,8 @@ public class CreateGroupActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-
-        groupNameEt = findViewById(R.id.group_name_edittext);
-        memberOneEt = findViewById(R.id.member_one_edittext);
-        memberTwoEt = findViewById(R.id.member_two_edittext);
-        memberThreeEt = findViewById(R.id.member_three_edittext);
-        memberFourEt = findViewById(R.id.member_four_edittext);
-        memberFiveEt = findViewById(R.id.member_five_edittext);
+        ButterKnife.bind(this);
+;
         memberEts = new EditText[]{memberOneEt, memberTwoEt, memberThreeEt, memberFourEt, memberFiveEt};
 
 

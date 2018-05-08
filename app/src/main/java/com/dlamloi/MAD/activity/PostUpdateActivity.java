@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PostUpdateActivity extends AppCompatActivity {
 
@@ -47,7 +48,7 @@ public class PostUpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_update);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        ButterKnife.bind(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference("groups");
 
@@ -55,9 +56,6 @@ public class PostUpdateActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         mGroup = getIntent().getParcelableExtra(HomeFragment.EXTRA_GROUP);
-
-        mUpdateTitleEt = findViewById(R.id.update_title_edittext);
-        mUpdateInformationEt = findViewById(R.id.update_information_edittext);
 
 
 

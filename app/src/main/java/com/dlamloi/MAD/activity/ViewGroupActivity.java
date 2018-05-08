@@ -25,6 +25,9 @@ import com.dlamloi.MAD.model.Update;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ViewGroupActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,7 +37,7 @@ public class ViewGroupActivity extends AppCompatActivity
     private Group mGroup;
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
-    private ViewPager mViewPager;
+    @BindView(R.id.container_viewpager) ViewPager mViewPager;
 
 
     @Override
@@ -43,14 +46,11 @@ public class ViewGroupActivity extends AppCompatActivity
         setContentView(R.layout.activity_view_group);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
         mGroup = (Group) getIntent().getParcelableExtra(GROUP_KEY);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         setTitle(mGroup.getName());
-
-
-
-        mViewPager = findViewById(R.id.container_viewpager);
 
         setupViewPager(mViewPager);
 
