@@ -24,6 +24,11 @@ import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +42,7 @@ public class ViewGroupActivity extends AppCompatActivity
     private Group mGroup;
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
+
     @BindView(R.id.container_viewpager) ViewPager mViewPager;
 
 
@@ -50,6 +56,8 @@ public class ViewGroupActivity extends AppCompatActivity
         mGroup = (Group) getIntent().getParcelableExtra(GROUP_KEY);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+
+
         setTitle(mGroup.getName());
 
         setupViewPager(mViewPager);
@@ -87,8 +95,6 @@ public class ViewGroupActivity extends AppCompatActivity
 
         usernameTv.setText(mUser.getDisplayName());
         emailTv.setText(mUser.getEmail());
-
-
     }
 
 
@@ -160,10 +166,6 @@ public class ViewGroupActivity extends AppCompatActivity
         adapter.addFragment(homeFragment2, "");
         adapter.addFragment(homeFragment3, "");
         adapter.addFragment(homeFragment4, "");
-
-
-
-
         viewPager.setAdapter(adapter);
     }
 

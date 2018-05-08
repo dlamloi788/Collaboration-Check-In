@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Update;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
 
     private Context mContext;
     private List<Update> mUpdates;
+    private DatabaseReference mRef;
 
 
     public UpdateAdapter(Context context, ArrayList<Update> updates) {
@@ -54,4 +56,6 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
     public int getItemCount() {
         return mUpdates.size();
     }
+
+
 }

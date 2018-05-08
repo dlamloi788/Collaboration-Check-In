@@ -15,6 +15,11 @@ import com.dlamloi.MAD.activity.PostUpdateActivity;
 import com.dlamloi.MAD.adapter.UpdateAdapter;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +33,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView mUpdatesRecyclerView;
     private ArrayList<Update> mUpdates = new ArrayList<>();
     private Group mGroup;
+    private UpdateAdapter mUpdateAdapter;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
 
     public HomeFragment() {
 
@@ -49,21 +58,24 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle extras = getArguments();
         HashMap<String, Update> updateMap = (HashMap<String, Update>) extras.getSerializable(EXTRA_UPDATE);
-        for (Update item : updateMap.values()) {
-            mUpdates.add(item);
-        }
+        mUpdates.addAll(updateMap.values());
         mGroup = extras.getParcelable(EXTRA_GROUP);
 
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference("groups").child(mGroup.getId()).child("updates");
 
+        mUpdateAdapter = new UpdateAdapter(getContext(), mUpdates);
+        setUpDatabase();
     }
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mUpdatesRecyclerView = view.findViewById(R.id.update_recyclerview);
-        UpdateAdapter updateAdapter =  new UpdateAdapter(getContext(), mUpdates);
-        mUpdatesRecyclerView.setAdapter(updateAdapter);
+        mUpdatesRecyclerView.setAdapter(mUpdateAdapter);
         mUpdatesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FloatingActionButton fab = view.findViewById(R.id.add_post_fab);
@@ -80,5 +92,37 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void setUpDatabase() {
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Update update = dataSnapshot.getValue(Update.class);
+                mUpdates.add(update);
+                mUpdateAdapter.notifyItemInserted(mUpdates.size());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
 }

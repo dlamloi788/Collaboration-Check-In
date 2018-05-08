@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.dlamloi.MAD.HomeFragment;
 import com.dlamloi.MAD.R;
@@ -89,5 +90,7 @@ public class PostUpdateActivity extends AppCompatActivity {
         Update update = new Update(updateTitle, updateDate, updateInformation, updatePublisher);
         String key = mDatabaseReference.push().getKey();
         mDatabaseReference.child(mGroup.getId()).child("updates").child(key).setValue(update);
+        Toast.makeText(this, R.string.update_posted, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

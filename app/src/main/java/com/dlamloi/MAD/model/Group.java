@@ -27,10 +27,10 @@ public class Group implements Parcelable {
     private String adminEmail;
     private ArrayList<String> memberEmails;
     private HashMap<String, Update> updates = new HashMap<>();
-    private ArrayList<MeetingPlan> meetingPlans = new ArrayList<>();
+    private HashMap<String, MeetingPlan> meetingPlans = new HashMap<>();
     private ArrayList<String> fileUris = new ArrayList<>();
-    private ArrayList<Task> tasks = new ArrayList<>();
-    private ArrayList<ChatMessage> chatMessages = new ArrayList<>();
+    private HashMap<String, Task> tasks = new HashMap<>();
+    private HashMap<String, ChatMessage> chatMessages = new HashMap<>();
 
 
 
@@ -47,12 +47,19 @@ public class Group implements Parcelable {
     }
 
 
+
+
     public Group(Parcel in) {
         id = in.readString();
         name = in.readString();
         adminEmail = in.readString();
         memberEmails = in.createStringArrayList();
-        updates = in.readHashMap(Update.class.getClassLoader());
+        in.readMap(updates, Update.class.getClassLoader());
+        in.readMap(meetingPlans, MeetingPlan.class.getClassLoader());
+        fileUris = in.createStringArrayList();
+        in.readMap(tasks, Task.class.getClassLoader());
+        in.readMap(chatMessages, ChatMessage.class.getClassLoader());
+
     }
 
     public static final Creator<Group> CREATOR = new Creator<Group>() {
@@ -105,11 +112,11 @@ public class Group implements Parcelable {
         this.updates = updates;
     }
 
-    public ArrayList<MeetingPlan> getMeetingPlans() {
+    public HashMap<String, MeetingPlan> getMeetingPlans() {
         return meetingPlans;
     }
 
-    public void setMeetingPlans(ArrayList<MeetingPlan> meetingPlans) {
+    public void setMeetingPlans(HashMap<String, MeetingPlan> meetingPlans) {
         this.meetingPlans = meetingPlans;
     }
 
@@ -121,19 +128,19 @@ public class Group implements Parcelable {
         this.fileUris = fileUris;
     }
 
-    public ArrayList<Task> getTasks() {
+    public HashMap<String, Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(ArrayList<Task> tasks) {
+    public void setTasks(HashMap<String, Task> tasks) {
         this.tasks = tasks;
     }
 
-    public ArrayList<ChatMessage> getChatMessages() {
+    public HashMap<String, ChatMessage> getChatMessages() {
         return chatMessages;
     }
 
-    public void setChatMessages(ArrayList<ChatMessage> chatMessages) {
+    public void setChatMessages(HashMap<String, ChatMessage> chatMessages) {
         this.chatMessages = chatMessages;
     }
 
@@ -158,6 +165,10 @@ public class Group implements Parcelable {
         dest.writeString(adminEmail);
         dest.writeStringList(memberEmails);
         dest.writeMap(updates);
+        dest.writeMap(meetingPlans);
+        dest.writeStringList(fileUris);
+        dest.writeMap(tasks);
+        dest.writeMap(chatMessages);
     }
 }
 
