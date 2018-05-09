@@ -88,8 +88,7 @@ public class PostUpdateActivity extends AppCompatActivity {
         String updatePublisher = mUser.getDisplayName();
         Log.d(DATE_TOSTRING, updateDate);
         Update update = new Update(updateTitle, updateDate, updateInformation, updatePublisher);
-        String key = mDatabaseReference.push().getKey();
-        mDatabaseReference.child(mGroup.getId()).child("updates").child(key).setValue(update);
+        mDatabaseReference.child(mGroup.getId()).child("updates").push().setValue(update);
         Toast.makeText(this, R.string.update_posted, Toast.LENGTH_SHORT).show();
         finish();
     }

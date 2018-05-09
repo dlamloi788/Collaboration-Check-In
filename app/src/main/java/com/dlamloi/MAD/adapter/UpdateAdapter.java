@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
@@ -23,13 +27,44 @@ import ViewHolder.UpdateViewHolder;
 public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
 
     private Context mContext;
-    private List<Update> mUpdates;
-    private DatabaseReference mRef;
+    private ArrayList<Update> mUpdates = new ArrayList<>();
+    private DatabaseReference mDatabaseReference;
 
 
-    public UpdateAdapter(Context context, ArrayList<Update> updates) {
+
+    public UpdateAdapter(Context context, DatabaseReference databaseReference) {
         this.mContext = context;
-        this.mUpdates = updates;
+        this.mDatabaseReference = databaseReference;
+
+        //Attach the listener to the database reference on create
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Update update = dataSnapshot.getValue(Update.class);
+                mUpdates.add(update);
+                notifyItemInserted(mUpdates.size());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -48,14 +83,14 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
         holder.publishedDateTv.setText(update.getDate());
         holder.detailsTv.setText(update.getDetails());
         holder.publisherTv.setText(update.getPublisher());
-
-
     }
 
     @Override
     public int getItemCount() {
         return mUpdates.size();
     }
+
+
 
 
 }

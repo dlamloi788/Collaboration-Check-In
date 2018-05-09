@@ -64,8 +64,7 @@ public class HomeFragment extends Fragment {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference("groups").child(mGroup.getId()).child("updates");
 
-        mUpdateAdapter = new UpdateAdapter(getContext(), mUpdates);
-        setUpDatabase();
+        mUpdateAdapter = new UpdateAdapter(getContext(), mDatabaseReference);
     }
 
 
@@ -89,39 +88,6 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
-
-    }
-
-    private void setUpDatabase() {
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Update update = dataSnapshot.getValue(Update.class);
-                mUpdates.add(update);
-                mUpdateAdapter.notifyItemInserted(mUpdates.size());
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
     }
 
