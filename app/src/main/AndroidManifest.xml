@@ -26,20 +26,20 @@
 
         <activity android:name=".activity.RegisterActivity" />
         <activity
-            android:name=".activity.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activity.CreateGroupActivity"
             android:label="@string/title_activity_create_group"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.ViewGroupActivity"
+            android:name=".activity.GroupHomeActivity"
             android:label="@string/title_activity_view_group"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.PostUpdateActivity"
             android:label="@string/title_activity_post_update"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.ViewGroupsActivity"
+            android:label="@string/title_activity_view_groups"
             android:theme="@style/AppTheme"></activity>
     </application>
 

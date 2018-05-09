@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="#EEEEEE"
-    tools:context="com.dlamloi.MAD.activity.HomeActivity"
-    tools:showIn="@layout/activity_home">
+    tools:context="com.dlamloi.MAD.activity.ViewGroupsActivity"
+    tools:showIn="@layout/activity_view_groups">
 
     <!-- android:indeterminateTint changes the colour of the progressbar -->
     <ProgressBar
@@ -20,13 +20,11 @@
         />
 
 
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/groups_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            />
+        />
 
 
 

@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 public class PostUpdateActivity extends AppCompatActivity {
 
     public static final String DATE_TOSTRING = "date toString";
+    public static final String GROUP_ID ="Group ID";
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -57,6 +58,7 @@ public class PostUpdateActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         mGroup = getIntent().getParcelableExtra(HomeFragment.EXTRA_GROUP);
+        Log.d(GROUP_ID,mGroup.getId());
 
 
 
@@ -81,14 +83,15 @@ public class PostUpdateActivity extends AppCompatActivity {
     }
 
     private void publishUpdate() {
+        String id = mDatabaseReference.push().getKey();
         String updateTitle = mUpdateTitleEt.getText().toString();
         String updateInformation = mUpdateInformationEt.getText().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMMM yyyy");
         String updateDate = dateFormat.format(Calendar.getInstance().getTime());
         String updatePublisher = mUser.getDisplayName();
         Log.d(DATE_TOSTRING, updateDate);
-        Update update = new Update(updateTitle, updateDate, updateInformation, updatePublisher);
-        mDatabaseReference.child(mGroup.getId()).child("updates").push().setValue(update);
+        Update update = new Update(id, updateTitle, updateDate, updateInformation, updatePublisher);
+        mDatabaseReference.child(mGroup.getId()).child("updates").child(id).setValue(update);
         Toast.makeText(this, R.string.update_posted, Toast.LENGTH_SHORT).show();
         finish();
     }

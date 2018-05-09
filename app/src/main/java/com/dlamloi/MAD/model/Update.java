@@ -24,6 +24,7 @@ public class Update implements Parcelable{
         }
     };
 
+    private String id;
     private String title;
     private String date;
     private String details;
@@ -33,7 +34,8 @@ public class Update implements Parcelable{
 
     }
 
-    public Update(String title, String date, String details, String publisher) {
+    public Update(String id, String title, String date, String details, String publisher) {
+        this.id = id;
         this.title = title;
         this.date = date;
         this.details = details;

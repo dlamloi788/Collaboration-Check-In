@@ -37,7 +37,7 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
         this.mDatabaseReference = databaseReference;
 
         //Attach the listener to the database reference on create
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Update update = dataSnapshot.getValue(Update.class);

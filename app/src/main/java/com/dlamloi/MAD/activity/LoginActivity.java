@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements TextWatcher{
     private void login(FirebaseUser user) {
         if (user != null) {
             if (user.isEmailVerified()) {
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, ViewGroupsActivity.class));
                 finish();
             } else {
                 mLoginFailedTv.setText(getString(R.string.email_not_verified));

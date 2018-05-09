@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -29,12 +30,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ViewGroupActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class GroupHomeActivity extends AppCompatActivity {
 
 
     public static final String GROUP_KEY = "mGroup";
@@ -57,6 +62,7 @@ public class ViewGroupActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
+        setUpMaterialDrawer(toolbar);
 
         setTitle(mGroup.getName());
 
@@ -73,40 +79,60 @@ public class ViewGroupActivity extends AppCompatActivity
         }
 
 
+    }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+    private void setUpMaterialDrawer(Toolbar toolbar) {
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        View headerLayout = navigationView.getHeaderView(0);
-        ImageView profilePictureIv = headerLayout.findViewById(R.id.profilePictureIv);
-        TextView usernameTv = headerLayout.findViewById(R.id.first_name_textview);
-        TextView emailTv = headerLayout.findViewById(R.id.profile_email_textview);
+        View view = getLayoutInflater().inflate(R.layout.nav_header_view_group, null, false);
+        CircleImageView profilePictureIV = view.findViewById(R.id.profilePictureIv);
+        TextView firstNameTv = view.findViewById(R.id.first_name_textview);
+        TextView emailTv = view.findViewById(R.id.profile_email_textview);
 
-        //Insert user profile picture into imageview by using glide
-        //and the picture URI
-        Glide.with(this)
-                .load(mUser.getPhotoUrl())
-                .into(profilePictureIv);
-
-        usernameTv.setText(mUser.getDisplayName());
+        Glide.with(this).load(mUser.getPhotoUrl()).into(profilePictureIV);
+        firstNameTv.setText(mUser.getDisplayName());
         emailTv.setText(mUser.getEmail());
+
+        Drawer drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withHeader(view)
+                .withOnDrawerItemClickListener(((view1, position, drawerItem) -> {
+                    switch (drawerItem.getIdentifier()) {
+                        case 1:
+                            leaveGroup();
+                            break;
+
+                        case 2:
+                            manageAccount();
+                            break;
+
+                        case 3:
+                            logout();
+                            break;
+                    }
+                    return true;
+                }))
+                .build();
+
+        drawer.addItem(new PrimaryDrawerItem().withName(R.string.leave_group).withIcon(R.drawable.leave_group_icon).withIdentifier(1));
+        drawer.addItem(new PrimaryDrawerItem().withName(R.string.manage_account).withIcon(R.drawable.settings_icon).withIdentifier(2));
+        drawer.addItem(new DividerDrawerItem());
+        drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(3).withSelectable(false));
+
     }
 
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    private void logout() {
+        mAuth.signOut();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
+
+    private void manageAccount() {
+    }
+
+    private void leaveGroup() {
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,30 +154,6 @@ public class ViewGroupActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private void setupViewPager(ViewPager viewPager) {
