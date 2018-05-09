@@ -1,19 +1,16 @@
 package com.dlamloi.MAD.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dlamloi.MAD.HomeFragment;
+import com.dlamloi.MAD.fragment.UpdateFragment;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
@@ -23,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -57,7 +53,7 @@ public class PostUpdateActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        mGroup = getIntent().getParcelableExtra(HomeFragment.EXTRA_GROUP);
+        mGroup = getIntent().getParcelableExtra(UpdateFragment.EXTRA_GROUP);
         Log.d(GROUP_ID,mGroup.getId());
 
 

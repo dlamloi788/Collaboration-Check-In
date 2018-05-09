@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.dlamloi.MAD.HomeFragment"
-    android:background="#D3D6DB">
+    tools:context="com.dlamloi.MAD.fragment.UpdateFragment"
+    android:background="@color/MainBackgroundColor">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/update_recyclerview"

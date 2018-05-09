@@ -1,35 +1,24 @@
 package com.dlamloi.MAD.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.dlamloi.MAD.HomeFragment;
+import com.dlamloi.MAD.fragment.MeetingFragment;
+import com.dlamloi.MAD.fragment.UpdateFragment;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.adapter.ViewPagerAdapter;
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.model.Update;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -158,16 +147,16 @@ public class GroupHomeActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        HomeFragment homeFragment = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
-        HomeFragment homeFragment1 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
-        HomeFragment homeFragment2 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
-        HomeFragment homeFragment3 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
-        HomeFragment homeFragment4 = HomeFragment.newInstance(mGroup.getUpdates(), mGroup);
-        adapter.addFragment(homeFragment, "");
-        adapter.addFragment(homeFragment1, "");
-        adapter.addFragment(homeFragment2, "");
-        adapter.addFragment(homeFragment3, "");
-        adapter.addFragment(homeFragment4, "");
+        UpdateFragment updateFragment = UpdateFragment.newInstance(mGroup);
+        MeetingFragment meetingFragment = MeetingFragment.newInstance(mGroup);
+        UpdateFragment updateFragment2 = UpdateFragment.newInstance(mGroup);
+        UpdateFragment updateFragment3 = UpdateFragment.newInstance(mGroup);
+        UpdateFragment updateFragment4 = UpdateFragment.newInstance(mGroup);
+        adapter.addFragment(updateFragment, "");
+        adapter.addFragment(meetingFragment, "");
+        adapter.addFragment(updateFragment2, "");
+        adapter.addFragment(updateFragment3, "");
+        adapter.addFragment(updateFragment4, "");
         viewPager.setAdapter(adapter);
     }
 

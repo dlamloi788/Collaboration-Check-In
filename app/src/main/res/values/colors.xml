@@ -7,7 +7,7 @@
     <color name="ActionBarColor">#2dc9d6</color>
     <color name="LoginRegisterLayoutBackground">#16223B</color>
     <color name="LoginRegisterEditText_TextColorHint">#939393</color>
-    <color name="MainBackgroundColor">#EEEEEE</color>
+    <color name="MainBackgroundColor">#D3D6DB</color>
     <color name="Post_Update_Hint_Color">#E0E0E0</color>
 
     <!-- Material DEFAULT colors -->

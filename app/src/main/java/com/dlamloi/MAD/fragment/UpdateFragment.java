@@ -1,4 +1,4 @@
-package com.dlamloi.MAD;
+package com.dlamloi.MAD.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.activity.PostUpdateActivity;
 import com.dlamloi.MAD.adapter.UpdateAdapter;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,27 +23,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class HomeFragment extends Fragment {
+public class UpdateFragment extends Fragment {
 
     public static final String EXTRA_UPDATE = "updates";
     public static final String EXTRA_GROUP = "group";
 
-    private RecyclerView mUpdatesRecyclerView;
-    private ArrayList<Update> mUpdates = new ArrayList<>();
+    private RecyclerView mUpdatesRv;
     private Group mGroup;
     private UpdateAdapter mUpdateAdapter;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
 
-    public HomeFragment() {
+    public UpdateFragment() {
 
     }
 
-    public static HomeFragment newInstance(HashMap<String, Update> updates, Group group) {
-        HomeFragment fragment = new HomeFragment();
+    public static UpdateFragment newInstance(Group group) {
+        UpdateFragment fragment = new UpdateFragment();
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_UPDATE, updates);
         args.putParcelable(EXTRA_GROUP, group);
         fragment.setArguments(args);
         return fragment;
@@ -57,9 +53,9 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getArguments();
-        HashMap<String, Update> updateMap = (HashMap<String, Update>) extras.getSerializable(EXTRA_UPDATE);
-        mUpdates.addAll(updateMap.values());
-        mGroup = extras.getParcelable(EXTRA_GROUP);
+        if (extras != null) {
+            mGroup = extras.getParcelable(EXTRA_GROUP);
+        }
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference("groups").child(mGroup.getId()).child("updates");
@@ -73,9 +69,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        mUpdatesRecyclerView = view.findViewById(R.id.update_recyclerview);
-        mUpdatesRecyclerView.setAdapter(mUpdateAdapter);
-        mUpdatesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mUpdatesRv = view.findViewById(R.id.update_recyclerview);
+        mUpdatesRv.setAdapter(mUpdateAdapter);
+        mUpdatesRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FloatingActionButton fab = view.findViewById(R.id.add_post_fab);
         fab.setOnClickListener(new View.OnClickListener() {

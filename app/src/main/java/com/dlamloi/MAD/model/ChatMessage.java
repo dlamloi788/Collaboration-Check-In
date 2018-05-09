@@ -5,4 +5,6 @@ package com.dlamloi.MAD.model;
  */
 
 public class ChatMessage {
+
+
 }
