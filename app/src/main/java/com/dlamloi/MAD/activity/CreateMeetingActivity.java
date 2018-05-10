@@ -1,6 +1,7 @@
 package com.dlamloi.MAD.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.dlamloi.MAD.R;
+import com.google.android.gms.location.places.ui.PlacePicker;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,21 +39,29 @@ public class CreateMeetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_meeting);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.new_meeting);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
         ButterKnife.bind(this);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mMeetingLocationEt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                selectLocation();
             }
         });
+
+    }
+
+    private void selectLocation() {
+        //Select location on tap of edittext :)
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.create_meeting_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -58,11 +70,25 @@ public class CreateMeetingActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+
+            case R.id.create_meeting_menu_button:
+                createMeeting();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void createMeeting() {
+        //Do some database stuff
+        finish();
+    }
+
+    /**
+     * Returns true if any edittexts on the UI are empty otherwise false
+     *
+     * @return true if no edittexts are empty; false otherwise.
+     */
     private boolean areAllFieldsEmpty() {
         EditText[] editTexts = {mMeetingNameEt, mMeetingDateEt,
                 mMeetingTimeEt, mMeetingLocationEt, mMeetingAgendaEt};
@@ -74,7 +100,6 @@ public class CreateMeetingActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
 
     @Override
