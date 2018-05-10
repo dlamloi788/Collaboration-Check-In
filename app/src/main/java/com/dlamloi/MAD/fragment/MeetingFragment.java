@@ -1,7 +1,9 @@
 package com.dlamloi.MAD.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.activity.CreateMeetingActivity;
 import com.dlamloi.MAD.activity.GroupHomeActivity;
 import com.dlamloi.MAD.adapter.MeetingPlanAdapter;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.MeetingPlan;
-import com.dlamloi.MAD.model.Update;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,6 +28,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class MeetingFragment extends Fragment {
+
+    public static final String GROUP_KEY = "group";
 
     private RecyclerView mMeetingPlansRv;
     private ArrayList<MeetingPlan> meetingPlans = new ArrayList<>();
@@ -71,6 +75,16 @@ public class MeetingFragment extends Fragment {
         mMeetingPlansRv = view.findViewById(R.id.meeting_plans_recyclerview);
         mMeetingPlansRv.setAdapter(mMeetingPlanAdapter);
         mMeetingPlansRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        FloatingActionButton scheduleMeetingFab = view.findViewById(R.id.schedule_meeting_button);
+        scheduleMeetingFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scheduleMeetingIntent = new Intent(getContext(), CreateMeetingActivity.class);
+                scheduleMeetingIntent.putExtra(GROUP_KEY, mGroup);
+                startActivity(scheduleMeetingIntent);
+            }
+        });
 
 
         return view;

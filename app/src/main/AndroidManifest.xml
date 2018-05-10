@@ -40,6 +40,10 @@
         <activity
             android:name=".activity.ViewGroupsActivity"
             android:label="@string/title_activity_view_groups"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.CreateMeetingActivity"
+            android:label="@string/title_activity_create_meeting"
             android:theme="@style/AppTheme"></activity>
     </application>
 

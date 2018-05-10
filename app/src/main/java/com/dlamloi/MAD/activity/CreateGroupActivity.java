@@ -1,13 +1,11 @@
 package com.dlamloi.MAD.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,12 +34,12 @@ public class CreateGroupActivity extends AppCompatActivity {
     private FirebaseUser mUser;
 
 
-    @BindView(R.id.group_name_edittext) EditText groupNameEt;
-    @BindView(R.id.member_one_edittext)EditText memberOneEt;
-    @BindView(R.id.member_two_edittext)EditText memberTwoEt;
-    @BindView(R.id.member_three_edittext) EditText memberThreeEt;
-    @BindView(R.id.member_four_edittext) EditText memberFourEt;
-    @BindView(R.id.member_five_edittext) EditText memberFiveEt;
+    @BindView(R.id.group_name_edittext) EditText mGroupNameEt;
+    @BindView(R.id.member_one_edittext)EditText mMemberOneEt;
+    @BindView(R.id.member_two_edittext)EditText mMemberTwoEt;
+    @BindView(R.id.member_three_edittext) EditText mMemberThreeEt;
+    @BindView(R.id.member_four_edittext) EditText mMemberFourEt;
+    @BindView(R.id.member_five_edittext) EditText mMemberFiveEt;
     private EditText[] memberEts;
 
 
@@ -61,7 +59,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        memberEts = new EditText[]{memberOneEt, memberTwoEt, memberThreeEt, memberFourEt, memberFiveEt};
+        memberEts = new EditText[]{mMemberOneEt, mMemberTwoEt, mMemberThreeEt, mMemberFourEt, mMemberFiveEt};
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> createGroup());
@@ -91,7 +89,7 @@ public class CreateGroupActivity extends AppCompatActivity {
      * into the firebase database
      */
     private void createGroup() {
-        if (TextUtils.isEmpty(groupNameEt.getText()) || areAllMembersEmpty()) {
+        if (TextUtils.isEmpty(mGroupNameEt.getText()) || areAllMembersEmpty()) {
             Toast.makeText(CreateGroupActivity.this, "No email specified", Toast.LENGTH_LONG).show();
         }
         else {
@@ -102,7 +100,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 }
             }
             String id = mDatabaseReference.push().getKey();
-            Group group = new Group(id, groupNameEt.getText().toString(),
+            Group group = new Group(id, mGroupNameEt.getText().toString(),
                     mUser.getEmail(), userEmails);
 
             mDatabaseReference.child(id).setValue(group);

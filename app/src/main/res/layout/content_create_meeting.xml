@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white_1000"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.dlamloi.MAD.activity.CreateMeetingActivity"
+    tools:showIn="@layout/activity_create_meeting">
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="40dp"
+        tools:context="com.dlamloi.MAD.activity.CreateMeetingActivity">
+
+
+
+        <TextView
+            android:id="@+id/schedule_meeting_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/schedule_meeting"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/md_black_1000" />
+
+        <View
+            android:id="@+id/underline_heading"
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_below="@id/schedule_meeting_textview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/md_grey_500" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/meeting_name_textinputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/underline_heading"
+            android:layout_marginTop="30dp"
+            android:textColorHint="@color/md_grey_500"
+            android:theme="@style/CustomEditTextTheme"
+            >
+
+            <EditText
+                android:id="@+id/meeting_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/underline_heading"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/md_grey_500"
+                android:hint="@string/name"
+                android:textColorHint="@color/md_grey_500"
+                android:textColor="@color/md_black_1000"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/meeting_time_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_name_textinputlayout"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/meeting_date_textinputlayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColorHint="@color/md_grey_500"
+                android:theme="@style/CustomEditTextTheme"
+                >
+
+                <EditText
+                    android:id="@+id/meeting_date_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/md_grey_500"
+                    android:hint="@string/meeting_date"
+                    android:textColor="@color/md_black_1000"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/meeting_time_textinputlayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColorHint="@color/md_grey_500"
+                android:theme="@style/CustomEditTextTheme"
+                >
+
+                <EditText
+                    android:id="@+id/meeting_time_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/md_grey_500"
+                    android:hint="@string/meeting_time"
+                    android:textColor="@color/md_black_1000"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/meeting_location_textinputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_time_date_layout"
+            android:textColorHint="@color/md_grey_500"
+            android:theme="@style/CustomEditTextTheme"
+            >
+
+            <EditText
+                android:id="@+id/meeting_location_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/md_grey_500"
+                android:hint="@string/meeting_location"
+                android:textColor="@color/md_black_1000"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/meeting_location_textinputlayout">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/agenda_textinputlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/md_grey_500"
+                android:theme="@style/CustomEditTextTheme"
+                >
+
+                <EditText
+                    android:id="@+id/meeting_agenda_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/meeting_location_textinputlayout"
+                    android:gravity="top"
+                    android:hint="@string/description_or_agenda_of_meeting"
+                    android:textColorHint="@color/md_grey_500"
+                    android:backgroundTint="@color/md_grey_500"
+                    android:theme="@style/CustomEditTextTheme"
+                    android:textColor="@color/md_black_1000"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+</ScrollView>
