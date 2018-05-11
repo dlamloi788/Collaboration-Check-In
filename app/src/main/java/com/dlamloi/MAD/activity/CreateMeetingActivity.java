@@ -20,6 +20,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.dlamloi.MAD.R;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 
@@ -27,6 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CreateMeetingActivity extends AppCompatActivity {
+
+    public static final int PLACE_PICKER_REQUEST = 1;
 
     @BindView(R.id.meeting_name_edittext) EditText mMeetingNameEt;
     @BindView(R.id.meeting_date_edittext) EditText mMeetingDateEt;
@@ -45,17 +50,27 @@ public class CreateMeetingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
         ButterKnife.bind(this);
-        mMeetingLocationEt.setOnClickListener(new View.OnClickListener() {
+        mMeetingLocationEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                selectLocation();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    try {
+                        selectLocation();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
-
     }
 
-    private void selectLocation() {
+    private void selectLocation() throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
         //Select location on tap of edittext :)
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+
     }
 
     @Override
@@ -77,6 +92,17 @@ public class CreateMeetingActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PLACE_PICKER_REQUEST:
+                    Place place = PlacePicker.getPlace(this, data);
+                    break;
+            }
+        }
     }
 
     private void createMeeting() {
