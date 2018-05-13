@@ -69,7 +69,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder>{
     @Override
     public MeetingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.meeting_row, null, false);
+        View view = inflater.inflate(R.layout.meeting_row, parent, false);
         return new MeetingViewHolder(view);
     }
 
@@ -81,7 +81,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder>{
             holder.meetingRowLayout.setBackgroundColor(mContext.getResources().getColor(R.color.meeting_row_tint));
         }
 
-        holder.colorMarginV.setBackgroundColor(Color.BLACK);
         holder.meetingTitleTv.setText(meeting.getMeetingTitle());
         holder.meetingTimeTv.setText(meeting.getMeetingTime());
         holder.meetingSuburbTv.setText(meeting.getMeetingSuburb());
