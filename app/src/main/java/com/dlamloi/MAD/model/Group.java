@@ -3,17 +3,8 @@ package com.dlamloi.MAD.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Don on 11/04/2018.
@@ -27,7 +18,7 @@ public class Group implements Parcelable {
     private String adminEmail;
     private ArrayList<String> memberEmails;
     private HashMap<String, Update> updates = new HashMap<>();
-    private HashMap<String, MeetingPlan> meetingPlans = new HashMap<>();
+    private HashMap<String, Meeting> meetingPlans = new HashMap<>();
     private ArrayList<String> fileUris = new ArrayList<>();
     private HashMap<String, Task> tasks = new HashMap<>();
     private HashMap<String, ChatMessage> chatMessages = new HashMap<>();
@@ -55,7 +46,7 @@ public class Group implements Parcelable {
         adminEmail = in.readString();
         memberEmails = in.createStringArrayList();
         in.readMap(updates, Update.class.getClassLoader());
-        in.readMap(meetingPlans, MeetingPlan.class.getClassLoader());
+        in.readMap(meetingPlans, Meeting.class.getClassLoader());
         fileUris = in.createStringArrayList();
         in.readMap(tasks, Task.class.getClassLoader());
         in.readMap(chatMessages, ChatMessage.class.getClassLoader());
@@ -112,11 +103,11 @@ public class Group implements Parcelable {
         this.updates = updates;
     }
 
-    public HashMap<String, MeetingPlan> getMeetingPlans() {
+    public HashMap<String, Meeting> getMeetingPlans() {
         return meetingPlans;
     }
 
-    public void setMeetingPlans(HashMap<String, MeetingPlan> meetingPlans) {
+    public void setMeetingPlans(HashMap<String, Meeting> meetingPlans) {
         this.meetingPlans = meetingPlans;
     }
 

@@ -47,6 +47,9 @@
     <string name="meeting_location">Meeting Location</string>
     <string name="new_meeting">New Meeting</string>
     <string name="quit_scheduling_meeting">Quit scheduling meeting?</string>
+    <string name="remove_meeting_location">Remove Meeting Location</string>
+    <string name="change_meeting_location">Change meeting Location</string>
+    <string name="by">By:&#032;</string>
 
 
 </resources>

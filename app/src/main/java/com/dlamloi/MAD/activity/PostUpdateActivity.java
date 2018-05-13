@@ -56,8 +56,6 @@ public class PostUpdateActivity extends AppCompatActivity {
         mGroup = getIntent().getParcelableExtra(UpdateFragment.EXTRA_GROUP);
         Log.d(GROUP_ID,mGroup.getId());
 
-
-
     }
 
     @Override

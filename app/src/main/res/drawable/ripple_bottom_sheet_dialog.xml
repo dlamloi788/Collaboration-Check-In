@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/bottom_sheet_dialog_textcolor">
+
+    <item
+        android:name="android:background">?android:attr/selectableItemBackground
+    </item>
+
+
+
+</ripple>

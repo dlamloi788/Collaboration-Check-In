@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.activity.CreateMeetingActivity;
 import com.dlamloi.MAD.activity.GroupHomeActivity;
-import com.dlamloi.MAD.adapter.MeetingPlanAdapter;
+import com.dlamloi.MAD.adapter.MeetingAdapter;
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.model.MeetingPlan;
+import com.dlamloi.MAD.model.Meeting;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,9 +32,9 @@ public class MeetingFragment extends Fragment {
     public static final String GROUP_KEY = "group";
 
     private RecyclerView mMeetingPlansRv;
-    private ArrayList<MeetingPlan> meetingPlans = new ArrayList<>();
+    private ArrayList<Meeting> meetings = new ArrayList<>();
     private Group mGroup;
-    private MeetingPlanAdapter mMeetingPlanAdapter;
+    private MeetingAdapter mMeetingAdapter;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -63,9 +63,9 @@ public class MeetingFragment extends Fragment {
         }
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("groups");
+        mDatabaseReference = mFirebaseDatabase.getReference("groups").child(mGroup.getId()).child("meetings");
 
-        mMeetingPlanAdapter = new MeetingPlanAdapter(getContext(), mDatabaseReference);
+        mMeetingAdapter = new MeetingAdapter(getContext(), mDatabaseReference);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class MeetingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meeting, container, false);
         mMeetingPlansRv = view.findViewById(R.id.meeting_plans_recyclerview);
-        mMeetingPlansRv.setAdapter(mMeetingPlanAdapter);
+        mMeetingPlansRv.setAdapter(mMeetingAdapter);
         mMeetingPlansRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         FloatingActionButton scheduleMeetingFab = view.findViewById(R.id.schedule_meeting_button);

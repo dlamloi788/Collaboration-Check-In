@@ -9,13 +9,11 @@
     tools:context="com.dlamloi.MAD.activity.CreateMeetingActivity"
     tools:showIn="@layout/activity_create_meeting">
 
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="40dp"
         tools:context="com.dlamloi.MAD.activity.CreateMeetingActivity">
-
 
 
         <TextView
@@ -44,8 +42,7 @@
             android:layout_below="@id/underline_heading"
             android:layout_marginTop="30dp"
             android:textColorHint="@color/md_grey_500"
-            android:theme="@style/CustomEditTextTheme"
-            >
+            android:theme="@style/CustomEditTextTheme">
 
             <EditText
                 android:id="@+id/meeting_name_edittext"
@@ -55,8 +52,8 @@
                 android:layout_centerHorizontal="true"
                 android:backgroundTint="@color/md_grey_500"
                 android:hint="@string/name"
-                android:textColorHint="@color/md_grey_500"
                 android:textColor="@color/md_black_1000"
+                android:textColorHint="@color/md_grey_500"
 
                 />
 
@@ -75,14 +72,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColorHint="@color/md_grey_500"
-                android:theme="@style/CustomEditTextTheme"
-                >
+                android:theme="@style/CustomEditTextTheme">
 
                 <EditText
                     android:id="@+id/meeting_date_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/md_grey_500"
+                    android:focusable="false"
                     android:hint="@string/meeting_date"
                     android:textColor="@color/md_black_1000"
 
@@ -96,18 +93,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColorHint="@color/md_grey_500"
-                android:theme="@style/CustomEditTextTheme"
-                >
+                android:theme="@style/CustomEditTextTheme">
 
                 <EditText
                     android:id="@+id/meeting_time_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/md_grey_500"
+                    android:focusable="false"
                     android:hint="@string/meeting_time"
-                    android:textColor="@color/md_black_1000"
-
-                    />
+                    android:textColor="@color/md_black_1000" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -119,14 +114,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/meeting_time_date_layout"
             android:textColorHint="@color/md_grey_500"
-            android:theme="@style/CustomEditTextTheme"
-            >
+            android:theme="@style/CustomEditTextTheme">
 
             <EditText
                 android:id="@+id/meeting_location_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/md_grey_500"
+                android:focusable="false"
                 android:hint="@string/meeting_location"
                 android:textColor="@color/md_black_1000"
 
@@ -134,36 +129,30 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/meeting_location_textinputlayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/agenda_textinputlayout"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/agenda_textinputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_location_textinputlayout"
+            android:textColorHint="@color/md_grey_500"
+            android:theme="@style/CustomEditTextTheme">
+
+            <EditText
+                android:id="@+id/meeting_agenda_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@id/meeting_location_textinputlayout"
+                android:backgroundTint="@color/md_grey_500"
+                android:gravity="top"
+                android:hint="@string/description_or_agenda_of_meeting"
+                android:textColor="@color/md_black_1000"
                 android:textColorHint="@color/md_grey_500"
                 android:theme="@style/CustomEditTextTheme"
-                >
 
-                <EditText
-                    android:id="@+id/meeting_agenda_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/meeting_location_textinputlayout"
-                    android:gravity="top"
-                    android:hint="@string/description_or_agenda_of_meeting"
-                    android:textColorHint="@color/md_grey_500"
-                    android:backgroundTint="@color/md_grey_500"
-                    android:theme="@style/CustomEditTextTheme"
-                    android:textColor="@color/md_black_1000"
+                />
 
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-
-        </ScrollView>
+        </android.support.design.widget.TextInputLayout>
 
 
     </RelativeLayout>

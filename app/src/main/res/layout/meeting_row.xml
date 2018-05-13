@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meeting_row_relativelayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_alignParentStart="true"
+        android:id="@+id/color_margin"
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/meeting_author_linearlayout"
+        android:background="#000000"
+        android:orientation="vertical"
+        />
+
+    <TextView
+        android:id="@+id/meeting_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/color_margin"
+        android:padding="10dp"
+        android:text="Project Meeting"
+        android:textColor="@color/md_black_1000"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/meeting_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/meeting_title_textview"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:text="8th May 2018"
+        android:textColor="@color/material_red"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/meeting_details_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/meeting_title_textview"
+        android:layout_below="@id/meeting_title_textview"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/time_icon_grey" />
+
+        <TextView
+            android:id="@+id/meeting_time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="10:45 AM"
+            android:textColor="@color/bottom_sheet_dialog_textcolor" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/location_icon_grey" />
+
+        <TextView
+            android:id="@+id/meeting_suburb_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Berala"
+            android:textColor="@color/bottom_sheet_dialog_textcolor"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/meeting_author_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/meeting_details_linearlayout"
+        android:layout_below="@id/meeting_details_linearlayout"
+        android:paddingBottom="10dp"
+        android:paddingStart="11dp"
+        android:paddingEnd="11dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/by"
+            android:textSize="15dp"
+            android:textColor="@color/bottom_sheet_dialog_textcolor"
+            />
+
+        <TextView
+            android:id="@+id/meeting_author_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simon Thompson"
+            android:textColor="@color/bottom_sheet_dialog_textcolor"
+
+            />
+
+    </LinearLayout>
+
+    
+
+
+</RelativeLayout>

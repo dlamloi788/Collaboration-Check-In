@@ -9,6 +9,9 @@
     <color name="LoginRegisterEditText_TextColorHint">#939393</color>
     <color name="MainBackgroundColor">#D3D6DB</color>
     <color name="Post_Update_Hint_Color">#E0E0E0</color>
+    <color name="bottom_sheet_dialog_textcolor">#7B7B7B</color>
+    <color name="material_red">#f42e2b</color>
+    <color name="meeting_row_tint">#F3F3F3</color>
 
     <!-- Material DEFAULT colors -->
     <color name="material_drawer_primary">#2196F3</color>
