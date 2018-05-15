@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="#EEEEEE"
-    tools:context="com.dlamloi.MAD.activity.ViewGroupsActivity"
+    tools:context="com.dlamloi.MAD.viewgroups.ViewGroupsActivity"
     tools:showIn="@layout/activity_view_groups">
 
     <!-- android:indeterminateTint changes the colour of the progressbar -->

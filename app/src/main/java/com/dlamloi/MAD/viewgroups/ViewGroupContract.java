@@ -20,7 +20,7 @@ public interface ViewGroupContract {
 
         void logout();
 
-        void setProfileImage(String URL);
+        void setProfileImage(String url);
 
         void setDisplayName(String displayName);
 

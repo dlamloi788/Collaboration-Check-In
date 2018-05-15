@@ -6,7 +6,7 @@
     android:background="#1C2B4A"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.dlamloi.MAD.activity.LoginActivity">
+    tools:context="com.dlamloi.MAD.login.LoginActivity">
 
     <TextView
         android:id="@+id/title_textview"

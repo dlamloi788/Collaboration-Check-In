@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dlamloi.MAD.fragment.UpdateFragment;
+import com.dlamloi.MAD.home.update.UpdateFragment;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;

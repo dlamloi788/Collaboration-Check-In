@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.dlamloi.MAD.fragment.UpdateFragment"
+    tools:context="com.dlamloi.MAD.home.update.UpdateFragment"
     tools:listitem="@layout/fragment_update" />

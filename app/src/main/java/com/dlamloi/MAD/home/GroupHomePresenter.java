@@ -2,6 +2,7 @@ package com.dlamloi.MAD.home;
 
 import android.content.Intent;
 
+import com.dlamloi.MAD.home.update.UpdateContract;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.viewgroups.ViewGroupsActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,12 +13,12 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
  * Created by Don on 15/05/2018.
  */
 
-public class UpdatePresenter implements UpdateContract.Presenter {
+public class GroupHomePresenter implements UpdateContract.Presenter {
 
     private final UpdateContract.View mView;
     private FirebaseUser mUser;
 
-    public UpdatePresenter(UpdateContract.View view) {
+    public GroupHomePresenter(UpdateContract.View view) {
         mView = view;
         mUser = FirebaseAuth.getInstance().getCurrentUser();
     }

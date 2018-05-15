@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.fragment;
+package com.dlamloi.MAD.home.meetings;
 
 
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.activity.CreateMeetingActivity;
-import com.dlamloi.MAD.activity.GroupHomeActivity;
+import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.adapter.MeetingAdapter;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;

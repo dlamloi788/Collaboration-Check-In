@@ -6,7 +6,7 @@
     android:background="#1C2B4A"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
-    tools:context="com.dlamloi.MAD.activity.LoginActivity"
+    tools:context="com.dlamloi.MAD.login.LoginActivity"
     >
 
     <TextView
@@ -161,6 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FF0000"
+            android:text="@string/invalid_username_password"
             />
 
         <ProgressBar

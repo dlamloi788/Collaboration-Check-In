@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.adapter;
+package com.dlamloi.MAD.home.update;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

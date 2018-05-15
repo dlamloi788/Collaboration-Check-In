@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.fragment;
+package com.dlamloi.MAD.home.tasks;
 
 
 import android.os.Bundle;

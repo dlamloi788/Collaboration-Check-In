@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.fragment;
+package com.dlamloi.MAD.home.update;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +13,9 @@ import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.activity.PostUpdateActivity;
-import com.dlamloi.MAD.adapter.UpdateAdapter;
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.model.Update;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class UpdateFragment extends Fragment {
@@ -73,15 +68,7 @@ public class UpdateFragment extends Fragment {
         mUpdatesRv.setAdapter(mUpdateAdapter);
         mUpdatesRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        FloatingActionButton fab = view.findViewById(R.id.add_post_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent postActivityIntent = new Intent(getContext(), PostUpdateActivity.class);
-                postActivityIntent.putExtra(EXTRA_GROUP, mGroup);
-                startActivity(postActivityIntent);
-            }
-        });
+
 
         return view;
 

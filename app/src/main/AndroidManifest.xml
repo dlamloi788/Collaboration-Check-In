@@ -18,7 +18,7 @@
             android:value="AIzaSyCg0OBWRywkSPGhwPyCjGQxSkwiOs2-y6Q"/>
 
 
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,13 +30,13 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".register.RegisterActivity" />
         <activity
             android:name=".activity.CreateGroupActivity"
             android:label="@string/title_activity_create_group"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.GroupHomeActivity"
+            android:name=".home.GroupHomeActivity"
             android:label="@string/title_activity_view_group"
             android:theme="@style/AppTheme" />
         <activity
@@ -44,7 +44,7 @@
             android:label="@string/title_activity_post_update"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.ViewGroupsActivity"
+            android:name=".viewgroups.ViewGroupsActivity"
             android:label="@string/title_activity_view_groups"
             android:theme="@style/AppTheme" />
         <activity
