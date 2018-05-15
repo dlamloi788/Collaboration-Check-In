@@ -16,7 +16,9 @@ import com.dlamloi.MAD.fragment.MeetingFragment;
 import com.dlamloi.MAD.fragment.UpdateFragment;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.adapter.ViewPagerAdapter;
+import com.dlamloi.MAD.login.LoginActivity;
 import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.viewgroups.ViewGroupsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.Drawer;
@@ -47,7 +49,7 @@ public class GroupHomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-        mGroup = (Group) getIntent().getParcelableExtra(GROUP_KEY);
+        mGroup = (Group) getIntent().getParcelableExtra(ViewGroupsActivity.GROUP_KEY);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 

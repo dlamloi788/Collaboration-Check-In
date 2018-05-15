@@ -81,6 +81,14 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder>{
             holder.meetingRowLayout.setBackgroundColor(mContext.getResources().getColor(R.color.meeting_row_tint));
         }
 
+        if (position % 3 == 0) {
+            holder.colorMarginV.setBackgroundColor(Color.RED);
+        } else if (position % 3 == 1) {
+            holder.colorMarginV.setBackgroundColor(Color.GREEN);
+        } else {
+            holder.colorMarginV.setBackgroundColor(Color.BLUE);
+        }
+
         holder.meetingTitleTv.setText(meeting.getMeetingTitle());
         holder.meetingTimeTv.setText(meeting.getMeetingTime());
         holder.meetingSuburbTv.setText(meeting.getMeetingSuburb());
