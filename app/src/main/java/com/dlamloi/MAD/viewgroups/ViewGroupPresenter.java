@@ -74,16 +74,6 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter {
         });
     }
 
-    @Override
-    public void onBindGroupViewAtPosition(GroupAdapter.ViewHolder holder, int position) {
-        Group group = mGroups.get(position);
-        holder.setGroupName(group.getName());
-
-    }
-
-    public int getGroupCount() {
-        return mGroups.size();
-    }
 
     @Override
     public void dataAdded() {
@@ -115,6 +105,11 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter {
 
         }
         return true;
+    }
+
+    @Override
+    public void loadAdapterData() {
+        mView.setRecyclerViewData(mGroups);
     }
 
     public void rowTapped(int position) {

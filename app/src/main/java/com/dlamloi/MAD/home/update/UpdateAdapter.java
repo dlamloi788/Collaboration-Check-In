@@ -26,54 +26,18 @@ import ViewHolder.UpdateViewHolder;
 
 public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
 
-    private Context mContext;
-    private ArrayList<Update> mUpdates = new ArrayList<>();
-    private DatabaseReference mDatabaseReference;
+    private ArrayList<Update> mUpdates;
 
 
-
-    public UpdateAdapter(Context context, DatabaseReference databaseReference) {
-        this.mContext = context;
-        this.mDatabaseReference = databaseReference;
-
-        //Attach the listener to the database reference on create
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Update update = dataSnapshot.getValue(Update.class);
-                mUpdates.add(update);
-                notifyItemInserted(mUpdates.size());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    public UpdateAdapter(ArrayList<Update> updates) {
+        this.mUpdates = updates;
     }
 
     @Override
     public UpdateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.update_item, parent, false);
         return new UpdateViewHolder(view);
-
-
     }
 
     @Override
@@ -89,8 +53,6 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateViewHolder> {
     public int getItemCount() {
         return mUpdates.size();
     }
-
-
 
 
 }

@@ -1,9 +1,7 @@
 package com.dlamloi.MAD.home.update;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,26 +10,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.activity.PostUpdateActivity;
+import com.dlamloi.MAD.home.GroupHomeContract;
 import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.model.Update;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 
-public class UpdateFragment extends Fragment {
 
-    public static final String EXTRA_UPDATE = "updates";
+public class UpdateFragment extends Fragment implements UpdateContract.View {
+
     public static final String EXTRA_GROUP = "group";
 
     private RecyclerView mUpdatesRv;
     private Group mGroup;
     private UpdateAdapter mUpdateAdapter;
+    private UpdatePresenter mUpdatePresenter;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
 
     public UpdateFragment() {
-
     }
 
     public static UpdateFragment newInstance(Group group) {
@@ -51,11 +51,8 @@ public class UpdateFragment extends Fragment {
         if (extras != null) {
             mGroup = extras.getParcelable(EXTRA_GROUP);
         }
-
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("groups").child(mGroup.getId()).child("updates");
-
-        mUpdateAdapter = new UpdateAdapter(getContext(), mDatabaseReference);
+        mUpdatePresenter = new UpdatePresenter(this, mGroup.getId());
+        mUpdatePresenter.loadAdapterData();
     }
 
 
@@ -67,11 +64,16 @@ public class UpdateFragment extends Fragment {
         mUpdatesRv = view.findViewById(R.id.update_recyclerview);
         mUpdatesRv.setAdapter(mUpdateAdapter);
         mUpdatesRv.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
         return view;
-
     }
 
+    @Override
+    public void setRecyclerViewData(ArrayList<Update> updates) {
+        mUpdateAdapter = new UpdateAdapter(updates);
+    }
+
+    @Override
+    public void notifyItemInserted(int position) {
+        mUpdateAdapter.notifyItemInserted(position);
+    }
 }

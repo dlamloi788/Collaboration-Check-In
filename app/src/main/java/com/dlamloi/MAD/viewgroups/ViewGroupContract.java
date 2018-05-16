@@ -1,10 +1,11 @@
 package com.dlamloi.MAD.viewgroups;
 
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-
+import com.dlamloi.MAD.base.BasePresenter;
+import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.model.Group;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import java.util.ArrayList;
 
 /**
  * Created by Don on 14/05/2018.
@@ -12,7 +13,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public interface ViewGroupContract {
 
-    interface View {
+    interface View extends BaseView<Group> {
 
         void viewGroup(Group group);
 
@@ -29,13 +30,11 @@ public interface ViewGroupContract {
         void notifyItemInserted(int position);
 
         void notifyItemChanged(int index);
+
+        void setRecyclerViewData(ArrayList<Group> groups);
     }
 
-    interface Presenter {
-
-        void onBindGroupViewAtPosition(GroupAdapter.ViewHolder holder, int position);
-
-        int getGroupCount();
+    interface Presenter extends BasePresenter {
 
         void dataAdded();
 
@@ -44,14 +43,10 @@ public interface ViewGroupContract {
         void loadProfileData();
 
         boolean onDrawerItemClicked(int position, IDrawerItem drawerItem);
+
+        void loadAdapterData();
     }
 
-    interface RowView {
-
-        void setGroupName(String name);
-
-
-    }
 
 
 

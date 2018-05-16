@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.model.Update;
+
+import java.util.ArrayList;
 
 /**
  * Created by Don on 11/04/2018.
@@ -18,11 +22,11 @@ import com.dlamloi.MAD.R;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
-    private ViewGroupPresenter mViewGroupPresenter;
+    private GroupItemClickListener mGroupItemClickListener;
+    private ArrayList<Group> mGroups;
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements ViewGroupContract.RowView{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView groupDisplayIv;
         public TextView groupNameTv;
@@ -33,22 +37,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             groupDisplayIv = itemView.findViewById(R.id.group_display_imageview);
             groupNameTv = itemView.findViewById(R.id.group_name_textview);
             groupParentRl = itemView.findViewById(R.id.group_parent_relativelayout);
-            groupParentRl.setOnClickListener(v -> {
-                mViewGroupPresenter.rowTapped(getAdapterPosition());
-            });
-        }
-
-        @Override
-        public void setGroupName(String name) {
-            groupNameTv.setText(name);
         }
 
     }
 
-    public GroupAdapter(ViewGroupPresenter presenter) {
-        this.mViewGroupPresenter = presenter;
-
-
+    public GroupAdapter(ArrayList<Group> groups, GroupItemClickListener groupItemClickListener) {
+        this.mGroups = groups;
+        this.mGroupItemClickListener = groupItemClickListener;
     }
 
     @NonNull
@@ -61,12 +56,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mViewGroupPresenter.onBindGroupViewAtPosition(holder, position);
+        Group group = mGroups.get(position);
+        holder.groupNameTv.setText(group.getName());
+        holder.groupParentRl.setOnClickListener(v -> mGroupItemClickListener.groupClick(group));
     }
 
     @Override
     public int getItemCount() {
-        return mViewGroupPresenter.getGroupCount();
+        return mGroups.size();
     }
 
 

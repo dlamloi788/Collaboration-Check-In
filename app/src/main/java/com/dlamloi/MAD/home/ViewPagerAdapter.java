@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.viewgroups;
+package com.dlamloi.MAD.home;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -12,10 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dlamloi.MAD.home.meetings.MeetingFragment;
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.home.update.UpdateContract;
 import com.dlamloi.MAD.home.update.UpdateFragment;
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.viewgroups.ViewPagerAdapter;
 import com.dlamloi.MAD.login.LoginActivity;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -26,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class GroupHomeActivity extends AppCompatActivity implements UpdateContract.View {
+public class GroupHomeActivity extends AppCompatActivity implements GroupHomeContract.View {
 
 
     public static final String GROUP_KEY = "mGroup";
