@@ -26,6 +26,8 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,6 +37,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
     public static final String USER_PHOTO_URI = "User uri";
     public static final String GROUP_KEY = "group";
+    public static final String GROUP_REFERENCE = "groups";
 
     private ViewGroupPresenter mViewGroupPresenter;
 
@@ -44,27 +47,26 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
     TextView mFirstNameTv;
     TextView mEmailTv;
 
-
     private GroupAdapter mGroupAdapter;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
+    private GroupItemClickListener mGroupItemClickListener = group -> {
+        Intent intent = new Intent(this, GroupHomeActivity.class);
+        intent.putExtra(GROUP_KEY, group);
+        startActivity(intent);
+    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_groups);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.view_groups_activity_title));
         ButterKnife.bind(this);
-
         mViewGroupPresenter = new ViewGroupPresenter(this);
-
         setUpMaterialDrawer(toolbar);
-
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("groups");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference(GROUP_REFERENCE);
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -76,12 +78,12 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
             }
         });
-
-        mGroupAdapter = new GroupAdapter(mViewGroupPresenter);
+        mViewGroupPresenter.loadAdapterData();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
         setUpMaterialDrawer(toolbar);
+
     }
 
     @Override
@@ -158,6 +160,10 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mGroupAdapter.notifyItemChanged(position);
     }
 
+    @Override
+    public void setRecyclerViewData(ArrayList<Group> groups) {
+        mGroupAdapter = new GroupAdapter(groups, mGroupItemClickListener);
+    }
     /**
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,6 +186,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
         return super.onOptionsItemSelected(item);
     } */
+
 
 
 
