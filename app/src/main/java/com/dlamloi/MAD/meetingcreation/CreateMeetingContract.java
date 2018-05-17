@@ -1,6 +1,7 @@
 package com.dlamloi.MAD.meetingcreation;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -18,9 +19,21 @@ public interface CreateMeetingContract {
 
         void setPlaceText(Intent data);
 
-        void showDateCalendar();
-
         void meetingPublished();
+
+        void showLeaveConfirmationDialog(AlertDialog leaveConfirmationDialog);
+
+        void hideLeaveDialog(AlertDialog leaveConfirmationDialog);
+
+        void leave();
+
+        void showDateDialog(int year, int month, int day);
+
+        void showTimeDialog(int hour, int minute);
+
+        void setMeetingDate(String date);
+
+        void setTimeText(String time);
     }
 
     interface Presenter {
@@ -33,6 +46,16 @@ public interface CreateMeetingContract {
         void meetingTimeClick();
 
         void createMeeting(String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String meetingAgenda);
+
+        void onBackPressed(AlertDialog leaveConfirmationDialog, String s, String toString, String string, String s1, String toString1);
+        
+        void leaveDialogNoClick(AlertDialog leaveConfirmationDialog);
+
+        void meetingDateEtClicked();
+
+        void datePicked(int year, int month, int dayOfMonth);
+
+        void timePicked(int hourOfDay, int minute);
     }
 
 }

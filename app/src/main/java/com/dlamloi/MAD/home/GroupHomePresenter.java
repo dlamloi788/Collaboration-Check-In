@@ -24,10 +24,10 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter {
 
 
     public void setup(Intent intent) {
-        Group group = intent.getParcelableExtra(ViewGroupsActivity.GROUP_KEY);
-        String title = group.getName();
+        String id = intent.getStringExtra(ViewGroupsActivity.GROUP_ID_KEY);
+        String title = intent.getStringExtra(ViewGroupsActivity.GROUP_TITLE_KEY);
         mView.setGroupTitle(title);
-        mView.setUpViewPager(group);
+        mView.setUpViewPager(id);
     }
 
     public boolean onDrawerItemClicked(int position, IDrawerItem drawerItem) {
@@ -60,7 +60,15 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter {
         mView.setEmail(mUser.getEmail());
     }
 
+    @Override
+    public void onActionMenuClick() {
+        mView.showShadow();
+    }
 
-
+    @Override
+    public void onActionMenuItemSelected() {
+        mView.hideShadow();
+        mView.collapseActionMenu();
+    }
 
 }

@@ -9,7 +9,7 @@
         android:id="@+id/color_margin"
         android:layout_width="5dp"
         android:layout_height="1000dp"
-        android:layout_alignBottom="@id/meeting_author_linearlayout"
+        android:layout_alignBottom="@+id/meeting_publish_date"
         android:background="#000000"
         android:orientation="vertical" />
 
@@ -19,21 +19,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/color_margin"
+        android:maxLength="30"
         android:padding="10dp"
-        android:text="Project Meeting"
+        android:text="Project Meeting "
         android:textColor="@color/md_black_1000"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/meeting_date_textview"
+        android:id="@+id/meeting_author_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/meeting_title_textview"
         android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/meeting_title_textview"
+        android:text="By: Don Loi"
         android:padding="10dp"
-        android:text="8th May 2018"
         android:textColor="@color/bottom_sheet_dialog_textcolor"
-        android:textSize="15sp" />
+
+        />
+
 
     <LinearLayout
         android:id="@+id/meeting_details_linearlayout"
@@ -62,48 +65,33 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/location_icon_grey" />
+            android:src="@drawable/date_icon" />
 
         <TextView
-            android:id="@+id/meeting_suburb_textview"
+            android:id="@+id/meeting_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Berala"
+            android:text="19 May 2019"
             android:textColor="@color/bottom_sheet_dialog_textcolor"
 
             />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/meeting_author_linearlayout"
+    <TextView
+        android:id="@+id/meeting_publish_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/meeting_details_linearlayout"
         android:layout_below="@id/meeting_details_linearlayout"
-        android:orientation="horizontal"
+        android:layout_alignStart="@id/meeting_details_linearlayout"
+        android:textColor="@color/bottom_sheet_dialog_textcolor"
+        android:text="Created on: 17 May 2016"
         android:paddingBottom="10dp"
         android:paddingEnd="11dp"
-        android:paddingStart="11dp">
+        android:paddingStart="11dp"
+        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/by"
-            android:textColor="@color/bottom_sheet_dialog_textcolor"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/meeting_author_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Simon Thompson"
-            android:textColor="@color/bottom_sheet_dialog_textcolor"
-
-            />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

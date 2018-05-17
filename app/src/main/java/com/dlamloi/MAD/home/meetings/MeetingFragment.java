@@ -29,7 +29,7 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
     public static final String GROUP_KEY = "group";
 
     private RecyclerView mMeetingPlansRv;
-    private Group mGroup;
+    private String mGroupId;
     private MeetingPresenter mMeetingPresenter;
     private MeetingAdapter mMeetingAdapter;
 
@@ -39,10 +39,10 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
     }
 
     //Returns an instance of MeetingFragment
-    public static MeetingFragment newInstance(Group group) {
+    public static MeetingFragment newInstance(String groupId) {
         MeetingFragment meetingFragment = new MeetingFragment();
         Bundle args = new Bundle();
-        args.putParcelable(GroupHomeActivity.GROUP_KEY, group);
+        args.putString(GroupHomeActivity.GROUP_KEY, groupId);
         meetingFragment.setArguments(args);
         return meetingFragment;
     }
@@ -53,9 +53,9 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         super.onCreate(savedInstanceState);
         Bundle extras = getArguments();
         if (extras != null) {
-            mGroup = extras.getParcelable(GroupHomeActivity.GROUP_KEY);
+            mGroupId = extras.getString(GroupHomeActivity.GROUP_KEY);
         }
-        mMeetingPresenter = new MeetingPresenter(this, mGroup.getId());
+        mMeetingPresenter = new MeetingPresenter(this, mGroupId);
         mMeetingPresenter.loadAdapterData();
 
     }
@@ -67,18 +67,6 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         mMeetingPlansRv = view.findViewById(R.id.meeting_plans_recyclerview);
         mMeetingPlansRv.setAdapter(mMeetingAdapter);
         mMeetingPlansRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-        FloatingActionButton scheduleMeetingFab = view.findViewById(R.id.schedule_meeting_button);
-        scheduleMeetingFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent scheduleMeetingIntent = new Intent(getContext(), CreateMeetingActivity.class);
-                scheduleMeetingIntent.putExtra(GROUP_KEY, mGroup);
-                startActivity(scheduleMeetingIntent);
-            }
-        });
-
-
         return view;
     }
 

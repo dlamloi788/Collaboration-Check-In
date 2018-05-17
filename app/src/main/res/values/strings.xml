@@ -50,6 +50,18 @@
     <string name="remove_meeting_location">Remove Meeting Location</string>
     <string name="change_meeting_location">Change meeting Location</string>
     <string name="by">By:&#032;</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="post_update">Post update</string>
+    <string name="assign_task">Assign Task</string>
+    <string name="upload_file">Upload file</string>
+    <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="task_title">Task Title</string>
+    <string name="task_due_date">Task Due Date</string>
 
+    <string-array name="tester">
+        <item>dlamloi2415@gmail.com</item>
+        <item>tester@gmail.com</item>
+    </string-array>
 
 </resources>

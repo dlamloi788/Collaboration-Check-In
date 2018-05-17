@@ -11,6 +11,7 @@ public class Meeting implements Parcelable {
 
     private String mId;
     private String mCreatorEmail;
+    private String mMeetingPublishDate;
     private String mMeetingTitle;
     private String mMeetingDate; //In the form of DD-MONTH-YYYY
     private String mMeetingTime; //In the form of HH:MM am/pm
@@ -22,9 +23,10 @@ public class Meeting implements Parcelable {
     }
 
 
-    public Meeting(String id, String creatorEmail, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
+    public Meeting(String id, String creatorEmail, String meetingPublishDate, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
         this.mId = id;
         this.mCreatorEmail = creatorEmail;
+        this.mMeetingPublishDate = meetingPublishDate;
         this.mMeetingTitle = meetingTitle;
         this.mMeetingDate = meetingDate;
         this.mMeetingTime = meetingTime;
@@ -35,6 +37,7 @@ public class Meeting implements Parcelable {
     protected Meeting(Parcel in) {
         mId = in.readString();
         mCreatorEmail = in.readString();
+        mMeetingPublishDate = in.readString();
         mMeetingTitle = in.readString();
         mMeetingDate = in.readString();
         mMeetingTime = in.readString();
@@ -63,6 +66,7 @@ public class Meeting implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mId);
         dest.writeString(mCreatorEmail);
+        dest.writeString(mMeetingPublishDate);
         dest.writeString(mMeetingTitle);
         dest.writeString(mMeetingDate);
         dest.writeString(mMeetingTime);
@@ -85,6 +89,22 @@ public class Meeting implements Parcelable {
 
     public void setCreatorEmail(String creatorEmail) {
         this.mCreatorEmail = creatorEmail;
+    }
+
+    public String getMeetingPublishDate() {
+        return mMeetingPublishDate;
+    }
+
+    public void setMeetingPublishDate(String meetingPublishDate) {
+        mMeetingPublishDate = meetingPublishDate;
+    }
+
+    public String getMeetingLocation() {
+        return mMeetingLocation;
+    }
+
+    public void setMeetingLocation(String meetingLocation) {
+        mMeetingLocation = meetingLocation;
     }
 
     public String getMeetingTitle() {

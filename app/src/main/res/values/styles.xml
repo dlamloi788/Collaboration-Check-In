@@ -64,5 +64,9 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/floating_action_button_label_background</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+    </style>
 
 </resources>

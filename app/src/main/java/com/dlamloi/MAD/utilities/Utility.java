@@ -15,6 +15,10 @@ public class Utility {
         context.startActivity(new Intent(context, destination));
     }
 
+    public static void startIntent(Context context, Intent intent) {
+        context.startActivity(intent);
+    }
+
     public static boolean areAnyTextFieldsEmpty(EditText... editTexts) {
         for (EditText editText : editTexts) {
             if (editText.getText().toString().isEmpty()) {

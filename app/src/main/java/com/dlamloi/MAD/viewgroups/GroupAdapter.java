@@ -58,7 +58,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Group group = mGroups.get(position);
         holder.groupNameTv.setText(group.getName());
-        holder.groupParentRl.setOnClickListener(v -> mGroupItemClickListener.groupClick(group));
+        holder.groupParentRl.setOnClickListener(v -> mGroupItemClickListener.groupClick(group.getId(), group.getName()));
     }
 
     @Override

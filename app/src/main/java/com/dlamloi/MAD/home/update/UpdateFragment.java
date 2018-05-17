@@ -24,7 +24,7 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
     public static final String EXTRA_GROUP = "group";
 
     private RecyclerView mUpdatesRv;
-    private Group mGroup;
+    private String mGroupId;
     private UpdateAdapter mUpdateAdapter;
     private UpdatePresenter mUpdatePresenter;
 
@@ -34,10 +34,10 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
     public UpdateFragment() {
     }
 
-    public static UpdateFragment newInstance(Group group) {
+    public static UpdateFragment newInstance(String groupId) {
         UpdateFragment fragment = new UpdateFragment();
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_GROUP, group);
+        args.putString(EXTRA_GROUP, groupId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,9 +49,9 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         super.onCreate(savedInstanceState);
         Bundle extras = getArguments();
         if (extras != null) {
-            mGroup = extras.getParcelable(EXTRA_GROUP);
+            mGroupId = extras.getString(EXTRA_GROUP);
         }
-        mUpdatePresenter = new UpdatePresenter(this, mGroup.getId());
+        mUpdatePresenter = new UpdatePresenter(this, mGroupId);
         mUpdatePresenter.loadAdapterData();
     }
 

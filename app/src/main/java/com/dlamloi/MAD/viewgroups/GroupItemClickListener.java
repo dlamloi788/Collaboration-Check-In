@@ -8,6 +8,6 @@ import com.dlamloi.MAD.model.Group;
 
 public interface GroupItemClickListener {
 
-    void groupClick(Group group);
+    void groupClick(String id, String title);
 
 }

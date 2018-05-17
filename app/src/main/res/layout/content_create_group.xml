@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:padding="20dp"
     android:background="@drawable/orange_gradient_background"
-    tools:context="com.dlamloi.MAD.activity.CreateGroupActivity"
+    tools:context="com.dlamloi.MAD.groupcreation.CreateGroupActivity"
     tools:showIn="@layout/activity_create_group">
 
     <ImageView

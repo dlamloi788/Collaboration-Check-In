@@ -12,6 +12,9 @@
     <color name="bottom_sheet_dialog_textcolor">#7B7B7B</color>
     <color name="material_red">#f42e2b</color>
     <color name="meeting_row_tint">#F3F3F3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent_black">#B2000000</color>
+    <color name="higher_transparent_black">#64000000</color>
 
     <!-- Material DEFAULT colors -->
     <color name="material_drawer_primary">#2196F3</color>

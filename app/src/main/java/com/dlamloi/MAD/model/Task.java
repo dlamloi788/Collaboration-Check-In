@@ -12,6 +12,7 @@ public class Task implements Parcelable{
     private String mId;
     private String mTitle;
     private String mDetail;
+    private String mPublishedDate;
     private String mStatus; //The status of the task. Incomplete/Complete/Overdue
     private String mAssignedMember; //The email of the assigned member
     private String mDueDate;
@@ -21,6 +22,7 @@ public class Task implements Parcelable{
         mId = in.readString();
         mTitle = in.readString();
         mDetail = in.readString();
+        mPublishedDate = in.readString();
         mStatus = in.readString();
         mAssignedMember = in.readString();
         mDueDate = in.readString();
@@ -48,6 +50,7 @@ public class Task implements Parcelable{
         dest.writeString(mId);
         dest.writeString(mTitle);
         dest.writeString(mDetail);
+        dest.writeString(mPublishedDate);
         dest.writeString(mStatus);
         dest.writeString(mAssignedMember);
         dest.writeString(mDueDate);
@@ -75,6 +78,14 @@ public class Task implements Parcelable{
 
     public void setDetail(String detail) {
         mDetail = detail;
+    }
+
+    public String getPublishedDate() {
+        return mPublishedDate;
+    }
+
+    public void setPublishedDate(String publishedDate) {
+        mPublishedDate = publishedDate;
     }
 
     public String getStatus() {

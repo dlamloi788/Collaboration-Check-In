@@ -33,27 +33,32 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupContract.View{
+public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupContract.View {
 
     public static final String USER_PHOTO_URI = "User uri";
-    public static final String GROUP_KEY = "group";
+    public static final String GROUP_ID_KEY = "group_id";
+    public static final String GROUP_TITLE_KEY = "group_title";
     public static final String GROUP_REFERENCE = "groups";
 
     private ViewGroupPresenter mViewGroupPresenter;
 
-    @BindView(R.id.groups_loading_progressbar) ProgressBar mLoadingGroupsPb;
-    @BindView(R.id.groups_recyclerview) RecyclerView mGroupsRv;
+    @BindView(R.id.groups_loading_progressbar)
+    ProgressBar mLoadingGroupsPb;
+    @BindView(R.id.groups_recyclerview)
+    RecyclerView mGroupsRv;
     CircleImageView mProfileImageIv;
     TextView mFirstNameTv;
     TextView mEmailTv;
 
     private GroupAdapter mGroupAdapter;
     private DatabaseReference mDatabaseReference;
-    private GroupItemClickListener mGroupItemClickListener = group -> {
+    private GroupItemClickListener mGroupItemClickListener = (id, title) -> {
         Intent intent = new Intent(this, GroupHomeActivity.class);
-        intent.putExtra(GROUP_KEY, group);
+        intent.putExtra(GROUP_ID_KEY, id);
+        intent.putExtra(GROUP_TITLE_KEY, title);
         startActivity(intent);
     };
+
 
 
     @Override
@@ -84,13 +89,6 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mGroupsRv.setAdapter(mGroupAdapter);
         setUpMaterialDrawer(toolbar);
 
-    }
-
-    @Override
-    public void viewGroup(Group group) {
-        Intent intent = new Intent(this, GroupHomeActivity.class);
-        intent.putExtra(GROUP_KEY, group);
-        startActivity(intent);
     }
 
     @Override
@@ -165,29 +163,25 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mGroupAdapter = new GroupAdapter(groups, mGroupItemClickListener);
     }
     /**
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_groups, menu);
-        return true;
-    }
+     @Override public boolean onCreateOptionsMenu(Menu menu) {
+     // Inflate the menu; this adds items to the action bar if it is present.
+     getMenuInflater().inflate(R.menu.view_groups, menu);
+     return true;
+     }
 
-    @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+     @Override public boolean onOptionsItemSelected(MenuItem item) {
+     // Handle action bar item clicks here. The action bar will
+     // automatically handle clicks on the Home/Up button, so long
+     // as you specify a parent activity in AndroidManifest.xml.
+     int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+     //noinspection SimplifiableIfStatement
+     if (id == R.id.action_settings) {
+     return true;
+     }
 
-        return super.onOptionsItemSelected(item);
-    } */
-
-
+     return super.onOptionsItemSelected(item);
+     } */
 
 
 }

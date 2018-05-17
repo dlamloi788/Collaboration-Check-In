@@ -12,11 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCg0OBWRywkSPGhwPyCjGQxSkwiOs2-y6Q"/>
-
+            android:value="AIzaSyCg0OBWRywkSPGhwPyCjGQxSkwiOs2-y6Q" />
 
         <activity android:name=".login.LoginActivity">
             <intent-filter>
@@ -32,7 +30,7 @@
 
         <activity android:name=".register.RegisterActivity" />
         <activity
-            android:name=".activity.CreateGroupActivity"
+            android:name=".groupcreation.CreateGroupActivity"
             android:label="@string/title_activity_create_group"
             android:theme="@style/AppTheme" />
         <activity
@@ -40,7 +38,7 @@
             android:label="@string/title_activity_view_group"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.PostUpdateActivity"
+            android:name=".updatecreation.PostUpdateActivity"
             android:label="@string/title_activity_post_update"
             android:theme="@style/AppTheme" />
         <activity
@@ -48,8 +46,12 @@
             android:label="@string/title_activity_view_groups"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.CreateMeetingActivity"
+            android:name=".meetingcreation.CreateMeetingActivity"
             android:label="@string/title_activity_create_meeting"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".taskcreation.CreateTaskActivity"
+            android:label="@string/title_activity_create_task"
             android:theme="@style/AppTheme"></activity>
     </application>
 

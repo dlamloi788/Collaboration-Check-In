@@ -2,7 +2,6 @@ package com.dlamloi.MAD.home;
 
 import android.content.Intent;
 
-import com.dlamloi.MAD.model.Group;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 /**
@@ -23,8 +22,13 @@ public interface GroupHomeContract {
 
         void logout();
 
-        void setUpViewPager(Group group);
+        void setUpViewPager(String groupId);
 
+        void showShadow();
+
+        void hideShadow();
+
+        void collapseActionMenu();
     }
 
     interface Presenter {
@@ -37,6 +41,9 @@ public interface GroupHomeContract {
 
         void loadProfileData();
 
+        void onActionMenuClick();
+
+        void onActionMenuItemSelected();
     }
 
 }

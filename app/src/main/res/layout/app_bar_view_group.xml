@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/group_home_rootview"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dlamloi.MAD.home.GroupHomeActivity">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,8 +40,60 @@
         android:id="@+id/container_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <View
+        android:id="@+id/shadow_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/higher_transparent_black"
+        android:visibility="invisible"
         />
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/floating_actions_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:fab_labelStyle="@style/menu_labels_style"
+        app:fab_labelsPosition="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/post_update_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/add_update"
+            app:fab_size="mini"
+            app:fab_title="@string/post_update" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/schedule_meeting_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/schedule_meeting_icon"
+            app:fab_size="mini"
+            app:fab_title="Schedule Meeting" />
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/assign_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/task_icon"
+            app:fab_size="mini"
+            app:fab_title="@string/assign_task" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/upload_file_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/upload_file_icon"
+            app:fab_size="mini"
+            app:fab_title="@string/upload_file" />
+
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 
 </android.support.design.widget.CoordinatorLayout>

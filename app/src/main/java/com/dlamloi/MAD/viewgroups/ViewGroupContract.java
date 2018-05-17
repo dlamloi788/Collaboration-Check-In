@@ -15,8 +15,6 @@ public interface ViewGroupContract {
 
     interface View extends BaseView<Group> {
 
-        void viewGroup(Group group);
-
         void setLoadingProgressBarVisibility(boolean visibility);
 
         void logout();

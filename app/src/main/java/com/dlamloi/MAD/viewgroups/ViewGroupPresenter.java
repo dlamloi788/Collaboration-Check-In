@@ -112,11 +112,6 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter {
         mView.setRecyclerViewData(mGroups);
     }
 
-    public void rowTapped(int position) {
-        Group group = mGroups.get(position);
-        mView.viewGroup(group);
-    }
-
     private boolean isUserAMember(Group group) {
         String currentUserEmail = mUser.getEmail();
         Log.d("CURRENTEMAIL", currentUserEmail);
