@@ -15,7 +15,6 @@ public class Meeting implements Parcelable {
     private String mMeetingDate; //In the form of DD-MONTH-YYYY
     private String mMeetingTime; //In the form of HH:MM am/pm
     private String mMeetingLocation;
-    private String mMeetingSuburb;
     private String mAgenda; //Agenda info (if needed)
 
     public Meeting() {
@@ -23,14 +22,13 @@ public class Meeting implements Parcelable {
     }
 
 
-    public Meeting(String id, String creatorEmail, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String meetingSuburb, String agenda) {
+    public Meeting(String id, String creatorEmail, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
         this.mId = id;
         this.mCreatorEmail = creatorEmail;
         this.mMeetingTitle = meetingTitle;
         this.mMeetingDate = meetingDate;
         this.mMeetingTime = meetingTime;
         this.mMeetingLocation = meetingLocation;
-        this.mMeetingSuburb = meetingSuburb;
         this.mAgenda = agenda;
     }
 
@@ -41,7 +39,6 @@ public class Meeting implements Parcelable {
         mMeetingDate = in.readString();
         mMeetingTime = in.readString();
         mMeetingLocation = in.readString();
-        mMeetingSuburb = in.readString();
         mAgenda = in.readString();
     }
 
@@ -70,7 +67,6 @@ public class Meeting implements Parcelable {
         dest.writeString(mMeetingDate);
         dest.writeString(mMeetingTime);
         dest.writeString(mMeetingLocation);
-        dest.writeString(mMeetingSuburb);
         dest.writeString(mAgenda);
     }
 
@@ -113,14 +109,6 @@ public class Meeting implements Parcelable {
 
     public void setMeetingTime(String meetingTime) {
         this.mMeetingTime = meetingTime;
-    }
-
-    public String getMeetingSuburb() {
-        return this.mMeetingSuburb;
-    }
-
-    public void setMeetingSuburb(String suburb) {
-        this.mMeetingSuburb = suburb;
     }
 
     public String getAgenda() {

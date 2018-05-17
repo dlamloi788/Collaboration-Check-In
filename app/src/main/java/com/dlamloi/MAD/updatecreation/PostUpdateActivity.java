@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.activity;
+package com.dlamloi.MAD.updatecreation;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.activity.CreateGroupActivity;
+import com.dlamloi.MAD.groupcreation.CreateGroupActivity;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.login.LoginActivity;
 import com.dlamloi.MAD.model.Group;

@@ -12,13 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.activity.CreateMeetingActivity;
+import com.dlamloi.MAD.meetingcreation.CreateMeetingActivity;
 import com.dlamloi.MAD.home.GroupHomeActivity;
-import com.dlamloi.MAD.adapter.MeetingAdapter;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -27,17 +24,14 @@ import java.util.ArrayList;
  * Use the {@link MeetingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MeetingFragment extends Fragment {
+public class MeetingFragment extends Fragment implements MeetingContract.View {
 
     public static final String GROUP_KEY = "group";
 
     private RecyclerView mMeetingPlansRv;
-    private ArrayList<Meeting> meetings = new ArrayList<>();
     private Group mGroup;
+    private MeetingPresenter mMeetingPresenter;
     private MeetingAdapter mMeetingAdapter;
-
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
 
 
     public MeetingFragment() {
@@ -61,11 +55,9 @@ public class MeetingFragment extends Fragment {
         if (extras != null) {
             mGroup = extras.getParcelable(GroupHomeActivity.GROUP_KEY);
         }
+        mMeetingPresenter = new MeetingPresenter(this, mGroup.getId());
+        mMeetingPresenter.loadAdapterData();
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("groups").child(mGroup.getId()).child("meetings");
-
-        mMeetingAdapter = new MeetingAdapter(getContext(), mDatabaseReference);
     }
 
     @Override
@@ -90,4 +82,13 @@ public class MeetingFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void setRecyclerViewData(ArrayList<Meeting> meetings) {
+        mMeetingAdapter = new MeetingAdapter(meetings);
+    }
+
+    @Override
+    public void notifyItemInserted(int position) {
+        mMeetingAdapter.notifyItemInserted(position);
+    }
 }

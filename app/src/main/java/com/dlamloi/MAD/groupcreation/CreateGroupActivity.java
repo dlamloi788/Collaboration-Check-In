@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.activity;
+package com.dlamloi.MAD.groupcreation;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.utilities.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -21,17 +22,15 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class CreateGroupActivity extends AppCompatActivity {
+public class CreateGroupActivity extends AppCompatActivity implements CreateGroupContract.View {
 
 
     public static final String GROUP_NAME_TAG = "group name";
     public static final String EMAILS_TAG = "emails";
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
+    private CreateGroupPresenter mCreateGroupPresenter;
 
 
     @BindView(R.id.group_name_edittext) EditText mGroupNameEt;
@@ -40,6 +39,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     @BindView(R.id.member_three_edittext) EditText mMemberThreeEt;
     @BindView(R.id.member_four_edittext) EditText mMemberFourEt;
     @BindView(R.id.member_five_edittext) EditText mMemberFiveEt;
+    @BindView(R.id.publish_group_button) FloatingActionButton publishGroupBtn;
     private EditText[] memberEts;
 
 
@@ -52,27 +52,23 @@ public class CreateGroupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
-;
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("groups");
-
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
+        mCreateGroupPresenter = new CreateGroupPresenter(this);
         memberEts = new EditText[]{mMemberOneEt, mMemberTwoEt, mMemberThreeEt, mMemberFourEt, mMemberFiveEt};
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> createGroup());
+
     }
 
-    private boolean areAllMembersEmpty() {
+    @OnClick(R.id.publish_group_button)
+    public void publishButtonClick() {
+        ArrayList<String> userEmails = new ArrayList<>();
         for (EditText editText : memberEts) {
-            if (!TextUtils.isEmpty(editText.getText().toString())) {
-                return false;
-            }
+            userEmails.add(editText.getText().toString());
         }
-        return true;
+        mCreateGroupPresenter.createGroup(
+                mGroupNameEt.getText().toString(),
+                userEmails);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -84,28 +80,14 @@ public class CreateGroupActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Creates a group using the data in the text field and inserts it
-     * into the firebase database
-     */
-    private void createGroup() {
-        if (TextUtils.isEmpty(mGroupNameEt.getText()) || areAllMembersEmpty()) {
-            Toast.makeText(CreateGroupActivity.this, "No email specified", Toast.LENGTH_LONG).show();
-        }
-        else {
-            ArrayList<String> userEmails = new ArrayList<>();
-            for (EditText editText : memberEts) {
-                if (!TextUtils.isEmpty(editText.getText().toString())) {
-                    userEmails.add(editText.getText().toString());
-                }
-            }
-            String id = mDatabaseReference.push().getKey();
-            Group group = new Group(id, mGroupNameEt.getText().toString(),
-                    mUser.getEmail(), userEmails);
 
-            mDatabaseReference.child(id).setValue(group);
-        }
+    @Override
+    public void groupCreated() {
+        finish();
     }
 
-
+    @Override
+    public void showNoEmailEnteredToast() {
+        Utility.showToast(this, getString(R.string.enter_email_address));
+    }
 }

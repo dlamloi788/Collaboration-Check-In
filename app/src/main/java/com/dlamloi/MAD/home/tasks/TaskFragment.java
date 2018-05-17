@@ -10,13 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.base.BaseView;
+import com.dlamloi.MAD.model.Task;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaskFragment extends Fragment {
+public class TaskFragment extends Fragment implements BaseView<Task> {
 
     public static final int SPAN_COUNT = 2;
     private RecyclerView mTasksRv;
@@ -25,16 +29,7 @@ public class TaskFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TaskFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TaskFragment newInstance(String param1, String param2) {
+    public static TaskFragment newInstance() {
         TaskFragment fragment = new TaskFragment();
 
         return fragment;
@@ -60,4 +55,13 @@ public class TaskFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void setRecyclerViewData(ArrayList<Task> t) {
+
+    }
+
+    @Override
+    public void notifyItemInserted(int position) {
+
+    }
 }

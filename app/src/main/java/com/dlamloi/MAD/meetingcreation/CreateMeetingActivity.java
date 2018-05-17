@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.activity;
+package com.dlamloi.MAD.meetingcreation;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -34,7 +34,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateMeetingActivity extends AppCompatActivity {
+public class CreateMeetingActivity extends AppCompatActivity implements CreateMeetingContract.View {
 
     public static final int PLACE_PICKER_REQUEST = 1;
 
@@ -52,6 +51,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseReference;
     private Group mGroup;
     private Place place;
+    private CreateMeetingPresenter mCreateMeetingPresenter;
 
     @BindView(R.id.meeting_name_edittext)
     EditText mMeetingNameEt;
@@ -77,17 +77,16 @@ public class CreateMeetingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
         ButterKnife.bind(this);
-
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("groups");
         mGroup = getIntent().getParcelableExtra(MeetingFragment.GROUP_KEY);
+        mCreateMeetingPresenter = new CreateMeetingPresenter(this, mGroup.getId());
+
 
     }
 
     @OnClick(R.id.meeting_location_edittext)
     public void meetingLocationEtClicked() {
         if (mMeetingLocationEt.getText().toString().isEmpty()) {
-            selectLocation();
+            mCreateMeetingPresenter.selectLocation();
         } else {
             setUpBottomSheetDialog();
         }
@@ -115,7 +114,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
      */
     private void setUpBottomSheetDialog() {
         BottomSheetDialog bottomSheetDialog =
-                new BottomSheetDialog(CreateMeetingActivity.this);
+                new BottomSheetDialog(this);
         View bottomSheetView = CreateMeetingActivity.this.getLayoutInflater()
                 .inflate(R.layout.bottom_sheet_dialog, null);
 
@@ -170,22 +169,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
     @OnClick(R.id.meeting_time_edittext)
     public void meetingTimeEtClicked() {
-        Calendar date = Calendar.getInstance();
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-                        Calendar time = Calendar.getInstance();
-                        time.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        time.set(Calendar.MINUTE, minute);
-                        mMeetingTimeEt.setText(timeFormat.format(time.getTime()));
-                    }
-                },
-                date.get(Calendar.HOUR_OF_DAY),
-                date.get(Calendar.MINUTE),
-                false);
-        timePickerDialog.show();
+        mCreateMeetingPresenter.meetingTimeClick();
     }
 
 
@@ -204,7 +188,15 @@ public class CreateMeetingActivity extends AppCompatActivity {
                 break;
 
             case R.id.create_meeting_menu_button:
-                createMeeting();
+                String meetingTitle = mMeetingNameEt.getText().toString();
+                String meetingDate = mMeetingDateEt.getText().toString();
+                String meetingTime = mMeetingTimeEt.getText().toString();
+                String meetingLocation = mMeetingLocationEt.getText().toString();
+                String meetingAgenda = mMeetingAgendaEt.getText().toString();
+
+
+                mCreateMeetingPresenter.createMeeting(meetingTitle, meetingDate, meetingTime,
+                        meetingLocation, meetingAgenda);
                 break;
         }
 
@@ -213,33 +205,22 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PLACE_PICKER_REQUEST:
-                    Place place = PlacePicker.getPlace(this, data);
-                    this.place = place;
-                    mMeetingLocationEt.setText(place.getAddress());
-
-
-                    break;
-            }
-        }
+        mCreateMeetingPresenter.result(requestCode, resultCode, data);
     }
 
-    private void createMeeting() {
-        String suburb = getSuburbName();
-        String id = mDatabaseReference.push().getKey();
-        String meetingCreator = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        String meetingTitle = mMeetingNameEt.getText().toString();
-        String meetingDate = mMeetingDateEt.getText().toString();
-        String meetingTime = mMeetingTimeEt.getText().toString();
-        String meetingLocation = mMeetingLocationEt.getText().toString();
-        String meetingAgenda = mMeetingAgendaEt.getText().toString();
-        Meeting meeting = new Meeting(id, meetingCreator, meetingTitle,
-                meetingDate, meetingTime, meetingLocation, "this is a test", meetingAgenda);
-        mDatabaseReference.child(mGroup.getId()).child("meetings").child(id).setValue(meeting);
-        finish();
+    @Override
+    public void startShowLocation(PlacePicker.IntentBuilder builder) throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
+        Intent intent = builder.build(this);
+        startActivityForResult(intent, PLACE_PICKER_REQUEST);
     }
+
+    @Override
+    public void setPlaceText(Intent data) {
+        Place place = PlacePicker.getPlace(this, data);
+        mMeetingLocationEt.setText(place.getAddress());
+    }
+
+
 
     /**
      * Returns true if any edittexts on the UI are empty; otherwise false
@@ -303,5 +284,29 @@ public class CreateMeetingActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    public void showDateCalendar() {
+        Calendar date = Calendar.getInstance();
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                (view, hourOfDay, minute) -> {
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+                    Calendar time = Calendar.getInstance();
+                    time.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    time.set(Calendar.MINUTE, minute);
+                    mMeetingTimeEt.setText(timeFormat.format(time.getTime()));
+                },
+                date.get(Calendar.HOUR_OF_DAY),
+                date.get(Calendar.MINUTE),
+                false);
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void meetingPublished() {
+        finish();
+    }
+
+
 }
 

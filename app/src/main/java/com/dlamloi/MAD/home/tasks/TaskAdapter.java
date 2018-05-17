@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.adapter;
+package com.dlamloi.MAD.home.tasks;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
