@@ -58,10 +58,13 @@
     <string name="title_activity_create_task">CreateTaskActivity</string>
     <string name="task_title">Task Title</string>
     <string name="task_due_date">Task Due Date</string>
+    <string name="task_description">Task Description</string>
+    <string name="assign">Assign</string>
 
     <string-array name="tester">
         <item>dlamloi2415@gmail.com</item>
         <item>tester@gmail.com</item>
     </string-array>
+    <string name="title_activity_upload">UploadActivity</string>
 
 </resources>

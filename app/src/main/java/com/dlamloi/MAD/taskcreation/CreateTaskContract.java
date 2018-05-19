@@ -23,6 +23,8 @@ public interface CreateTaskContract {
         void taskDateClicked();
 
         void datePicked(int year, int month, int dayOfMonth);
+
+        void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription);
     }
 
 

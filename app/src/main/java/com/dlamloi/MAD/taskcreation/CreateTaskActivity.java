@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +40,8 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     EditText taskTitleEt;
     @BindView(R.id.task_duedate_edittext)
     EditText taskDueDatEt;
+    @BindView(R.id.task_description_edittext)
+    EditText taskDescriptionEt;
 
 
     @Override
@@ -46,6 +50,8 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         setContentView(R.layout.activity_create_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
         ButterKnife.bind(this);
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mCreateTaskPresenter = new CreateTaskPresenter(this, mGroupId);
@@ -58,6 +64,36 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         mCreateTaskPresenter.taskDateClicked();
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+
+            case R.id.create_task_menu_button:
+                String assignedMember = "dlamloi2415@gmail.com"; //Until spinner works use some dummy data
+                String taskTitle = taskTitleEt.getText().toString();
+                String dueDate = taskDueDatEt.getText().toString();
+                String taskDescription = taskDescriptionEt.getText().toString();
+
+                mCreateTaskPresenter.assignTask(assignedMember, taskTitle, dueDate, taskDescription);
+                break;
+
+
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.create_task_meeting, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public void showSpinnerData(ArrayList<String> userEmails) {

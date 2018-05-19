@@ -12,17 +12,30 @@ public class Task implements Parcelable{
     private String mId;
     private String mTitle;
     private String mDetail;
-    private String mPublishedDate;
-    private String mStatus; //The status of the task. Incomplete/Complete/Overdue
+    private String mStatus; //The status of the task. Pending/Complete/Overdue
     private String mAssignedMember; //The email of the assigned member
     private String mDueDate;
 
+
+    //Empty constructor is a requirement for using firebase realtime database
+    public Task() {
+
+    }
+
+
+    public Task(String id, String title, String detail, String status, String assignedMember, String dueDate) {
+        mId = id;
+        mTitle = title;
+        mDetail = detail;
+        mStatus = status;
+        mAssignedMember = assignedMember;
+        mDueDate = dueDate;
+    }
 
     protected Task(Parcel in) {
         mId = in.readString();
         mTitle = in.readString();
         mDetail = in.readString();
-        mPublishedDate = in.readString();
         mStatus = in.readString();
         mAssignedMember = in.readString();
         mDueDate = in.readString();
@@ -50,7 +63,6 @@ public class Task implements Parcelable{
         dest.writeString(mId);
         dest.writeString(mTitle);
         dest.writeString(mDetail);
-        dest.writeString(mPublishedDate);
         dest.writeString(mStatus);
         dest.writeString(mAssignedMember);
         dest.writeString(mDueDate);
@@ -78,14 +90,6 @@ public class Task implements Parcelable{
 
     public void setDetail(String detail) {
         mDetail = detail;
-    }
-
-    public String getPublishedDate() {
-        return mPublishedDate;
-    }
-
-    public void setPublishedDate(String publishedDate) {
-        mPublishedDate = publishedDate;
     }
 
     public String getStatus() {

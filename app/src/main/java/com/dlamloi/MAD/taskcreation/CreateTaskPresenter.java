@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.taskcreation;
 
+import com.dlamloi.MAD.model.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +16,10 @@ import java.util.Calendar;
  */
 
 public class CreateTaskPresenter implements CreateTaskContract.Presenter {
+
+    public static final String STATUS_PENDING = "Pending";
+    public static final String STATUS_COMPLETE = "Complete";
+    public static final String STATUS_OVERDUE = "Overdue";
 
     private final CreateTaskContract.View mView;
     private DatabaseReference mDatabaseReference;
@@ -66,5 +71,13 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String date = dateFormat.format(calendar.getTime());
         mView.setDueDate(date);
+    }
+
+    @Override
+    public void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription) {
+        String id = mDatabaseReference.push().getKey();
+        Task task = new Task(id, taskTitle, taskDescription, STATUS_PENDING, assignedMember, dueDate);
+        mDatabaseReference.child(id).setValue(task);
+
     }
 }

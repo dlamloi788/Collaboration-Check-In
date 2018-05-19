@@ -7,79 +7,88 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Task;
+import com.dlamloi.MAD.taskcreation.CreateTaskActivity;
+import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import ViewHolder.TaskViewHolder;
 
 /**
  * Created by Don on 14/05/2018.
  */
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private ArrayList<Task> mTasks = new ArrayList<>();
-    private Context mContext;
-    private DatabaseReference mDatabaseReference;
 
 
-    public TaskAdapter(Context context, DatabaseReference databaseReference) {
-        this.mContext = context;
-        this.mDatabaseReference = databaseReference;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Task task = dataSnapshot.getValue(Task.class);
-                mTasks.add(task);
-                notifyItemInserted(mTasks.size());
-            }
+        public ImageView statusIv;
+        public TextView taskAssignedMemberTv;
+        public TextView taskTitleTv;
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            }
+        public ViewHolder(View itemView) {
+            super(itemView);
+            statusIv = itemView.findViewById(R.id.status_imageview);
+            taskAssignedMemberTv = itemView.findViewById(R.id.task_assigned_member_textview);
+            taskTitleTv = itemView.findViewById(R.id.task_title_textview);
+        }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+    }
 
-            }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    public TaskAdapter(ArrayList<Task> tasks) {
+        this.mTasks = tasks;
     }
 
 
     @NonNull
     @Override
-    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.fragment_task, parent, false);
-        return new TaskViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.task_row, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Task task = mTasks.get(position);
+
+        String status = task.getStatus();
+        int drawableReference;
+        if (status.equals(CreateTaskPresenter.STATUS_PENDING)) {
+            drawableReference = R.drawable.alarm_icon;
+        } else if (status.equals(CreateTaskPresenter.STATUS_COMPLETE)) {
+            drawableReference = R.drawable.complete_icon;
+
+        } else{
+            drawableReference = R.drawable.overdue_icon;
+        }
+        holder.statusIv.setImageResource(drawableReference);
+        holder.taskAssignedMemberTv.setText(task.getAssignedMember());
+        holder.taskTitleTv.setText(task.getTitle());
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mTasks.size();
     }
+
+
+
 }

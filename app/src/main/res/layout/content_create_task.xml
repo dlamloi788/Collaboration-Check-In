@@ -32,52 +32,87 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/task_title_textinputlayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/assign_member_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:hint="@string/task_title"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="@color/md_grey_500"
-        android:theme="@style/CustomEditTextTheme">
+        >
 
-        <EditText
-            android:id="@+id/task_title_edittext"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/md_black_1000"
+            android:layout_height="match_parent"
+            >
 
-            />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/task_title_textinputlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/task_title"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="@color/md_grey_500"
+                android:theme="@style/CustomEditTextTheme">
 
-    </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/task_title_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_black_1000"
+                    android:maxLines="1"
+                    />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/task_duedate_textinputlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/task_title_textinputlayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:hint="@string/task_due_date"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="@color/md_grey_500"
-        android:theme="@style/CustomEditTextTheme">
+            </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/task_duedate_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/task_title_textinputlayout"
-            android:focusable="false"
-            android:textColor="@color/md_black_1000"
-            />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/task_duedate_textinputlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_title_textinputlayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/task_due_date"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="@color/md_grey_500"
+                android:theme="@style/CustomEditTextTheme">
 
-    </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/task_duedate_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:maxLines="1"
+                    android:textColor="@color/md_black_1000" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/task_description_textinputlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_duedate_textinputlayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/task_description"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="@color/md_grey_500"
+                android:theme="@style/CustomEditTextTheme">
+
+                <EditText
+                    android:id="@+id/task_description_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_black_1000" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
 
 
 </RelativeLayout>
