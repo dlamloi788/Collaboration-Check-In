@@ -9,17 +9,39 @@
     tools:context="com.dlamloi.MAD.home.GroupHomeActivity">
 
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
+
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/upload_progressbar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cpb_background_progressbar_color="@color/white"
+                app:cpb_progress="50"
+                app:cpb_progressbar_color="@color/md_blue_300"
+                app:cpb_background_progressbar_width="3dp"
+                app:cpb_progressbar_width="3dp"
+                android:layout_gravity="end"
+                android:layout_margin="3dp"
+                android:visibility="invisible"
+                />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"
@@ -31,6 +53,8 @@
             app:tabSelectedTextColor="@android:color/white"
 
             />
+
+
 
     </android.support.design.widget.AppBarLayout>
 
@@ -94,6 +118,8 @@
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
 
 
 </android.support.design.widget.CoordinatorLayout>

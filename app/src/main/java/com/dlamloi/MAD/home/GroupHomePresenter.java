@@ -105,7 +105,16 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter {
     public void uploadFile(String fileName) {
         StorageReference firebaseStorage = FirebaseStorage.getInstance().getReference()
                 .child("files/" + mGroupId + "/" + fileName);
-        firebaseStorage.putFile(mFile);
+        mView.showProgressbar();
+        firebaseStorage.putFile(mFile).addOnProgressListener(taskSnapshot -> {
+            double progress = (100.0 * taskSnapshot.getBytesTransferred()) /taskSnapshot.getTotalByteCount();
+            int currentProgress = (int) progress;
+            mView.updateProgressBar(currentProgress);
+
+        }).addOnCompleteListener(task -> {
+            mView.hideProgressbar();
+            mView.showUploadCompleteToast();
+        });
     }
 }
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dlamloi.MAD.R;
@@ -31,6 +32,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,16 +63,17 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     @BindView(R.id.floating_actions_menu)
     FloatingActionsMenu mFloatingActionsMenu;
     @BindView(R.id.post_update_button)
-    FloatingActionButton postUpdateBtn;
+    FloatingActionButton mPostUpdateBtn;
     @BindView(R.id.schedule_meeting_button)
-    FloatingActionButton scheduleMeetingBtn;
+    FloatingActionButton mScheduleMeetingBtn;
     @BindView(R.id.assign_task_button)
-    FloatingActionButton assignTaskBtn;
+    FloatingActionButton mAssignTaskBtn;
     @BindView(R.id.upload_file_button)
-    FloatingActionButton uploadFileBtn;
+    FloatingActionButton mUploadFileBtn;
     @BindView(R.id.shadow_view)
-    View shadowView;
-
+    View mShadowView;
+    @BindView(R.id.upload_progressbar)
+    CircularProgressBar mUploadCPb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,17 +224,39 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     @Override
     public void showShadow() {
-        shadowView.setVisibility(View.VISIBLE);
+        mShadowView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideShadow() {
-        shadowView.setVisibility(View.INVISIBLE);
+        mShadowView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void collapseActionMenu() {
         mFloatingActionsMenu.collapse();
+    }
+
+    @Override
+    public void showProgressbar() {
+        mUploadCPb.setProgress(0);
+        mUploadCPb.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressbar() {
+        mUploadCPb.setVisibility(View.INVISIBLE);
+    }
+
+
+    @Override
+    public void updateProgressBar(int currentProgress) {
+        mUploadCPb.setProgressWithAnimation(currentProgress, 500);
+    }
+
+    @Override
+    public void showUploadCompleteToast() {
+        Toast.makeText(this, "Upload successful", Toast.LENGTH_SHORT).show();
     }
 
     @Override

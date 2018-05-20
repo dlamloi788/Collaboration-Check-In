@@ -31,6 +31,14 @@ public interface GroupHomeContract {
         void collapseActionMenu();
 
         void showSetFileNameDialog();
+
+        void showProgressbar();
+
+        void hideProgressbar();
+
+        void updateProgressBar(int currentProgress);
+
+        void showUploadCompleteToast();
     }
 
     interface Presenter {
