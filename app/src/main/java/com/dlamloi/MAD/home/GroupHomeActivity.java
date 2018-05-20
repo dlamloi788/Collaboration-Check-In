@@ -5,18 +5,22 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.dlamloi.MAD.home.meetings.MeetingFragment;
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.home.meetings.MeetingFragment;
 import com.dlamloi.MAD.home.tasks.TaskFragment;
 import com.dlamloi.MAD.home.update.UpdateFragment;
-import com.dlamloi.MAD.meetingcreation.CreateMeetingActivity;
 import com.dlamloi.MAD.login.LoginActivity;
+import com.dlamloi.MAD.meetingcreation.CreateMeetingActivity;
 import com.dlamloi.MAD.taskcreation.CreateTaskActivity;
 import com.dlamloi.MAD.updatecreation.PostUpdateActivity;
 import com.dlamloi.MAD.utilities.Utility;
@@ -37,6 +41,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
 
     public static final String GROUP_KEY = "group";
+    public static final String FILE_TYPE = "*/*";
+    public static final int FILE_MANAGER_REQUEST_CODE = 1;
+
     private GroupHomePresenter mGroupHomePresenter;
     private ViewPagerAdapter mViewPagerAdapter;
     private CircleImageView mProfileImageIv;
@@ -116,6 +123,23 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
+    @OnClick(R.id.upload_file_button)
+    public void uploadFileButtonClick() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(FILE_TYPE);
+        startActivityForResult(intent, FILE_MANAGER_REQUEST_CODE);
+        mGroupHomePresenter.onActionMenuItemSelected();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FILE_MANAGER_REQUEST_CODE:
+                mGroupHomePresenter.uploadFile(resultCode, data);
+                break;
+        }
+    }
 
     @Override
     public void setGroupTitle(String title) {
@@ -208,6 +232,28 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     @Override
     public void collapseActionMenu() {
         mFloatingActionsMenu.collapse();
+    }
+
+    @Override
+    public void showSetFileNameDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View uploadDialogView = LayoutInflater.from(this).inflate(R.layout.upload_file_dialog, null);
+        builder.setView(uploadDialogView);
+
+        EditText fileNameEt = uploadDialogView.findViewById(R.id.upload_file_name_edittext);
+        Button cancelButton = uploadDialogView.findViewById(R.id.upload_cancel_button);
+        Button uploadButton = uploadDialogView.findViewById(R.id.upload_upload_button);
+
+        AlertDialog uploadDialog = builder.create();
+
+        cancelButton.setOnClickListener(view -> uploadDialog.dismiss());
+        uploadButton.setOnClickListener(view -> {
+            String fileName = fileNameEt.getText().toString();
+            mGroupHomePresenter.uploadFile(fileName);
+            uploadDialog.dismiss();
+        });
+
+        uploadDialog.show();
     }
 
 }

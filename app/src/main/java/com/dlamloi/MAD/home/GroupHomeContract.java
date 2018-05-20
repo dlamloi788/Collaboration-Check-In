@@ -29,6 +29,8 @@ public interface GroupHomeContract {
         void hideShadow();
 
         void collapseActionMenu();
+
+        void showSetFileNameDialog();
     }
 
     interface Presenter {
@@ -44,6 +46,11 @@ public interface GroupHomeContract {
         void onActionMenuClick();
 
         void onActionMenuItemSelected();
+
+        void uploadFile(int resultCode, Intent data);
+
+
+        void uploadFile(String fileName);
     }
 
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/upload_file_dialog_background"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/upload_file_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_file_question"
+        android:textColor="@color/md_black_1000"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/upload_file_name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_file_textview"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:hint="@string/file_name"
+        android:textColor="@color/md_black_1000"
+        android:textColorHint="@color/MainBackgroundColor" />
+
+
+    <Button
+        android:id="@+id/upload_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_file_name_edittext"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/cancel"
+        android:textColor="@color/colorPrimary" />
+
+
+    <Button
+        android:id="@+id/upload_upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_cancel_button"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/upload"
+        android:textColor="@color/colorPrimary" />
+
+
+</RelativeLayout>

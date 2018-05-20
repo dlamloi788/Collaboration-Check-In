@@ -66,5 +66,9 @@
         <item>tester@gmail.com</item>
     </string-array>
     <string name="title_activity_upload">UploadActivity</string>
+    <string name="upload_file_question">Upload File?</string>
+    <string name="cancel">Cancel</string>
+    <string name="upload">Upload</string>
+    <string name="file_name">File name</string>
 
 </resources>
