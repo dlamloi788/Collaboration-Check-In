@@ -22,15 +22,15 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String email, String password) {
-        mView.setLoginProgressVisibility(true);
+        mView.showLoginProgress();
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) mView, task -> {
-                    mView.setLoginProgressVisibility(false);
+                    mView.hideLoginProgress();
                     if (task.isSuccessful()) {
                         checkLogin(mFirebaseAuth.getCurrentUser());
 
                     } else {
-                        mView.setLoginFailedTextViewVisiblity(true);
+                        mView.showLoginFailedTextView();
                     }
                 });
     }
@@ -45,10 +45,37 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void onStart() {
-        mView.setLoginFailedTextViewVisiblity(false);
+        mView.hideLoginFailedTextView();
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null) {
             checkLogin(user);
+        }
+    }
+
+    @Override
+    public void emailHasFocus(boolean hasFocus) {
+        if (hasFocus) {
+            mView.highlightEmail();
+        } else {
+            mView.unhighlightEmail();
+        }
+    }
+
+    @Override
+    public void passwordHasFocus(boolean hasFocus) {
+        if (hasFocus) {
+            mView.highlightPassword();
+        } else {
+            mView.unhighlightPassword();
+        }
+    }
+
+    @Override
+    public void shouldLoginBeEnabled(String email, String password) {
+        if (!email.isEmpty() && !password.isEmpty()) {
+            mView.enableLoginButton();
+        } else {
+            mView.disableLoginButton();
         }
     }
 }

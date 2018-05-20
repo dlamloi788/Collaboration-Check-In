@@ -1,9 +1,5 @@
 package com.dlamloi.MAD.login;
 
-import android.view.View;
-
-import com.google.firebase.auth.FirebaseUser;
-
 
 /**
  * Created by Don on 14/05/2018.
@@ -13,15 +9,29 @@ public interface LoginContract {
 
     interface View {
 
-        void setLoginProgressVisibility(boolean visibility);
+        void showLoginProgress();
 
-        void setLoginFailedTextViewVisiblity(boolean visibility);
+        void hideLoginProgress();
+
+        void showLoginFailedTextView();
+
+        void hideLoginFailedTextView();
 
         void setEmailNotVerified();
 
-        void setVisibility(boolean visibility, android.view.View view);
-
         void loginSuccess();
+
+        void enableLoginButton();
+        
+        void disableLoginButton();
+
+        void highlightEmail();
+
+        void unhighlightEmail();
+
+        void unhighlightPassword();
+
+        void highlightPassword();
     }
 
 
@@ -29,9 +39,13 @@ public interface LoginContract {
 
         void login(String email, String password);
 
+        void shouldLoginBeEnabled(String email, String password);
 
         void onStart();
 
+        void emailHasFocus(boolean hasFocus);
+
+        void passwordHasFocus(boolean hasFocus);
     }
 
 }

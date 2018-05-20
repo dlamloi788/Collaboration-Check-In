@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @BindView(R.id.login_progressbar)
     ProgressBar mLoginPb;
     @BindView(R.id.username_imageview)
-    ImageView mUsernameIv;
+    ImageView mEmailIv;
     @BindView(R.id.password_imageview)
     ImageView mPasswordIv;
     @BindView(R.id.signup_button)
@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         mLoginPresenter = new LoginPresenter(this);
-        shouldLoginBeEnabled();
+        mLoginPresenter.shouldLoginBeEnabled(mEmailEt.getText().toString(),
+                mPasswordEt.getText().toString());
     }
 
 
@@ -65,41 +66,19 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @OnFocusChange(R.id.email_edittext)
     public void emailEtChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-            mUsernameIv.setColorFilter(Color.WHITE);
-            mEmailEt.setHintTextColor(Color.WHITE);
-            mEmailEt.setTextColor(Color.WHITE);
-        } else {
-            mUsernameIv.clearColorFilter();
-            mEmailEt.setHintTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
-            mEmailEt.setTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
-        }
+        mLoginPresenter.emailHasFocus(hasFocus);
     }
 
     @OnFocusChange(R.id.password_edittext)
     public void passwordEtChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-            mPasswordIv.setColorFilter(Color.WHITE);
-            mPasswordEt.setHintTextColor(Color.WHITE);
-            mPasswordEt.setTextColor(Color.WHITE);
-        } else {
-            mPasswordIv.clearColorFilter();
-            mPasswordEt.setHintTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
-            mPasswordEt.setTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
-        }
+        mLoginPresenter.passwordHasFocus(hasFocus);
     }
 
     @OnTextChanged(value = {R.id.email_edittext, R.id.password_edittext},
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void shouldLoginBeEnabled() {
-        boolean anyAnyEmptyFields = mEmailEt.getText().length() == 0
-                || mPasswordEt.getText().length() == 0;
-        mLoginBtn.setEnabled(!anyAnyEmptyFields);
-        if (!anyAnyEmptyFields) {
-            mLoginBtn.setBackground(getDrawable(R.drawable.round_button_enabled));
-        } else {
-            mLoginBtn.setBackground(getDrawable(R.drawable.round_button_disable));
-        }
+        mLoginPresenter.shouldLoginBeEnabled(mEmailEt.getText().toString(),
+                mPasswordEt.getText().toString());
     }
 
     @OnClick(R.id.signup_button)
@@ -117,24 +96,25 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void setLoginProgressVisibility(boolean visibility) {
-        setVisibility(visibility, mLoginPb);
+    public void showLoginProgress() {
+        mLoginPb.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void setLoginFailedTextViewVisiblity(boolean visibility) {
-        setVisibility(visibility, mLoginFailedTv);
-
+    public void hideLoginProgress() {
+        mLoginPb.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void setVisibility(boolean visibility, View view) {
-        if (visibility) {
-            view.setVisibility(View.VISIBLE);
-        } else {
-            view.setVisibility(View.INVISIBLE);
-        }
+    public void showLoginFailedTextView() {
+        mLoginFailedTv.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void hideLoginFailedTextView() {
+        mLoginPb.setVisibility(View.INVISIBLE);
+    }
+
 
     @Override
     public void setEmailNotVerified() {
@@ -146,6 +126,54 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Utility.startIntent(this, ViewGroupsActivity.class);
         finish();
     }
+
+    @Override
+    public void enableLoginButton() {
+        mLoginBtn.setEnabled(true);
+        mLoginBtn.setBackground(getDrawable(R.drawable.round_button_enabled));
+    }
+
+    @Override
+    public void disableLoginButton() {
+        mLoginBtn.setEnabled(false);
+        mLoginBtn.setBackground(getDrawable(R.drawable.round_button_disable));
+    }
+
+    @Override
+    public void highlightEmail() {
+        highlightEditText(mEmailEt, mEmailIv);
+    }
+
+    @Override
+    public void unhighlightEmail() {
+        unhighlightEditText(mEmailEt, mEmailIv);
+    }
+
+    @Override
+    public void highlightPassword() {
+        highlightEditText(mPasswordEt, mPasswordIv);
+
+    }
+
+    @Override
+    public void unhighlightPassword() {
+        unhighlightEditText(mPasswordEt, mPasswordIv);
+    }
+
+    private void highlightEditText(EditText editText, ImageView imageView) {
+        imageView.setColorFilter(Color.WHITE);
+        editText.setHintTextColor(Color.WHITE);
+        editText.setTextColor(Color.WHITE);
+
+    }
+
+    private void unhighlightEditText(EditText editText, ImageView imageView) {
+        imageView.clearColorFilter();
+        editText.setHintTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
+        editText.setTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
+    }
 }
+
+
 
 

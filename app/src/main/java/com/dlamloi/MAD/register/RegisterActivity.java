@@ -1,34 +1,22 @@
 package com.dlamloi.MAD.register;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.NonNull;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.login.LoginActivity;
 import com.dlamloi.MAD.utilities.Utility;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterContract.View{
 
@@ -43,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     @BindView(R.id.confirm_password_error_textview)TextView mConfirmPasswordErrorTv;
     @BindView(R.id.register_progressbar) ProgressBar mRegisterPb;
 
-    private RegisterPresenter mPresenter;
+    private RegisterPresenter mRegisterPresenter;
 
 
     @Override
@@ -51,9 +39,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        mPresenter = new RegisterPresenter(this);
-
+        mRegisterPresenter = new RegisterPresenter(this);
+        mRegisterPresenter.shouldRegisterBeEnabled(
+                mFirstNameEt.getText().toString(),
+                mLastNameEt.getText().toString(),
+                mEmailEt.getText().toString(),
+                mPasswordEt.getText().toString(),
+                mConfirmPasswordEt.getText().toString());
     }
+
 
     @OnClick(R.id.register_button)
     public void registerButtonClick() {
@@ -62,13 +56,50 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         String email = mEmailEt.getText().toString();
         String password = mPasswordEt.getText().toString();
         String confirmPassword = mConfirmPasswordEt.getText().toString();
-        mPresenter.register(firstName, surname, email, password, confirmPassword);
+        mRegisterPresenter.register(firstName, surname, email, password, confirmPassword);
+    }
+
+    @OnTextChanged(value = {R.id.first_name_edittext, R.id.last_name_edittext, R.id.email_edittext
+    , R.id.password_edittext, R.id.confirm_password_edittext},
+    callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void shouldRegisterBeEnabled() {
+        mRegisterPresenter.shouldRegisterBeEnabled(
+                mFirstNameEt.getText().toString(),
+                mLastNameEt.getText().toString(),
+                mEmailEt.getText().toString(),
+                mPasswordEt.getText().toString(),
+                mConfirmPasswordEt.getText().toString());
     }
 
 
+    @OnFocusChange(R.id.first_name_edittext)
+    public void firstNameFocus(View v, boolean hasFocus) {
+        mRegisterPresenter.firstNameHasFocus(hasFocus);
+    }
+
+    @OnFocusChange(R.id.last_name_edittext)
+    public void lastNameFocus(View v, boolean hasFocus) {
+        mRegisterPresenter.lastNameHasFocus(hasFocus);
+    }
+
+    @OnFocusChange(R.id.email_edittext)
+    public void emailFocus(View v, boolean hasFocus) {
+        mRegisterPresenter.emailHasFocus(hasFocus);
+    }
+
+    @OnFocusChange(R.id.password_edittext)
+    public void passwordFocus(View v, boolean hasFocus) {
+        mRegisterPresenter.passwordHasFocus(hasFocus);
+    }
+
+    @OnFocusChange(R.id.confirm_password_edittext)
+    public void confirmPasswordFocus(View v, boolean hasFocus) {
+        mRegisterPresenter.confirmPasswordHasFocus(hasFocus);
+    }
+
 
     @Override
-    public void showMissingDetails() {
+    public void showPasswordError() {
         mConfirmPasswordErrorTv.setVisibility(View.VISIBLE);
     }
 
@@ -77,41 +108,93 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         Utility.showToast(this, getString(R.string.registration_failed));
     }
 
-    /**
-     private void login() {
-     if (hasNoEmptyFields()) {
-     String email = mEmailEt.getText().toString();
-     String password = mPasswordEt.getText().toString();
-     String confirmPassword = mConfirmPasswordEt.getText().toString();
-     if (password.equals(confirmPassword)) {
-     createAccount(email, password);
-     }
-     } else {
-     mConfirmPasswordErrorTv.setVisibility(View.VISIBLE);
-     }
-     } */
+    @Override
+    public void highlightFirstName() {
+        highlightEditText(mFirstNameEt);
+    }
 
+    @Override
+    public void unhighlightFirstName() {
+        unlightEditText(mFirstNameEt);
+    }
 
-    /**
-     private boolean hasNoEmptyFields() {
-     return !(TextUtils.isEmpty(mEmailEt.getText())
-     && TextUtils.isEmpty(mPasswordEt.getText())
-     && TextUtils.isEmpty(mConfirmPasswordEt.getText()));
-     } */
+    @Override
+    public void highlightLastName() {
+        highlightEditText(mLastNameEt);
+    }
 
-    /**
-     private void shouldRegisterButtonBeEnabled() {
-     boolean areAnyFieldsEmpty = mFirstNameEt.getText().length() == 0
-     || mLastNameEt.getText().length() == 0
-     || mEmailEt.getText().length() == 0
-     || mPasswordEt.getText().length() == 0
-     || mConfirmPasswordEt.getText().length() == 0;
+    @Override
+    public void unhighlightLastName() {
+        unlightEditText(mLastNameEt);
+    }
 
-     mRegisterButton.setEnabled(!areAnyFieldsEmpty);
-     if (!areAnyFieldsEmpty) {
-     mRegisterButton.setBackground(getDrawable(R.drawable.round_button_enabled));
-     } else {
-     mRegisterButton.setBackground(getDrawable(R.drawable.round_button_disable));
-     }
-     } */
+    @Override
+    public void highlightEmail() {
+        highlightEditText(mEmailEt);
+    }
+
+    @Override
+    public void unhighlightEmail() {
+        unlightEditText(mEmailEt);
+    }
+
+    @Override
+    public void highlightPassword() {
+        highlightEditText(mPasswordEt);
+    }
+
+    @Override
+    public void unhighlightPassword() {
+        unlightEditText(mPasswordEt);
+    }
+
+    @Override
+    public void highlightConfirmPassword() {
+        highlightEditText(mConfirmPasswordEt);
+    }
+
+    @Override
+    public void unhighlightConfirmPassword() {
+        unlightEditText(mConfirmPasswordEt);
+    }
+
+    @Override
+    public void enableRegisterButton() {
+        mRegisterButton.setEnabled(true);
+        mRegisterButton.setBackground(getDrawable(R.drawable.round_button_enabled));
+    }
+
+    @Override
+    public void disableRegisterButton() {
+        mRegisterButton.setEnabled(false);
+        mRegisterButton.setBackground(getDrawable(R.drawable.round_button_disable));
+
+    }
+
+    @Override
+    public void showProgressbar() {
+        mRegisterPb.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressbar() {
+        mRegisterPb.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void navigateToLogin() {
+        finish();
+    }
+
+    private void highlightEditText(EditText editText) {
+        editText.setHintTextColor(Color.WHITE);
+        editText.setTextColor(Color.WHITE);
+    }
+
+    private void unlightEditText(EditText editText) {
+        editText.setHintTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
+        editText.setTextColor(getResources().getColor(R.color.LoginRegisterEditText_TextColorHint));
+
+    }
+
 }

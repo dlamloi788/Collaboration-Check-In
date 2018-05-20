@@ -162,6 +162,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FF0000"
             android:text="@string/invalid_username_password"
+            android:visibility="invisible"
             />
 
         <ProgressBar
