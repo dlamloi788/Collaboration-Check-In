@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -108,21 +109,19 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showLoginFailedTextView() {
         mLoginFailedTv.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoginFailedTextView() {
-        mLoginPb.setVisibility(View.INVISIBLE);
+        mLoginFailedTv.setText(getString(R.string.invalid_username_password));
     }
 
 
     @Override
-    public void setEmailNotVerified() {
+    public void showEmailNotVerified() {
+        mLoginFailedTv.setVisibility(View.VISIBLE);
         mLoginFailedTv.setText(getString(R.string.email_not_verified));
     }
 
     @Override
     public void loginSuccess() {
+        Log.d("loginsuccess", "loginSuccess() called...?");
         Utility.startIntent(this, ViewGroupsActivity.class);
         finish();
     }

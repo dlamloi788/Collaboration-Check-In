@@ -52,6 +52,8 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
     private GroupAdapter mGroupAdapter;
     private DatabaseReference mDatabaseReference;
+    private ArrayList<Group> mGroups;
+
     private GroupItemClickListener mGroupItemClickListener = (id, title) -> {
         Intent intent = new Intent(this, GroupHomeActivity.class);
         intent.putExtra(GROUP_ID_KEY, id);
@@ -69,6 +71,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.view_groups_activity_title));
         ButterKnife.bind(this);
+        mGroups = new ArrayList<>();
         mViewGroupPresenter = new ViewGroupPresenter(this);
         setUpMaterialDrawer(toolbar);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(GROUP_REFERENCE);
@@ -83,7 +86,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
             }
         });
-        mViewGroupPresenter.loadAdapterData();
+        mGroupAdapter = new GroupAdapter(mGroups, mGroupItemClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
@@ -159,29 +162,12 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
     }
 
     @Override
-    public void setRecyclerViewData(ArrayList<Group> groups) {
-        mGroupAdapter = new GroupAdapter(groups, mGroupItemClickListener);
+    public void populateRecyclerView(ArrayList<Group> groups) {
+        if (!mGroups.isEmpty()) {
+            mGroups.clear();
+        }
+        mGroups.addAll(groups);
+        mGroupAdapter.notifyItemInserted(groups.size());
     }
-    /**
-     @Override public boolean onCreateOptionsMenu(Menu menu) {
-     // Inflate the menu; this adds items to the action bar if it is present.
-     getMenuInflater().inflate(R.menu.view_groups, menu);
-     return true;
-     }
-
-     @Override public boolean onOptionsItemSelected(MenuItem item) {
-     // Handle action bar item clicks here. The action bar will
-     // automatically handle clicks on the Home/Up button, so long
-     // as you specify a parent activity in AndroidManifest.xml.
-     int id = item.getItemId();
-
-     //noinspection SimplifiableIfStatement
-     if (id == R.id.action_settings) {
-     return true;
-     }
-
-     return super.onOptionsItemSelected(item);
-     } */
-
 
 }

@@ -11,17 +11,15 @@ import com.google.firebase.auth.UserProfileChangeRequest;
  * Created by Don on 14/05/2018.
  */
 
-public class RegisterPresenter implements RegisterContract.Presenter {
-
-    public static final String DEFAULT_PROFILE_PICTURE_URL = "https://firebasestorage.googleapis.com/v0/b/mad-application-69143.appspot.com/o/profile%20pictures%2Fdefault-profile.jpg?alt=media&token=3be71da7-0e32-4320-b916-b8fafdbcf54e";
+public class RegisterPresenter implements RegisterContract.Presenter, RegisterContract.OnRegisterListener {
 
 
+    private RegisterInteractor mRegisterInteractor;
     private final RegisterContract.View mView;
-    private final FirebaseAuth mFirebaseAuth;
 
     public RegisterPresenter(RegisterContract.View view) {
         mView = view;
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        mRegisterInteractor = new RegisterInteractor(this);
 
     }
 
@@ -32,24 +30,9 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             mView.showPasswordError();
             return;
         }
-
         mView.showProgressbar();
-        mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    mView.hideProgressbar();
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                        sendEmailVerification(user);
-                        UserProfileChangeRequest requestBuilder = new UserProfileChangeRequest.Builder()
-                                .setPhotoUri(Uri.parse(DEFAULT_PROFILE_PICTURE_URL))
-                                .setDisplayName(firstName + " " + surname)
-                                .build();
-                        user.updateProfile(requestBuilder);
-                        mView.navigateToLogin();
-                    } else {
-                        mView.showRegistrationError();
-                    }
-                });
+        mRegisterInteractor.firebaseRegister(email, password, firstName, surname);
+
     }
 
     @Override
@@ -108,9 +91,19 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         mView.enableRegisterButton();
     }
 
-    private void sendEmailVerification(FirebaseUser user) {
-        if (user != null) {
-            user.sendEmailVerification();
-        }
+    @Override
+    public void onSuccess() {
+        mView.navigateToLogin();
+    }
+
+    @Override
+    public void onFailure() {
+        mView.showRegistrationError();
+        mView.hideProgressbar();
+    }
+
+    @Override
+    public void onRegistrationAttempt() {
+        mView.hideProgressbar();
     }
 }

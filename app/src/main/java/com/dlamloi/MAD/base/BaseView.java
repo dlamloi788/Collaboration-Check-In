@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface BaseView<T> {
 
-    void setRecyclerViewData(ArrayList<T> t);
+    void populateRecyclerView(ArrayList<T> t);
 
     void notifyItemInserted(int position);
 

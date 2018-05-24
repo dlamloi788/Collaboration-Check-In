@@ -15,9 +15,7 @@ public interface LoginContract {
 
         void showLoginFailedTextView();
 
-        void hideLoginFailedTextView();
-
-        void setEmailNotVerified();
+        void showEmailNotVerified();
 
         void loginSuccess();
 
@@ -46,6 +44,24 @@ public interface LoginContract {
         void emailHasFocus(boolean hasFocus);
 
         void passwordHasFocus(boolean hasFocus);
+    }
+
+    interface OnLoginListener {
+
+        void onSuccess();
+
+        void onFailure();
+
+        void onEmailNotVerified();
+
+        void onLoginAttempt();
+    }
+
+    interface Interactor {
+
+        void firebaseLogin(String email, String password);
+
+        void checkIfUserLoggedIn();
     }
 
 }

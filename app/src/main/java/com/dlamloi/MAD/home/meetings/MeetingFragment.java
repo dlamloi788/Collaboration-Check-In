@@ -1,9 +1,7 @@
 package com.dlamloi.MAD.home.meetings;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.meetingcreation.CreateMeetingActivity;
 import com.dlamloi.MAD.home.GroupHomeActivity;
-import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
 
 import java.util.ArrayList;
@@ -32,6 +28,7 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
     private String mGroupId;
     private MeetingPresenter mMeetingPresenter;
     private MeetingAdapter mMeetingAdapter;
+    private ArrayList<Meeting> mMeetings;
 
 
     public MeetingFragment() {
@@ -55,8 +52,9 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         if (extras != null) {
             mGroupId = extras.getString(GroupHomeActivity.GROUP_KEY);
         }
+        mMeetings = new ArrayList<>();
         mMeetingPresenter = new MeetingPresenter(this, mGroupId);
-        mMeetingPresenter.loadAdapterData();
+        mMeetingAdapter = new MeetingAdapter(mMeetings);
 
     }
 
@@ -64,15 +62,21 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meeting, container, false);
+
         mMeetingPlansRv = view.findViewById(R.id.meeting_plans_recyclerview);
         mMeetingPlansRv.setAdapter(mMeetingAdapter);
         mMeetingPlansRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
         return view;
     }
 
+
     @Override
-    public void setRecyclerViewData(ArrayList<Meeting> meetings) {
-        mMeetingAdapter = new MeetingAdapter(meetings);
+    public void populateRecyclerView(ArrayList<Meeting> meetings) {
+        if (!mMeetings.isEmpty()) {
+            mMeetings.clear();
+        }
+        mMeetings.addAll(meetings);
+        notifyItemInserted(meetings.size());
     }
 
     @Override

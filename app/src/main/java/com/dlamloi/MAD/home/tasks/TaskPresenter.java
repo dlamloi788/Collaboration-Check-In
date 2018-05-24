@@ -13,51 +13,21 @@ import java.util.ArrayList;
  * Created by Don on 16/05/2018.
  */
 
-public class TaskPresenter implements TaskContract.Presenter {
+public class TaskPresenter implements TaskContract.Presenter, TaskContract.OnTaskListener {
 
     private final TaskContract.View mView;
-    private DatabaseReference mDatabaseReference;
-    private ArrayList<Task> mTasks = new ArrayList<>();
+    private TaskInteractor mTaskInteractor;
 
 
     public TaskPresenter(TaskContract.View view, String groupId) {
         mView = view;
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("groups").child(groupId).child("tasks");
-
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Task task = dataSnapshot.getValue(Task.class);
-                mTasks.add(task);
-                mView.notifyItemInserted(mTasks.size());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        mTaskInteractor = new TaskInteractor(this, groupId);
+        mTaskInteractor.onAttach();
 
     }
 
-
     @Override
-    public void loadAdapterData() {
-        mView.setRecyclerViewData(mTasks);
+    public void onTaskAdd(ArrayList<Task> tasks) {
+        mView.populateRecyclerView(tasks);
     }
 }

@@ -61,5 +61,20 @@ public interface RegisterContract {
         void shouldRegisterBeEnabled(String... details);
     }
 
+    interface Interactor {
+
+        void firebaseRegister(String email, String password, String firstName, String lastName);
+
+    }
+
+    interface OnRegisterListener {
+
+        void onSuccess();
+
+        void onFailure();
+
+        void onRegistrationAttempt();
+    }
+
 
 }

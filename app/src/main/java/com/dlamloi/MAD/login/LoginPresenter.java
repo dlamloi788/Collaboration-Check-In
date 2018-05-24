@@ -1,7 +1,5 @@
 package com.dlamloi.MAD.login;
 
-import android.app.Activity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -9,47 +7,27 @@ import com.google.firebase.auth.FirebaseUser;
  * Created by Don on 14/05/2018.
  */
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginPresenter implements LoginContract.Presenter, LoginContract.OnLoginListener {
 
     private final LoginContract.View mView;
-    private FirebaseAuth mFirebaseAuth;
+    private LoginContract.Interactor mLoginInteractor;
 
 
     public LoginPresenter(LoginContract.View view) {
         this.mView = view;
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        mLoginInteractor = new LoginInteractor(this);
     }
 
     @Override
     public void login(String email, String password) {
         mView.showLoginProgress();
-        mFirebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Activity) mView, task -> {
-                    mView.hideLoginProgress();
-                    if (task.isSuccessful()) {
-                        checkLogin(mFirebaseAuth.getCurrentUser());
+        mLoginInteractor.firebaseLogin(email, password);
 
-                    } else {
-                        mView.showLoginFailedTextView();
-                    }
-                });
-    }
-
-    public void checkLogin(FirebaseUser user) {
-        if (user.isEmailVerified()) {
-            mView.loginSuccess();
-        } else {
-            mView.setEmailNotVerified();
-        }
     }
 
     @Override
     public void onStart() {
-        mView.hideLoginFailedTextView();
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        if (user != null) {
-            checkLogin(user);
-        }
+        mLoginInteractor.checkIfUserLoggedIn();
     }
 
     @Override
@@ -77,5 +55,25 @@ public class LoginPresenter implements LoginContract.Presenter {
         } else {
             mView.disableLoginButton();
         }
+    }
+
+    @Override
+    public void onSuccess() {
+        mView.loginSuccess();
+    }
+
+    @Override
+    public void onFailure() {
+        mView.showLoginFailedTextView();
+    }
+
+    @Override
+    public void onEmailNotVerified() {
+        mView.showEmailNotVerified();
+    }
+
+    @Override
+    public void onLoginAttempt() {
+        mView.hideLoginProgress();
     }
 }

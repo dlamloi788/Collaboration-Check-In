@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.register;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.login.LoginActivity;
 import com.dlamloi.MAD.utilities.Utility;
 
 import butterknife.BindView;

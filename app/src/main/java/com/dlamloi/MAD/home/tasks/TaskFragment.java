@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.model.Task;
 
@@ -29,6 +28,7 @@ public class TaskFragment extends Fragment implements TaskContract.View {
     private String mGroupId;
     private TaskPresenter mTaskPresenter;
     private TaskAdapter mTaskAdapter;
+    private ArrayList<Task> mTasks = new ArrayList<>();
 
     public TaskFragment() {
         // Required empty public constructor
@@ -50,27 +50,35 @@ public class TaskFragment extends Fragment implements TaskContract.View {
             mGroupId = extras.getString(GroupHomeActivity.GROUP_KEY);
         }
         mTaskPresenter = new TaskPresenter(this, mGroupId);
-        mTaskPresenter.loadAdapterData();
+        mTasks = new ArrayList<>();
+        mTaskPresenter = new TaskPresenter(this, mGroupId);
+        mTaskAdapter = new TaskAdapter(mTasks);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_task, container, false);
+
         mTasksRv = view.findViewById(R.id.task_recyclerview);
         mTasksRv.setAdapter(mTaskAdapter);
         mTasksRv.setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
         return view;
     }
 
-    @Override
-    public void setRecyclerViewData(ArrayList<Task> tasks) {
-        mTaskAdapter = new TaskAdapter(tasks);
-    }
+
 
     @Override
     public void notifyItemInserted(int position) {
         mTaskAdapter.notifyItemInserted(position);
+    }
+
+    @Override
+    public void populateRecyclerView(ArrayList<Task> tasks) {
+        if (mTasks.isEmpty()) {
+            mTasks.clear();
+        }
+        mTasks.addAll(tasks);
+        notifyItemInserted(tasks.size());
     }
 }

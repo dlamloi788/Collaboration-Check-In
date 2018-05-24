@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.home.GroupHomeContract;
-import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +25,7 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
     private String mGroupId;
     private UpdateAdapter mUpdateAdapter;
     private UpdatePresenter mUpdatePresenter;
+    private ArrayList<Update> mUpdates;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -51,8 +50,9 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         if (extras != null) {
             mGroupId = extras.getString(EXTRA_GROUP);
         }
+        mUpdates = new ArrayList<>();
         mUpdatePresenter = new UpdatePresenter(this, mGroupId);
-        mUpdatePresenter.loadAdapterData();
+        mUpdateAdapter = new UpdateAdapter(mUpdates);
     }
 
 
@@ -61,19 +61,28 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         mUpdatesRv = view.findViewById(R.id.update_recyclerview);
         mUpdatesRv.setAdapter(mUpdateAdapter);
         mUpdatesRv.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
 
+
     @Override
-    public void setRecyclerViewData(ArrayList<Update> updates) {
-        mUpdateAdapter = new UpdateAdapter(updates);
+    public void populateRecyclerView(ArrayList<Update> updates) {
+        if (!mUpdates.isEmpty()) {
+            mUpdates.clear();
+        }
+        mUpdates.addAll(updates);
+        notifyItemInserted(updates.size());
     }
 
     @Override
     public void notifyItemInserted(int position) {
         mUpdateAdapter.notifyItemInserted(position);
     }
+
+
+
 }

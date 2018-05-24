@@ -29,10 +29,10 @@ public interface ViewGroupContract {
 
         void notifyItemChanged(int index);
 
-        void setRecyclerViewData(ArrayList<Group> groups);
+        void populateRecyclerView(ArrayList<Group> groups);
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BasePresenter<Group> {
 
         void dataAdded();
 
@@ -42,7 +42,20 @@ public interface ViewGroupContract {
 
         boolean onDrawerItemClicked(int position, IDrawerItem drawerItem);
 
-        void loadAdapterData();
+    }
+
+    interface Interactor {
+
+        String[] retrieveUserInformation();
+
+        void signout();
+
+    }
+
+    interface OnViewGroupListener {
+
+        void onGroupAdd(ArrayList<Group> groups);
+
     }
 
 
