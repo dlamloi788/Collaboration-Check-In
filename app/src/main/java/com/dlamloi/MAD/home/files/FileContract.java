@@ -11,7 +11,11 @@ public interface FileContract {
     }
 
     interface Presenter {
-        
+
+    }
+
+    interface Interactor {
+
     }
 
 }

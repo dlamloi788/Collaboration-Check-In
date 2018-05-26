@@ -1,11 +1,7 @@
 package com.dlamloi.MAD.taskcreation;
 
 import com.dlamloi.MAD.model.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,34 +18,17 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     public static final String STATUS_OVERDUE = "Overdue";
 
     private final CreateTaskContract.View mView;
-    private DatabaseReference mDatabaseReference;
+    private FirebaseRepositoryManager mFirebaseRepositoryManager;
 
 
     public CreateTaskPresenter(CreateTaskContract.View view, String groupId) {
         mView = view;
-
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("groups").child(groupId).child("tasks");
+        mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
     }
 
     @Override
     public void loadSpinnerData(String groupId) {
-        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("groups").child(groupId).child("memberEmails");
-        ArrayList<String> memberEmails = new ArrayList<>();
-        userReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot emailSnapshot : dataSnapshot.getChildren()) {
-                    String email = emailSnapshot.getValue(String.class);
-                    memberEmails.add(email);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        ArrayList<String> memberEmails = mFirebaseRepositoryManager.getGroupMemberEmails(groupId);
         mView.showSpinnerData(memberEmails);
     }
 
@@ -75,9 +54,7 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
 
     @Override
     public void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription) {
-        String id = mDatabaseReference.push().getKey();
-        Task task = new Task(id, taskTitle, taskDescription, STATUS_PENDING, assignedMember, dueDate);
-        mDatabaseReference.child(id).setValue(task);
-
+        Task task = new Task(taskTitle, taskDescription, STATUS_PENDING, assignedMember, dueDate);
+        mFirebaseRepositoryManager.addTask(task);
     }
 }

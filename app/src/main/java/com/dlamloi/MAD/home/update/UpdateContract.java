@@ -1,11 +1,8 @@
 package com.dlamloi.MAD.home.update;
 
 import com.dlamloi.MAD.base.BaseInteractor;
-import com.dlamloi.MAD.base.BasePresenter;
 import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.model.Update;
-
-import java.util.ArrayList;
 
 /**
  * Created by Don on 16/05/2018.
@@ -18,7 +15,7 @@ public interface UpdateContract {
 
     }
 
-    interface Presenter extends BasePresenter<Update> {
+    interface Presenter {
 
     }
 
@@ -26,8 +23,8 @@ public interface UpdateContract {
     }
 
 
-    interface OnUpdateListener {
+    interface UpdateListener {
 
-        void onUpdateAdd(ArrayList<Update> updates);
+        void onUpdateAdd(Update update);
     }
 }

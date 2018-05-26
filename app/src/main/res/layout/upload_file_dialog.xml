@@ -30,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/upload_file_name_edittext"
+        android:layout_toLeftOf="@+id/upload_upload_button"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
@@ -39,10 +40,11 @@
 
 
     <Button
-        android:id="@+id/upload_upload_button"
+        android:id="@id/upload_upload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/upload_cancel_button"
+        android:layout_below="@id/upload_file_name_edittext"
+        android:layout_alignEnd="@id/upload_file_name_edittext"
         android:layout_centerHorizontal="true"
         android:background="?attr/selectableItemBackground"
         android:text="@string/upload"

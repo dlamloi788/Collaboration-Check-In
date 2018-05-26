@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Don on 8/05/2018.
  */
 
-public class Task implements Parcelable{
+public class Task {
 
     private String mId;
     private String mTitle;
@@ -22,6 +22,22 @@ public class Task implements Parcelable{
 
     }
 
+    /**
+     * Use this constructor to create a task before adding via the RepositoryManager
+     *
+     * @param title          the title of the task
+     * @param detail         the details behind the task
+     * @param status         the completion status of task
+     * @param assignedMember the member assigned to the task
+     * @param dueDate        the date the task is to be complete by
+     */
+    public Task(String title, String detail, String status, String assignedMember, String dueDate) {
+        mTitle = title;
+        mDetail = detail;
+        mStatus = status;
+        mAssignedMember = assignedMember;
+        mDueDate = dueDate;
+    }
 
     public Task(String id, String title, String detail, String status, String assignedMember, String dueDate) {
         mId = id;
@@ -32,41 +48,6 @@ public class Task implements Parcelable{
         mDueDate = dueDate;
     }
 
-    protected Task(Parcel in) {
-        mId = in.readString();
-        mTitle = in.readString();
-        mDetail = in.readString();
-        mStatus = in.readString();
-        mAssignedMember = in.readString();
-        mDueDate = in.readString();
-    }
-
-    public static final Creator<Task> CREATOR = new Creator<Task>() {
-        @Override
-        public Task createFromParcel(Parcel in) {
-            return new Task(in);
-        }
-
-        @Override
-        public Task[] newArray(int size) {
-            return new Task[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
-        dest.writeString(mTitle);
-        dest.writeString(mDetail);
-        dest.writeString(mStatus);
-        dest.writeString(mAssignedMember);
-        dest.writeString(mDueDate);
-    }
 
     public String getId() {
         return mId;
@@ -116,8 +97,5 @@ public class Task implements Parcelable{
         mDueDate = dueDate;
     }
 
-    public static Creator<Task> getCREATOR() {
-        return CREATOR;
-    }
 }
 

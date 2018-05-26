@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by Don on 14/05/2018.
  */
 
-public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGroupContract.OnViewGroupListener {
+public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGroupContract.ViewGroupListener {
 
     public static final String LOG_GROUP = "The group is";
 

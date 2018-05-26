@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Don on 8/05/2018.
  */
 
-public class Meeting implements Parcelable {
+public class Meeting {
 
     private String mId;
     private String mCreatorEmail;
@@ -22,6 +22,26 @@ public class Meeting implements Parcelable {
 
     }
 
+    /**
+     * Use this constructor to a create an instance before passing to the RepositoryManager
+     *
+     * @param creatorEmail       the email of the meeting publisher
+     * @param meetingPublishDate the date the meeting was published
+     * @param meetingTitle       the title of the meeting
+     * @param meetingDate        the meeting date
+     * @param meetingTime        the meeting time
+     * @param meetingLocation    the location of the meeting
+     * @param agenda             the agenda of the meeting
+     */
+    public Meeting(String creatorEmail, String meetingPublishDate, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
+        mCreatorEmail = creatorEmail;
+        mMeetingPublishDate = meetingPublishDate;
+        mMeetingTitle = meetingTitle;
+        mMeetingDate = meetingDate;
+        mMeetingTime = meetingTime;
+        mMeetingLocation = meetingLocation;
+        mAgenda = agenda;
+    }
 
     public Meeting(String id, String creatorEmail, String meetingPublishDate, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
         this.mId = id;
@@ -32,46 +52,6 @@ public class Meeting implements Parcelable {
         this.mMeetingTime = meetingTime;
         this.mMeetingLocation = meetingLocation;
         this.mAgenda = agenda;
-    }
-
-    protected Meeting(Parcel in) {
-        mId = in.readString();
-        mCreatorEmail = in.readString();
-        mMeetingPublishDate = in.readString();
-        mMeetingTitle = in.readString();
-        mMeetingDate = in.readString();
-        mMeetingTime = in.readString();
-        mMeetingLocation = in.readString();
-        mAgenda = in.readString();
-    }
-
-    public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
-        @Override
-        public Meeting createFromParcel(Parcel in) {
-            return new Meeting(in);
-        }
-
-        @Override
-        public Meeting[] newArray(int size) {
-            return new Meeting[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
-        dest.writeString(mCreatorEmail);
-        dest.writeString(mMeetingPublishDate);
-        dest.writeString(mMeetingTitle);
-        dest.writeString(mMeetingDate);
-        dest.writeString(mMeetingTime);
-        dest.writeString(mMeetingLocation);
-        dest.writeString(mAgenda);
     }
 
     public String getId() {
@@ -139,7 +119,4 @@ public class Meeting implements Parcelable {
         this.mAgenda = agenda;
     }
 
-    public static Creator<Meeting> getCREATOR() {
-        return CREATOR;
-    }
 }

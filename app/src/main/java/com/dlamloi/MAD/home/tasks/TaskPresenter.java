@@ -1,11 +1,7 @@
 package com.dlamloi.MAD.home.tasks;
 
 import com.dlamloi.MAD.model.Task;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 
 import java.util.ArrayList;
 
@@ -13,21 +9,22 @@ import java.util.ArrayList;
  * Created by Don on 16/05/2018.
  */
 
-public class TaskPresenter implements TaskContract.Presenter, TaskContract.OnTaskListener {
+public class TaskPresenter implements TaskContract.Presenter, TaskContract.TaskListener {
 
     private final TaskContract.View mView;
-    private TaskInteractor mTaskInteractor;
-
+    private FirebaseCallbackManager mFirebaseCallbackManager;
+    private ArrayList<Task> mTasks = new ArrayList<>();
 
     public TaskPresenter(TaskContract.View view, String groupId) {
         mView = view;
-        mTaskInteractor = new TaskInteractor(this, groupId);
-        mTaskInteractor.onAttach();
+        mFirebaseCallbackManager = new FirebaseCallbackManager(groupId);
+        mFirebaseCallbackManager.attachTasksListener(this);
 
     }
 
     @Override
-    public void onTaskAdd(ArrayList<Task> tasks) {
-        mView.populateRecyclerView(tasks);
+    public void onTaskAdd(Task tasks) {
+        mTasks.add(tasks);
+        mView.populateRecyclerView(mTasks);
     }
 }

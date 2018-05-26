@@ -68,11 +68,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meeting meeting = mMeetings.get(position);
 
-        if (position % 2 == 1) {
-            holder.meetingRowLayout.setBackgroundColor(holder.colorMarginV.getContext()
-                    .getResources().getColor(R.color.meeting_row_tint));
-        }
-
         if (position % 3 == 0) {
             holder.colorMarginV.setBackgroundColor(Color.RED);
         } else if (position % 3 == 1) {

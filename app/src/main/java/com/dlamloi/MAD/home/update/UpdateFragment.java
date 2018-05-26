@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.model.Update;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 
 public class UpdateFragment extends Fragment implements UpdateContract.View {
 
-    public static final String EXTRA_GROUP = "group";
 
     private RecyclerView mUpdatesRv;
     private String mGroupId;
@@ -27,16 +27,13 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
     private UpdatePresenter mUpdatePresenter;
     private ArrayList<Update> mUpdates;
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-
     public UpdateFragment() {
     }
 
     public static UpdateFragment newInstance(String groupId) {
         UpdateFragment fragment = new UpdateFragment();
         Bundle args = new Bundle();
-        args.putString(EXTRA_GROUP, groupId);
+        args.putString(GroupHomeActivity.GROUP_KEY, groupId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,7 +45,7 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         super.onCreate(savedInstanceState);
         Bundle extras = getArguments();
         if (extras != null) {
-            mGroupId = extras.getString(EXTRA_GROUP);
+            mGroupId = extras.getString(GroupHomeActivity.GROUP_KEY);
         }
         mUpdates = new ArrayList<>();
         mUpdatePresenter = new UpdatePresenter(this, mGroupId);

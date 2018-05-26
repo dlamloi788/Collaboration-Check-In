@@ -1,5 +1,7 @@
 package com.dlamloi.MAD.register;
 
+import com.dlamloi.MAD.base.BaseAuthentication;
+
 /**
  * Created by Don on 14/05/2018.
  */
@@ -67,11 +69,9 @@ public interface RegisterContract {
 
     }
 
-    interface OnRegisterListener {
+    interface OnRegisterListener extends BaseAuthentication{
 
-        void onSuccess();
 
-        void onFailure();
 
         void onRegistrationAttempt();
     }

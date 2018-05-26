@@ -24,9 +24,21 @@ public class Group implements Parcelable {
     private HashMap<String, ChatMessage> chatMessages = new HashMap<>();
 
 
-
     public Group() {
 
+    }
+
+    /**
+     * Use this constructor to create a new task
+     *
+     * @param name         the group name
+     * @param adminEmail   the group administrators email
+     * @param memberEmails the members of the group
+     */
+    public Group(String name, String adminEmail, ArrayList<String> memberEmails) {
+        this.name = name;
+        this.adminEmail = adminEmail;
+        this.memberEmails = memberEmails;
     }
 
     public Group(String id, String name, String adminEmail, ArrayList<String> memberEmails) {
@@ -36,8 +48,6 @@ public class Group implements Parcelable {
         this.memberEmails = memberEmails;
 
     }
-
-
 
 
     public Group(Parcel in) {
@@ -89,7 +99,9 @@ public class Group implements Parcelable {
         this.adminEmail = adminEmail;
     }
 
-    public ArrayList<String> getMemberEmails() { return memberEmails; }
+    public ArrayList<String> getMemberEmails() {
+        return memberEmails;
+    }
 
     public void setMemberEmails(ArrayList<String> memberEmails) {
         this.memberEmails = memberEmails;

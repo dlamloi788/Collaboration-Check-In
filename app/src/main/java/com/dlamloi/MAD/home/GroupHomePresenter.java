@@ -3,28 +3,21 @@ package com.dlamloi.MAD.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.utilities.FirebaseStorageManager;
 import com.dlamloi.MAD.viewgroups.ViewGroupsActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.io.File;
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Don on 15/05/2018.
  */
 
-public class GroupHomePresenter implements GroupHomeContract.Presenter {
+public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHomeContract.FirebaseStorageEventListener{
 
     public static final String STORAGE_FILE_PATH = "files/";
 
@@ -32,11 +25,15 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter {
     private FirebaseUser mUser;
     private String mGroupId;
     private Uri mFile;
+    private FirebaseStorageManager mFirebaseStorageManager;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
 
 
     public GroupHomePresenter(GroupHomeContract.View view) {
         mView = view;
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
+        mUser = mFirebaseAuthenticationManager.getCurrentUser();
+        mFirebaseStorageManager = new FirebaseStorageManager(this);
 
     }
 
@@ -67,9 +64,13 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter {
         return true;
     }
 
+    private String timeStamp() {
+        return new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    }
+
     @Override
     public void logout() {
-        FirebaseAuth.getInstance().signOut();
+        mFirebaseAuthenticationManager.signOut();
         mView.logout();
     }
 
@@ -96,25 +97,50 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter {
         if (resultCode == Activity.RESULT_OK) {
             mFile = data.getData();
             mView.showSetFileNameDialog();
-
-
         }
     }
 
     @Override
     public void uploadFile(String fileName) {
-        StorageReference firebaseStorage = FirebaseStorage.getInstance().getReference()
-                .child("files/" + mGroupId + "/" + fileName);
         mView.showProgressbar();
-        firebaseStorage.putFile(mFile).addOnProgressListener(taskSnapshot -> {
-            double progress = (100.0 * taskSnapshot.getBytesTransferred()) /taskSnapshot.getTotalByteCount();
-            int currentProgress = (int) progress;
-            mView.updateProgressBar(currentProgress);
+        mFirebaseStorageManager.uploadFile(mGroupId, mFile, fileName);
+    }
 
-        }).addOnCompleteListener(task -> {
-            mView.hideProgressbar();
-            mView.showUploadCompleteToast();
-        });
+
+    @Override
+    public void postUpdate() {
+        mView.navigateToPostUpdate();
+    }
+
+    @Override
+    public void scheduleMeeting() {
+        mView.navigateToScheduleMeeting();
+    }
+
+    @Override
+    public void assignTask() {
+        mView.navigateToAssignTask();
+    }
+
+    @Override
+    public void uploadFile() {
+        mView.navigateToUploadFile();
+    }
+
+    @Override
+    public void cameraUpload() {
+        mView.navigateToCameraUpload(timeStamp());
+    }
+
+    @Override
+    public void notifyProgressChange(int currentProgress) {
+        mView.updateProgressBar(currentProgress);
+    }
+
+    @Override
+    public void onUploadComplete() {
+        mView.hideProgressbar();
+        mView.showUploadCompleteToast();
     }
 }
 

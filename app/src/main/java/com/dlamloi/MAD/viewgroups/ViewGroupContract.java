@@ -1,6 +1,5 @@
 package com.dlamloi.MAD.viewgroups;
 
-import com.dlamloi.MAD.base.BasePresenter;
 import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.model.Group;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -32,7 +31,7 @@ public interface ViewGroupContract {
         void populateRecyclerView(ArrayList<Group> groups);
     }
 
-    interface Presenter extends BasePresenter<Group> {
+    interface Presenter {
 
         void dataAdded();
 
@@ -46,13 +45,15 @@ public interface ViewGroupContract {
 
     interface Interactor {
 
+        void onGroupReceive(Group group);
+
         String[] retrieveUserInformation();
 
         void signout();
 
     }
 
-    interface OnViewGroupListener {
+    interface ViewGroupListener {
 
         void onGroupAdd(ArrayList<Group> groups);
 

@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/schedule_meeting_icon"
             app:fab_size="mini"
-            app:fab_title="Schedule Meeting" />
+            app:fab_title="@string/schedule_meeting" />
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -115,6 +115,15 @@
             app:fab_icon="@drawable/upload_file_icon"
             app:fab_size="mini"
             app:fab_title="@string/upload_file" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/upload_camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/camera_icon"
+            app:fab_size="mini"
+            app:fab_title="@string/camera_upload"
+            />
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>

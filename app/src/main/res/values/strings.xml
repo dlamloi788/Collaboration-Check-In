@@ -43,7 +43,7 @@
     <string name="meeting_time">Meeting Time</string>
     <string name="name">Name</string>
     <string name="description_or_agenda_of_meeting">Description or agenda of meeting</string>
-    <string name="schedule_meeting">Schedule Meeting</string>
+    <string name="schedule_meeting">Schedule meeting</string>
     <string name="meeting_location">Meeting Location</string>
     <string name="new_meeting">New Meeting</string>
     <string name="quit_scheduling_meeting">Quit scheduling meeting?</string>
@@ -53,7 +53,7 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="post_update">Post update</string>
-    <string name="assign_task">Assign Task</string>
+    <string name="assign_task">Assign task</string>
     <string name="upload_file">Upload file</string>
     <string name="title_activity_create_task">CreateTaskActivity</string>
     <string name="task_title">Task Title</string>
@@ -70,5 +70,6 @@
     <string name="cancel">Cancel</string>
     <string name="upload">Upload</string>
     <string name="file_name">File name</string>
+    <string name="camera_upload">Camera upload</string>
 
 </resources>

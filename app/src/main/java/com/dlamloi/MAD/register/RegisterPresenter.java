@@ -3,6 +3,8 @@ package com.dlamloi.MAD.register;
 
 import android.net.Uri;
 
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -14,13 +16,12 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class RegisterPresenter implements RegisterContract.Presenter, RegisterContract.OnRegisterListener {
 
 
-    private RegisterInteractor mRegisterInteractor;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
     private final RegisterContract.View mView;
 
     public RegisterPresenter(RegisterContract.View view) {
         mView = view;
-        mRegisterInteractor = new RegisterInteractor(this);
-
+        mFirebaseAuthenticationManager =new FirebaseAuthenticationManager(this);
     }
 
 
@@ -31,8 +32,7 @@ public class RegisterPresenter implements RegisterContract.Presenter, RegisterCo
             return;
         }
         mView.showProgressbar();
-        mRegisterInteractor.firebaseRegister(email, password, firstName, surname);
-
+        mFirebaseAuthenticationManager.register(email, password, firstName, surname);
     }
 
     @Override

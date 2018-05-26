@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.login;
 
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -10,24 +11,24 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginPresenter implements LoginContract.Presenter, LoginContract.OnLoginListener {
 
     private final LoginContract.View mView;
-    private LoginContract.Interactor mLoginInteractor;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
 
 
     public LoginPresenter(LoginContract.View view) {
         this.mView = view;
-        mLoginInteractor = new LoginInteractor(this);
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager(this);
     }
 
     @Override
     public void login(String email, String password) {
         mView.showLoginProgress();
-        mLoginInteractor.firebaseLogin(email, password);
+        mFirebaseAuthenticationManager.login(email, password);
 
     }
 
     @Override
     public void onStart() {
-        mLoginInteractor.checkIfUserLoggedIn();
+        mFirebaseAuthenticationManager.checkIfUserLoggedIn();
     }
 
     @Override

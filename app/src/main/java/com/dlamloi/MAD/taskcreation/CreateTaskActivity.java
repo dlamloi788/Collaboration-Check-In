@@ -85,7 +85,6 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         }
 
 
-
         return super.onOptionsItemSelected(item);
     }
 

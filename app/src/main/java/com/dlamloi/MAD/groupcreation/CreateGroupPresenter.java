@@ -1,11 +1,9 @@
 package com.dlamloi.MAD.groupcreation;
 
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.utilities.Utility;
-import com.google.firebase.auth.FirebaseAuth;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -16,14 +14,14 @@ import java.util.ArrayList;
 public class CreateGroupPresenter implements CreateGroupContract.Presenter {
 
     private final CreateGroupContract.View mView;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseUser mUser;
+    private FirebaseRepositoryManager mFirebaseRepositoryManager;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
 
 
     public CreateGroupPresenter(CreateGroupContract.View view) {
         mView = view;
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("groups");
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseRepositoryManager = new FirebaseRepositoryManager();
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
     }
 
 
@@ -32,9 +30,9 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
         if (doesListContainAllEmptyEmails(userEmails)) {
             mView.showNoEmailEnteredToast();
         } else {
-            String id = mDatabaseReference.push().getKey();
-            Group group = new Group(id, groupName, mUser.getEmail(), userEmails);
-            mDatabaseReference.child(id).setValue(group);
+            FirebaseUser user = mFirebaseAuthenticationManager.getCurrentUser();
+            Group group = new Group(groupName, user.getEmail(), userEmails);
+            mFirebaseRepositoryManager.addGroup(group);
         }
         mView.groupCreated();
     }

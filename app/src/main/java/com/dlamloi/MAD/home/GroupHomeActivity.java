@@ -1,13 +1,22 @@
 package com.dlamloi.MAD.home;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dlamloi.MAD.BuildConfig;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.meetings.MeetingFragment;
 import com.dlamloi.MAD.home.tasks.TaskFragment;
@@ -34,6 +44,8 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,6 +57,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     public static final String GROUP_KEY = "group";
     public static final String FILE_TYPE = "*/*";
     public static final int FILE_MANAGER_REQUEST_CODE = 1;
+    public static final int CAMERA_REQUEST_CODE = 2;
 
     private GroupHomePresenter mGroupHomePresenter;
     private ViewPagerAdapter mViewPagerAdapter;
@@ -70,10 +83,13 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     FloatingActionButton mAssignTaskBtn;
     @BindView(R.id.upload_file_button)
     FloatingActionButton mUploadFileBtn;
+    @BindView(R.id.upload_camera_button)
+    FloatingActionButton mCameraUploadBtn;
     @BindView(R.id.shadow_view)
     View mShadowView;
     @BindView(R.id.upload_progressbar)
     CircularProgressBar mUploadCPb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,34 +119,32 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     @OnClick(R.id.post_update_button)
     public void postUpdateButtonClick() {
-        Intent intent = new Intent(this, PostUpdateActivity.class);
-        intent.putExtra(GROUP_KEY, mGroupId);
-        Utility.startIntent(this, intent);
+        mGroupHomePresenter.postUpdate();
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
     @OnClick(R.id.schedule_meeting_button)
     public void scheduleMeetingButtonClick() {
-        Intent intent = new Intent(this, CreateMeetingActivity.class);
-        intent.putExtra(GROUP_KEY, mGroupId);
-        Utility.startIntent(this, intent);
+        mGroupHomePresenter.scheduleMeeting();
         mGroupHomePresenter.onActionMenuItemSelected();
 
     }
 
     @OnClick(R.id.assign_task_button)
     public void assignTaskButtonClick() {
-        Intent intent = new Intent(this, CreateTaskActivity.class);
-        intent.putExtra(GROUP_KEY, mGroupId);
-        Utility.startIntent(this, intent);
+        mGroupHomePresenter.assignTask();
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
     @OnClick(R.id.upload_file_button)
     public void uploadFileButtonClick() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(FILE_TYPE);
-        startActivityForResult(intent, FILE_MANAGER_REQUEST_CODE);
+        mGroupHomePresenter.uploadFile();
+        mGroupHomePresenter.onActionMenuItemSelected();
+    }
+
+    @OnClick(R.id.upload_camera_button)
+    public void uploadCameraButtonClick() {
+        mGroupHomePresenter.cameraUpload();
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
@@ -140,6 +154,10 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         switch (requestCode) {
             case FILE_MANAGER_REQUEST_CODE:
                 mGroupHomePresenter.uploadFile(resultCode, data);
+                break;
+
+            case CAMERA_REQUEST_CODE:
+                //mGroupHomePresenter.cameraUpload();
                 break;
         }
     }
@@ -279,6 +297,63 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         });
 
         uploadDialog.show();
+    }
+
+    @Override
+    public File getImageDirectory() {
+        return getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    }
+
+    @Override
+    public void navigateToPostUpdate() {
+        Intent intent = new Intent(this, PostUpdateActivity.class);
+        intent.putExtra(GROUP_KEY, mGroupId);
+        Utility.startIntent(this, intent);
+
+
+    }
+
+    @Override
+    public void navigateToScheduleMeeting() {
+        Intent intent = new Intent(this, CreateMeetingActivity.class);
+        intent.putExtra(GROUP_KEY, mGroupId);
+        Utility.startIntent(this, intent);
+
+
+    }
+
+    @Override
+    public void navigateToAssignTask() {
+        Intent intent = new Intent(this, CreateTaskActivity.class);
+        intent.putExtra(GROUP_KEY, mGroupId);
+        Utility.startIntent(this, intent);
+
+    }
+
+    @Override
+    public void navigateToUploadFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(FILE_TYPE);
+        startActivityForResult(intent, FILE_MANAGER_REQUEST_CODE);
+    }
+
+    @Override
+    public void navigateToCameraUpload(String timeStamp) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+
+        } else {
+            Log.d("Imagedirectory", getImageDirectory().getPath());
+            File filename = new File(getImageDirectory().getPath() + "_" + timeStamp + ".jpg");
+            Uri imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", filename);
+
+
+            Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(captureImageIntent, CAMERA_REQUEST_CODE);
+        }
+
+
     }
 
 }

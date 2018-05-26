@@ -1,10 +1,8 @@
 package com.dlamloi.MAD.updatecreation;
 
 import com.dlamloi.MAD.model.Update;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,26 +14,24 @@ import java.util.Calendar;
 public class PostUpdatePresenter implements PostUpdateContract.Presenter {
 
     private final PostUpdateContract.View mView;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseUser mUser;
-
+    private FirebaseRepositoryManager mFirebaseRepositoryManager;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
 
 
     public PostUpdatePresenter(PostUpdateContract.View view, String groupId) {
         mView = view;
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("groups").child(groupId).child("updates");
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
 
     }
 
     @Override
     public void publishUpdate(String updateTitle, String updateInformation) {
-        String id = mDatabaseReference.push().getKey();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         String updateDate = dateFormat.format(Calendar.getInstance().getTime());
-        String updatePublisher = mUser.getDisplayName();
-        Update update = new Update(id, updateTitle, updateDate, updateInformation, updatePublisher);
-        mDatabaseReference.child(id).setValue(update);
+        String updatePublisher = mFirebaseAuthenticationManager.getCurrentUser().getDisplayName();
+        Update update = new Update(updateTitle, updateDate, updateInformation, updatePublisher);
+        mFirebaseRepositoryManager.addUpdate(update);
         mView.leave();
 
     }

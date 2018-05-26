@@ -49,7 +49,6 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         if (extras != null) {
             mGroupId = extras.getString(GroupHomeActivity.GROUP_KEY);
         }
-        mTaskPresenter = new TaskPresenter(this, mGroupId);
         mTasks = new ArrayList<>();
         mTaskPresenter = new TaskPresenter(this, mGroupId);
         mTaskAdapter = new TaskAdapter(mTasks);
@@ -75,7 +74,7 @@ public class TaskFragment extends Fragment implements TaskContract.View {
 
     @Override
     public void populateRecyclerView(ArrayList<Task> tasks) {
-        if (mTasks.isEmpty()) {
+        if (!mTasks.isEmpty()) {
             mTasks.clear();
         }
         mTasks.addAll(tasks);

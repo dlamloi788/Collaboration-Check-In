@@ -3,13 +3,10 @@ package com.dlamloi.MAD.viewgroups;
 import android.util.Log;
 
 import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -19,57 +16,27 @@ import java.util.ArrayList;
 
 public class ViewGroupInteractor implements ViewGroupContract.Interactor{
 
-    private ViewGroupContract.OnViewGroupListener mOnViewGroupListener;
+    private ViewGroupContract.ViewGroupListener mViewGroupListener;
     private DatabaseReference mDatabaseReference;
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseCallbackManager mFirebaseCallbackManager;
     private ArrayList<Group> mGroups = new ArrayList<>();
 
-    public ViewGroupInteractor(ViewGroupContract.OnViewGroupListener onViewGroupListener)  {
-        mOnViewGroupListener = onViewGroupListener;
+    public ViewGroupInteractor(ViewGroupContract.ViewGroupListener viewGroupListener)  {
+        mViewGroupListener = viewGroupListener;
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("groups");
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Group group = dataSnapshot.getValue(Group.class);
-                //Log.d(LOG_GROUP, group.getId());
-                if (isUserAMember(group)) {
-                    mGroups.add(group);
-                    Log.d("GROUPSIZE", mGroups.size() + "");
-                }
-                Log.d("ONCHILDADDED", "I'm called once..?");
-                //Fix this tomorrow
-                mOnViewGroupListener.onGroupAdd(mGroups);
-            }
+        mFirebaseCallbackManager = new FirebaseCallbackManager();
+        mFirebaseCallbackManager.attachGroupListener(this);
+    }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Group group = dataSnapshot.getValue(Group.class);
-                if (!mGroups.isEmpty()) {
-                    int index = indexOfGroup(group);
-                    mGroups.set(index, group);
-                    //Fix this tomorrow
-                    //mView.notifyItemChanged(index);
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    @Override
+    public void onGroupReceive(Group group) {
+        if (isUserAMember(group)) {
+            mGroups.add(group);
+        }
+        mViewGroupListener.onGroupAdd(mGroups);
     }
 
     @Override

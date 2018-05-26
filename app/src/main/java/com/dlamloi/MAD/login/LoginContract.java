@@ -1,6 +1,8 @@
 package com.dlamloi.MAD.login;
 
 
+import com.dlamloi.MAD.base.BaseAuthentication;
+
 /**
  * Created by Don on 14/05/2018.
  */
@@ -46,11 +48,7 @@ public interface LoginContract {
         void passwordHasFocus(boolean hasFocus);
     }
 
-    interface OnLoginListener {
-
-        void onSuccess();
-
-        void onFailure();
+    interface OnLoginListener extends BaseAuthentication{
 
         void onEmailNotVerified();
 

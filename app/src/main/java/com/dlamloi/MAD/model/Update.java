@@ -9,20 +9,7 @@ import java.io.Serializable;
  * Created by Don on 20/04/2018.
  */
 
-public class Update implements Parcelable{
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-
-        @Override
-        public Update createFromParcel(Parcel source) {
-            return new Update(source);
-        }
-
-        @Override
-        public Object[] newArray(int size) {
-            return new Update[size];
-        }
-    };
+public class Update {
 
     private String id;
     private String title;
@@ -34,12 +21,36 @@ public class Update implements Parcelable{
 
     }
 
+    /**
+     * Use this constructor to create an update to pass into the RepositoryManager
+     *
+     * @param title     the title of the update
+     * @param date      the publish date of the update
+     * @param details   the update details
+     * @param publisher the publisher of the update
+     */
+    public Update(String title, String date, String details, String publisher) {
+        this.title = title;
+        this.date = date;
+        this.details = details;
+        this.publisher = publisher;
+    }
+
+
     public Update(String id, String title, String date, String details, String publisher) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.details = details;
         this.publisher = publisher;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -74,26 +85,4 @@ public class Update implements Parcelable{
         this.publisher = publisher;
     }
 
-
-    public Update (Parcel source) {
-        this.title = source.readString();
-        this.date = source.readString();
-        this.details = source.readString();
-        this.publisher = source.readString();
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(this.date);
-        dest.writeString(this.details);
-        dest.writeString(this.publisher);
-
-    }
 }
