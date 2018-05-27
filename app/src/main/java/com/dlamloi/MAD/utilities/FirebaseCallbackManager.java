@@ -4,9 +4,11 @@ package com.dlamloi.MAD.utilities;
  * Created by Don on 25/05/2018.
  */
 
+import com.dlamloi.MAD.home.files.FileContract;
 import com.dlamloi.MAD.home.meetings.MeetingContract;
 import com.dlamloi.MAD.home.tasks.TaskContract;
 import com.dlamloi.MAD.home.update.UpdateContract;
+import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.model.Task;
@@ -163,6 +165,38 @@ public class FirebaseCallbackManager {
 
             }
         });
+    }
+
+    public void attachFilesListener(FileContract.FileListener fileListener) {
+        mDatabaseReference.child(mGroupId).child(FILES).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                CloudFile cloudFile = dataSnapshot.getValue(CloudFile.class);
+                fileListener.onFileUpload(cloudFile);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 }

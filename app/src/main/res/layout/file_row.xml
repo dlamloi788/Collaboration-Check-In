@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/file_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/file_icon" />
+
+    <TextView
+        android:id="@+id/file_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/file_icon"
+        android:layout_toStartOf="@id/download_file_button"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:text="ABCDEFGHIJKLMNOPQRS"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="20sp"
+        android:textColor="@color/md_black_1000" />
+
+    <Button
+        android:id="@+id/download_file_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:text="@string/download"
+        android:textAllCaps="false"
+        android:padding="5dp"
+        android:textSize="15sp"
+        />
+    
+</RelativeLayout>

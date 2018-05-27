@@ -3,7 +3,10 @@ package com.dlamloi.MAD.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
+import com.dlamloi.MAD.model.CloudFile;
+import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.utilities.FirebaseStorageManager;
 import com.dlamloi.MAD.viewgroups.ViewGroupsActivity;
@@ -12,14 +15,17 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.File;
 
 /**
  * Created by Don on 15/05/2018.
  */
 
-public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHomeContract.FirebaseStorageEventListener{
+public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHomeContract.FirebaseStorageEventListener {
 
     public static final String STORAGE_FILE_PATH = "files/";
+    public static final String FILE_NAME = "CloudFile name";
+
 
     private final GroupHomeContract.View mView;
     private FirebaseUser mUser;
@@ -27,6 +33,7 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
     private Uri mFile;
     private FirebaseStorageManager mFirebaseStorageManager;
     private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
+    private FirebaseRepositoryManager mFirebaseRepositoryManager;
 
 
     public GroupHomePresenter(GroupHomeContract.View view) {
@@ -34,7 +41,6 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
         mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
         mUser = mFirebaseAuthenticationManager.getCurrentUser();
         mFirebaseStorageManager = new FirebaseStorageManager(this);
-
     }
 
 
@@ -44,6 +50,7 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
         mGroupId = id;
         mView.setGroupTitle(title);
         mView.setUpViewPager(mGroupId);
+        mFirebaseRepositoryManager = new FirebaseRepositoryManager(mGroupId);
 
     }
 
@@ -66,6 +73,10 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
 
     private String timeStamp() {
         return new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    }
+
+    private void upload() {
+        mView.showSetFileNameDialog();
     }
 
     @Override
@@ -95,15 +106,17 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
     @Override
     public void uploadFile(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
+            Log.d(FILE_NAME, data.getData().toString());
             mFile = data.getData();
-            mView.showSetFileNameDialog();
+            upload();
         }
     }
 
     @Override
     public void uploadFile(String fileName) {
         mView.showProgressbar();
-        mFirebaseStorageManager.uploadFile(mGroupId, mFile, fileName);
+        String fileExtension = mFile.toString().substring(mFile.toString().lastIndexOf('.'));
+        mFirebaseStorageManager.uploadFile(mGroupId, mFile, fileName + fileExtension);
     }
 
 
@@ -133,14 +146,26 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
     }
 
     @Override
+    public void cameraUpload(int resultCode, String path) {
+        if (resultCode == Activity.RESULT_OK) {
+            mFile = Uri.fromFile(new File(path));
+            upload();
+        }
+
+    }
+
+    @Override
     public void notifyProgressChange(int currentProgress) {
         mView.updateProgressBar(currentProgress);
     }
 
     @Override
-    public void onUploadComplete() {
+    public void onUploadComplete(String fileName, String url) {
+        CloudFile file = new CloudFile(fileName, url);
+        mFirebaseRepositoryManager.addFile(file);
         mView.hideProgressbar();
         mView.showUploadCompleteToast();
+
     }
 }
 

@@ -6,7 +6,7 @@ import android.support.v7.app.AlertDialog;
 
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
+import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlacePicker;

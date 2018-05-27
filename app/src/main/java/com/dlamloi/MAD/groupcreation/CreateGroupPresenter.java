@@ -2,7 +2,7 @@ package com.dlamloi.MAD.groupcreation;
 
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
+import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;

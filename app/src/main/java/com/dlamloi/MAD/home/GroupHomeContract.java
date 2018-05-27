@@ -84,13 +84,17 @@ public interface GroupHomeContract {
 
         void cameraUpload();
 
+        void cameraUpload(int resultCode, String path);
+
+
+
     }
 
     interface FirebaseStorageEventListener {
 
         void notifyProgressChange(int currentProgress);
 
-        void onUploadComplete();
+        void onUploadComplete(String fileName, String s);
     }
 
 }

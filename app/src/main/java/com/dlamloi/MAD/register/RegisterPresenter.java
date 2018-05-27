@@ -1,13 +1,7 @@
 package com.dlamloi.MAD.register;
 
 
-import android.net.Uri;
-
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseRepositoryManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * Created by Don on 14/05/2018.

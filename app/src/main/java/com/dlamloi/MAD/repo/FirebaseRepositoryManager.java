@@ -1,9 +1,11 @@
-package com.dlamloi.MAD.utilities;
+package com.dlamloi.MAD.repo;
 
+import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.model.Update;
+import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,6 +75,12 @@ public class FirebaseRepositoryManager {
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.TASKS).child(id).setValue(task);
     }
 
+    public void addFile(CloudFile cloudFile) {
+        String id = generateKey();
+        mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.FILES).child(id).setValue(cloudFile);
+
+    }
+
     public ArrayList<String> getGroupMemberEmails(String groupId) {
         ArrayList<String> userEmails = new ArrayList<>();
         mDatabaseReference.child(groupId).child("memberEmails").addValueEventListener(new ValueEventListener() {
@@ -91,6 +99,7 @@ public class FirebaseRepositoryManager {
         });
         return userEmails;
     }
+
 
 
 }

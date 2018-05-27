@@ -24,6 +24,5 @@ public interface MeetingContract {
 
     }
 
-    interface Interactor extends BaseInteractor {
-    }
+
 }

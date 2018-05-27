@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class MeetingPresenter implements MeetingContract.Presenter, MeetingContract.MeetingListener {
 
+    public static final String MEETING_PRESENTER = "MeetingPresenter";
+
     private final MeetingContract.View mView;
     private FirebaseCallbackManager mFirebaseCallbackManager;
     private ArrayList<Meeting> mMeetings = new ArrayList<>();
@@ -22,7 +24,7 @@ public class MeetingPresenter implements MeetingContract.Presenter, MeetingContr
         mView = view;
         mFirebaseCallbackManager = new FirebaseCallbackManager(groupId);
         mFirebaseCallbackManager.attachMeetingsListener(this);
-        Log.d("MeetingPresenter", "Im being called...");
+        Log.d(MEETING_PRESENTER, "Im being called...");
 
     }
 

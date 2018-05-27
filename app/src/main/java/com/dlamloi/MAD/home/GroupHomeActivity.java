@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dlamloi.MAD.BuildConfig;
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.home.files.FileFragment;
 import com.dlamloi.MAD.home.meetings.MeetingFragment;
 import com.dlamloi.MAD.home.tasks.TaskFragment;
 import com.dlamloi.MAD.home.update.UpdateFragment;
@@ -58,6 +59,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     public static final String FILE_TYPE = "*/*";
     public static final int FILE_MANAGER_REQUEST_CODE = 1;
     public static final int CAMERA_REQUEST_CODE = 2;
+    private static final String IMAGE_DIRECTORY = "Image Directory";
 
     private GroupHomePresenter mGroupHomePresenter;
     private ViewPagerAdapter mViewPagerAdapter;
@@ -66,6 +68,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     private TextView mEmailTv;
 
     private String mGroupId;
+    private String mPhotoPath;
 
     @BindView(R.id.group_home_rootview)
     CoordinatorLayout mGroupHomeCoordinatorLayout;
@@ -157,7 +160,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
                 break;
 
             case CAMERA_REQUEST_CODE:
-                //mGroupHomePresenter.cameraUpload();
+                mGroupHomePresenter.cameraUpload(resultCode, mPhotoPath);
                 break;
         }
     }
@@ -179,8 +182,6 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     }
 
-
-    //Ask Ryan if this is ok too!!!!
     private void setUpMaterialDrawer(Toolbar toolbar) {
         View view = getLayoutInflater().inflate(R.layout.nav_header_view_group, null, false);
         mProfileImageIv = view.findViewById(R.id.profilePictureIv);
@@ -223,19 +224,18 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         finish();
     }
 
-    //Ask Ryan if it's ok to pass data like this???
     @Override
     public void setUpViewPager(String groupId) {
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         UpdateFragment updateFragment = UpdateFragment.newInstance(groupId);
         MeetingFragment meetingFragment = MeetingFragment.newInstance(groupId);
         TaskFragment taskFragment = TaskFragment.newInstance(groupId);
-        UpdateFragment updateFragment3 = UpdateFragment.newInstance(groupId);
+        FileFragment fileFragment = FileFragment.newInstance(groupId);
         UpdateFragment updateFragment4 = UpdateFragment.newInstance(groupId);
         mViewPagerAdapter.addFragment(updateFragment, "");
         mViewPagerAdapter.addFragment(meetingFragment, "");
         mViewPagerAdapter.addFragment(taskFragment, "");
-        mViewPagerAdapter.addFragment(updateFragment3, "");
+        mViewPagerAdapter.addFragment(fileFragment, "");
         mViewPagerAdapter.addFragment(updateFragment4, "");
         mViewPager.setAdapter(mViewPagerAdapter);
     }
@@ -288,10 +288,11 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         Button uploadButton = uploadDialogView.findViewById(R.id.upload_upload_button);
 
         AlertDialog uploadDialog = builder.create();
+        uploadDialog.setCancelable(false);
 
         cancelButton.setOnClickListener(view -> uploadDialog.dismiss());
         uploadButton.setOnClickListener(view -> {
-            String fileName = fileNameEt.getText().toString();
+            String fileName = fileNameEt.getText().toString().trim();
             mGroupHomePresenter.uploadFile(fileName);
             uploadDialog.dismiss();
         });
@@ -343,10 +344,10 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
 
         } else {
-            Log.d("Imagedirectory", getImageDirectory().getPath());
+            Log.d(IMAGE_DIRECTORY, getImageDirectory().getPath());
             File filename = new File(getImageDirectory().getPath() + "_" + timeStamp + ".jpg");
+            mPhotoPath = filename.getPath();
             Uri imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", filename);
-
 
             Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);

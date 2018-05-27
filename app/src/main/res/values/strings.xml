@@ -71,5 +71,6 @@
     <string name="upload">Upload</string>
     <string name="file_name">File name</string>
     <string name="camera_upload">Camera upload</string>
+    <string name="download">Download</string>
 
 </resources>

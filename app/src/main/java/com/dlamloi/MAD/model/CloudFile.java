@@ -4,16 +4,16 @@ package com.dlamloi.MAD.model;
  * Created by Don on 24/05/2018.
  */
 
-public class File {
+public class CloudFile {
 
     private String name;
     private String uri;
 
-    public File() {
+    public CloudFile() {
         //Empty constructor required for firebase
     }
 
-    public File(String name, String uri) {
+    public CloudFile(String name, String uri) {
         this.name = name;
         this.uri = uri;
     }
