@@ -89,8 +89,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @OnClick(R.id.login_button)
     public void loginClick() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getApplicationWindowToken(), 0);
         String email = mEmailEt.getText().toString().trim();
         String password = mPasswordEt.getText().toString().trim();
         mLoginPresenter.login(email, password);

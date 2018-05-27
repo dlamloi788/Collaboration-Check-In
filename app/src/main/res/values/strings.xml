@@ -72,5 +72,6 @@
     <string name="file_name">File name</string>
     <string name="camera_upload">Camera upload</string>
     <string name="download">Download</string>
+    <string name="go_on_say_something">Go on, say something...</string>
 
 </resources>

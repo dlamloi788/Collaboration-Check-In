@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dlamloi.MAD.BuildConfig;
 import com.dlamloi.MAD.R;
+import com.dlamloi.MAD.home.chat.MessagesFragment;
 import com.dlamloi.MAD.home.files.FileFragment;
 import com.dlamloi.MAD.home.meetings.MeetingFragment;
 import com.dlamloi.MAD.home.tasks.TaskFragment;
@@ -117,8 +118,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
                 mGroupHomePresenter.onActionMenuItemSelected();
             }
         });
-
     }
+
+
 
     @OnClick(R.id.post_update_button)
     public void postUpdateButtonClick() {
@@ -180,7 +182,22 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
             mTabLayout.getTabAt(i).setIcon(drawables[i]);
         }
 
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mGroupHomePresenter.shouldFabBeHidden(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
+
 
     private void setUpMaterialDrawer(Toolbar toolbar) {
         View view = getLayoutInflater().inflate(R.layout.nav_header_view_group, null, false);
@@ -231,12 +248,12 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         MeetingFragment meetingFragment = MeetingFragment.newInstance(groupId);
         TaskFragment taskFragment = TaskFragment.newInstance(groupId);
         FileFragment fileFragment = FileFragment.newInstance(groupId);
-        UpdateFragment updateFragment4 = UpdateFragment.newInstance(groupId);
+        MessagesFragment messagesFragment = MessagesFragment.newInstance(groupId);
         mViewPagerAdapter.addFragment(updateFragment, "");
         mViewPagerAdapter.addFragment(meetingFragment, "");
         mViewPagerAdapter.addFragment(taskFragment, "");
         mViewPagerAdapter.addFragment(fileFragment, "");
-        mViewPagerAdapter.addFragment(updateFragment4, "");
+        mViewPagerAdapter.addFragment(messagesFragment, "");
         mViewPager.setAdapter(mViewPagerAdapter);
     }
 
@@ -353,8 +370,16 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
             captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             startActivityForResult(captureImageIntent, CAMERA_REQUEST_CODE);
         }
+    }
 
+    @Override
+    public void showFab() {
+        mFloatingActionsMenu.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void hideFab() {
+        mFloatingActionsMenu.setVisibility(View.INVISIBLE);
     }
 
 }

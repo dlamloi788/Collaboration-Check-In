@@ -167,6 +167,15 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
         mView.showUploadCompleteToast();
 
     }
+
+    @Override
+    public void shouldFabBeHidden(int position) {
+        if (position == 4) {
+            mView.hideFab();
+        } else {
+            mView.showFab();
+        }
+    }
 }
 
 

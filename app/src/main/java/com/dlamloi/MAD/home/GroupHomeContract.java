@@ -54,6 +54,10 @@ public interface GroupHomeContract {
         void navigateToUploadFile();
 
         void navigateToCameraUpload(String s);
+
+        void showFab();
+
+        void hideFab();
     }
 
     interface Presenter {
@@ -85,9 +89,8 @@ public interface GroupHomeContract {
         void cameraUpload();
 
         void cameraUpload(int resultCode, String path);
-
-
-
+        
+        void shouldFabBeHidden(int position);
     }
 
     interface FirebaseStorageEventListener {

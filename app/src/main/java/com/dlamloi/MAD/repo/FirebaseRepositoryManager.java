@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.repo;
 
+import com.dlamloi.MAD.model.ChatMessage;
 import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
@@ -80,6 +81,13 @@ public class FirebaseRepositoryManager {
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.FILES).child(id).setValue(cloudFile);
 
     }
+
+    public void sendMessage(ChatMessage message) {
+        String id = generateKey();
+        mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.MESSAGES).child(id).setValue(message);
+    }
+
+
 
     public ArrayList<String> getGroupMemberEmails(String groupId) {
         ArrayList<String> userEmails = new ArrayList<>();
