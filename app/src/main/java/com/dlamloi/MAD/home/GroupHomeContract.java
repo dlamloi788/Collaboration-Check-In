@@ -58,6 +58,8 @@ public interface GroupHomeContract {
         void showFab();
 
         void hideFab();
+
+        void goBackToGroups();
     }
 
     interface Presenter {

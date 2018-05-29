@@ -62,6 +62,14 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         mTasksRv = view.findViewById(R.id.task_recyclerview);
         mTasksRv.setAdapter(mTaskAdapter);
         mTasksRv.setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
+
+        mTasksRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mTaskPresenter.scrollStateChanged(newState);
+            }
+        });
         return view;
     }
 
@@ -70,6 +78,17 @@ public class TaskFragment extends Fragment implements TaskContract.View {
     @Override
     public void notifyItemInserted(int position) {
         mTaskAdapter.notifyItemInserted(position);
+    }
+
+    @Override
+    public void hideFab() {
+        ((GroupHomeActivity)getActivity()).hideFab();
+    }
+
+    @Override
+    public void showFab() {
+        ((GroupHomeActivity)getActivity()).showFab();
+
     }
 
     @Override

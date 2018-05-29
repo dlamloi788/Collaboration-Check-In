@@ -12,4 +12,7 @@ public interface BaseView<T> {
 
     void notifyItemInserted(int position);
 
+    void hideFab();
+
+    void showFab();
 }

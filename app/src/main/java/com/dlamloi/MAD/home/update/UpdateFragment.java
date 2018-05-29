@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.model.Update;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -62,6 +60,13 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         mUpdatesRv = view.findViewById(R.id.update_recyclerview);
         mUpdatesRv.setAdapter(mUpdateAdapter);
         mUpdatesRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mUpdatesRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mUpdatePresenter.scrollStateChanged(newState);
+            }
+        });
         return view;
     }
 
@@ -80,6 +85,16 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         mUpdateAdapter.notifyItemInserted(position);
     }
 
+    @Override
+    public void hideFab() {
+        ((GroupHomeActivity) getActivity()).hideFab();
+    }
+
+    @Override
+    public void showFab() {
+        ((GroupHomeActivity)getActivity()).showFab();
+
+    }
 
 
 }

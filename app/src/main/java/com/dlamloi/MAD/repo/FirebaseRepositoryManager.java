@@ -34,6 +34,7 @@ public class FirebaseRepositoryManager {
     public static final String SPINNER_CALL = "Spinner call";
     public static final String ADMIN_EMAIL = "Admin email";
     public static final String CURRENT_EMAIL = "Current email";
+    public static final String USER_EMAIL = "User email";
 
     private DatabaseReference mDatabaseReference;
     private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
@@ -139,7 +140,7 @@ public class FirebaseRepositoryManager {
 
     }
 
-    public void taskOnStart(CreateTaskPresenter presenter) {
+    public void getUsers(CreateTaskPresenter presenter) {
         mDatabaseReference.child(mGroupId).child("adminEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -154,38 +155,14 @@ public class FirebaseRepositoryManager {
         });
 
         ArrayList<User> users = new ArrayList<>();
-        DatabaseReference userReference = mDatabaseReference.getRoot().child(FirebaseCallbackManager.USERS);
-        userReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.getRoot().child(FirebaseCallbackManager.USERS).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
-                    Log.d("User Email", user.getEmail());
                     users.add(user);
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        mDatabaseReference.child(mGroupId).child("memberEmails").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                final ArrayList<String> displayNames = new ArrayList<>();
-                for (DataSnapshot emailSnapshot : dataSnapshot.getChildren()) {
-                    String email = emailSnapshot.getValue(String.class);
-                    for (User user : users) {
-                        Log.d(CURRENT_EMAIL, user.getEmail());
-                        if (user.getEmail().equalsIgnoreCase(email) || user.getEmail().equalsIgnoreCase(adminEmail)) {
-                            displayNames.add(user.getDisplayName());
-                            break;
-                        }
-                    }
-                }
-                presenter.addSpinnerData(displayNames);
-                Log.d("AddSpinnerData", "I'm called...");
+                taskOnStart(users, presenter);
             }
 
             @Override
@@ -195,4 +172,43 @@ public class FirebaseRepositoryManager {
         });
 
     }
+
+    private void taskOnStart(ArrayList<User> users, CreateTaskPresenter presenter) {
+        mDatabaseReference.child(mGroupId).child("memberEmails").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final ArrayList<String> displayNames = new ArrayList<>();
+                final ArrayList<String> emails = new ArrayList<>();
+                for (DataSnapshot emailSnapshot : dataSnapshot.getChildren()) {
+                    String email = emailSnapshot.getValue(String.class);
+                    emails.add(email);
+                }
+
+                boolean hasAdminBeenFound = false;
+                for (String email : emails) {
+                    for (User user : users) {
+                        Log.d("LoopEmail", email);
+                        Log.d("UserEmail", user.getEmail());
+                        if (user.getEmail().equalsIgnoreCase(email)) {
+                            displayNames.add(user.getDisplayName());
+                            break;
+                        }
+                        if (!hasAdminBeenFound && user.getEmail().equalsIgnoreCase(adminEmail)) {
+                            displayNames.add(user.getDisplayName());
+                            hasAdminBeenFound = true;
+                        }
+                    }
+                }
+
+
+                presenter.addSpinnerData(displayNames);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
+

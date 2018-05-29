@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.viewgroups;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.dlamloi.MAD.model.Group;
@@ -28,7 +29,7 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
 
     @Override
     public void dataAdded() {
-        mView.setLoadingProgressBarVisibility(false);
+        mView.hideLoadingProgressBar();
     }
 
     @Override
@@ -50,9 +51,6 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
     public boolean onDrawerItemClicked(int position, IDrawerItem drawerItem) {
         switch (drawerItem.getIdentifier()) {
             case 1:
-                break;
-
-            case 2:
                 logout();
                 break;
 
@@ -64,5 +62,27 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
     @Override
     public void onGroupAdd(ArrayList<Group> groups) {
         mView.populateRecyclerView(groups);
+    }
+
+
+
+    @Override
+    public void isStateIdle(int state) {
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            mView.showFab();
+        }
+    }
+
+    @Override
+    public void scrollStateChanged(int newState) {
+        switch (newState) {
+            case RecyclerView.SCROLL_STATE_IDLE:
+                mView.showFab();
+                break;
+
+            default:
+                mView.hideFab();
+                break;
+        }
     }
 }

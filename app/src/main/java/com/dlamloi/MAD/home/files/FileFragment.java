@@ -67,6 +67,13 @@ public class FileFragment extends Fragment implements FileContract.View {
         mFileRv = view.findViewById(R.id.files_recyclerview);
         mFileRv.setAdapter(mFileAdapter);
         mFileRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mFileRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mFilePresenter.scrollStateChanged(newState);
+            }
+        });
         return view;
     }
 
@@ -82,5 +89,16 @@ public class FileFragment extends Fragment implements FileContract.View {
     @Override
     public void notifyItemInserted(int position) {
         mFileAdapter.notifyItemInserted(position);
+    }
+
+    @Override
+    public void hideFab() {
+        ((GroupHomeActivity)getActivity()).hideFab();
+    }
+
+    @Override
+    public void showFab() {
+        ((GroupHomeActivity)getActivity()).showFab();
+
     }
 }

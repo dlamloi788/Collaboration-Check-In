@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.home.meetings;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.dlamloi.MAD.model.Meeting;
@@ -33,5 +34,19 @@ public class MeetingPresenter implements MeetingContract.Presenter, MeetingContr
     public void onMeetingAdd(Meeting meeting) {
         mMeetings.add(meeting);
         mView.populateRecyclerView(mMeetings);
+    }
+
+
+    @Override
+    public void scrollStateChanged(int state) {
+        switch (state) {
+            case RecyclerView.SCROLL_STATE_IDLE:
+                mView.showFab();
+                break;
+
+            default:
+                mView.hideFab();
+                break;
+        }
     }
 }

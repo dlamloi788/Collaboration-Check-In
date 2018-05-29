@@ -1,5 +1,7 @@
 package com.dlamloi.MAD.home.update;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.dlamloi.MAD.model.Update;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 
@@ -27,5 +29,19 @@ public class UpdatePresenter implements UpdateContract.Presenter, UpdateContract
     public void onUpdateAdd(Update update) {
         mUpdates.add(update);
         mView.populateRecyclerView(mUpdates);
+    }
+
+
+    @Override
+    public void scrollStateChanged(int state) {
+        switch (state) {
+            case RecyclerView.SCROLL_STATE_IDLE:
+                mView.showFab();
+                break;
+
+            default:
+                mView.hideFab();
+                break;
+        }
     }
 }

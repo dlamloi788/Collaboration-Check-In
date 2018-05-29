@@ -2,14 +2,15 @@ package com.dlamloi.MAD.viewgroups;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ArrayAdapter;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import java.util.ArrayList;
@@ -45,11 +45,13 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
     private ViewGroupPresenter mViewGroupPresenter;
 
 
-
     @BindView(R.id.groups_loading_progressbar)
     ProgressBar mLoadingGroupsPb;
     @BindView(R.id.groups_recyclerview)
     RecyclerView mGroupsRv;
+    @BindView(R.id.create_group_button)
+    FloatingActionButton mCreateGroupButton;
+
     CircleImageView mProfileImageIv;
     TextView mFirstNameTv;
     TextView mEmailTv;
@@ -92,19 +94,16 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
-        setUpMaterialDrawer(toolbar);
 
-
+        mGroupsRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mViewGroupPresenter.scrollStateChanged(newState);
+            }
+        });
     }
 
-    @Override
-    public void setLoadingProgressBarVisibility(boolean visibility) {
-        if (visibility) {
-            mLoadingGroupsPb.setVisibility(View.VISIBLE);
-        } else {
-            mLoadingGroupsPb.setVisibility(View.INVISIBLE);
-        }
-    }
 
     @OnClick(R.id.create_group_button)
     public void createGroupButtonClick() {
@@ -133,7 +132,6 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mEmailTv.setText(email);
     }
 
-    //Ask Ryan, can we do this in the view? no logic code
     private void setUpMaterialDrawer(Toolbar toolbar) {
         View view = getLayoutInflater().inflate(R.layout.nav_header_view_group, null, false);
         mProfileImageIv = view.findViewById(R.id.profilePictureIv);
@@ -148,9 +146,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
                 .withOnDrawerItemClickListener(((view1, position, drawerItem) -> mViewGroupPresenter.onDrawerItemClicked(position, drawerItem)))
                 .build();
 
-        drawer.addItem(new PrimaryDrawerItem().withName(R.string.manage_account).withIcon(R.drawable.settings_icon).withIdentifier(1));
-        drawer.addItem(new DividerDrawerItem());
-        drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(2).withSelectable(false));
+        drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(1).withSelectable(false));
 
     }
 
@@ -160,8 +156,13 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
     }
 
     @Override
-    public void notifyItemChanged(int position) {
-        mGroupAdapter.notifyItemChanged(position);
+    public void hideFab() {
+        mCreateGroupButton.animate().translationY(mCreateGroupButton.getHeight() + 30).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    @Override
+    public void showFab() {
+        mCreateGroupButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     @Override
@@ -173,4 +174,10 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mGroupAdapter.notifyItemInserted(groups.size());
     }
 
+    @Override
+    public void hideLoadingProgressBar() {
+        mLoadingGroupsPb.setVisibility(View.INVISIBLE);
+    }
+
 }
+

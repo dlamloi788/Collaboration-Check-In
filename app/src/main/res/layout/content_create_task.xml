@@ -29,14 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:theme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <ProgressBar
-            android:id="@+id/spinner_progressbar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            style="@android:style/Widget.Material.Spinner"
+            android:prompt="@string/select_a_member"
+            />
 
     </LinearLayout>
 

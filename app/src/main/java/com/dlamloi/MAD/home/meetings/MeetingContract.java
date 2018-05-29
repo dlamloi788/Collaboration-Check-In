@@ -1,6 +1,7 @@
 package com.dlamloi.MAD.home.meetings;
 
 import com.dlamloi.MAD.base.BaseInteractor;
+import com.dlamloi.MAD.base.BasePresenter;
 import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.model.Meeting;
 
@@ -14,7 +15,7 @@ public interface MeetingContract {
 
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter {
 
     }
 

@@ -55,14 +55,10 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
     public boolean onDrawerItemClicked(int position, IDrawerItem drawerItem) {
         switch (drawerItem.getIdentifier()) {
             case 1:
-                //leavegroup
+                mView.goBackToGroups();
                 break;
 
             case 2:
-                //manageAccount
-                break;
-
-            case 3:
                 logout();
                 break;
         }

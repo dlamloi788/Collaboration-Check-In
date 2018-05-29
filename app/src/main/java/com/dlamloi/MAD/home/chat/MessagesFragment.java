@@ -71,6 +71,13 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
         mMessagesRv = view.findViewById(R.id.messages_recyclerview);
         mMessagesRv.setAdapter(mMessageAdapter);
         mMessagesRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mMessagesRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
 
         mMessageEt = view.findViewById(R.id.message_edittext);
         mSendMessageBtn = view.findViewById(R.id.send_message_button);
@@ -96,4 +103,17 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
     public void notifyItemInserted(int position) {
         mMessageAdapter.notifyItemInserted(position);
     }
+
+    @Override
+    public void hideFab() {
+        ((GroupHomeActivity)getActivity()).hideFab();
+    }
+
+    @Override
+    public void showFab() {
+        ((GroupHomeActivity)getActivity()).showFab();
+
+    }
+
+
 }

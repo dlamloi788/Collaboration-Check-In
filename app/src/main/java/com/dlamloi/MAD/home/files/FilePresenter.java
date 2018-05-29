@@ -1,5 +1,7 @@
 package com.dlamloi.MAD.home.files;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.dlamloi.MAD.home.GroupHomeContract;
 import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
@@ -48,5 +50,16 @@ public class FilePresenter implements FileContract.Presenter, GroupHomeContract.
 
     }
 
+    @Override
+    public void scrollStateChanged(int state) {
+        switch (state) {
+            case RecyclerView.SCROLL_STATE_IDLE:
+                mView.showFab();
+                break;
 
+            default:
+                mView.hideFab();
+                break;
+        }
+    }
 }

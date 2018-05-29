@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.viewgroups;
 
+import com.dlamloi.MAD.base.BasePresenter;
 import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.model.Group;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -14,7 +15,9 @@ public interface ViewGroupContract {
 
     interface View extends BaseView<Group> {
 
-        void setLoadingProgressBarVisibility(boolean visibility);
+
+
+        void hideLoadingProgressBar();
 
         void logout();
 
@@ -26,12 +29,11 @@ public interface ViewGroupContract {
 
         void notifyItemInserted(int position);
 
-        void notifyItemChanged(int index);
-
         void populateRecyclerView(ArrayList<Group> groups);
+
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter{
 
         void dataAdded();
 
@@ -41,6 +43,9 @@ public interface ViewGroupContract {
 
         boolean onDrawerItemClicked(int position, IDrawerItem drawerItem);
 
+        void isStateIdle(int newState);
+
+        void scrollStateChanged(int newState);
     }
 
     interface Interactor {

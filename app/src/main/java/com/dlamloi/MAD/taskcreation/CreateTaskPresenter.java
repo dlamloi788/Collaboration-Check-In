@@ -24,7 +24,7 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     public CreateTaskPresenter(CreateTaskContract.View view, String groupId) {
         mView = view;
         mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
-        mFirebaseRepositoryManager.taskOnStart(this);
+        mFirebaseRepositoryManager.getUsers(this);
 
     }
 

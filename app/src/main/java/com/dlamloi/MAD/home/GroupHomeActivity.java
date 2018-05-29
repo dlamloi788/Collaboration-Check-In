@@ -19,6 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -213,10 +217,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
                 .withOnDrawerItemClickListener(((view1, position, drawerItem) -> mGroupHomePresenter.onDrawerItemClicked(position, drawerItem)))
                 .build();
 
-        drawer.addItem(new PrimaryDrawerItem().withName(R.string.leave_group).withIcon(R.drawable.leave_group_icon).withIdentifier(1));
-        drawer.addItem(new PrimaryDrawerItem().withName(R.string.manage_account).withIcon(R.drawable.settings_icon).withIdentifier(2));
+        drawer.addItem(new PrimaryDrawerItem().withName("View your groups").withIcon(R.drawable.group_icon).withIdentifier(1).withSelectable(false));
         drawer.addItem(new DividerDrawerItem());
-        drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(3).withSelectable(false));
+        drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(2).withSelectable(false));
 
     }
 
@@ -374,13 +377,19 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     @Override
     public void showFab() {
-        mFloatingActionsMenu.setVisibility(View.VISIBLE);
+        mFloatingActionsMenu.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
 
     }
 
     @Override
     public void hideFab() {
-        mFloatingActionsMenu.setVisibility(View.INVISIBLE);
+        mFloatingActionsMenu.animate().translationY(mFloatingActionsMenu.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
     }
+
+    @Override
+    public void goBackToGroups() {
+        finish();
+    }
+
 
 }

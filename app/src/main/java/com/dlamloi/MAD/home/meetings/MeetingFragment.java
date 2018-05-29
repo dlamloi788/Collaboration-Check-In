@@ -66,6 +66,14 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         mMeetingPlansRv = view.findViewById(R.id.meeting_plans_recyclerview);
         mMeetingPlansRv.setAdapter(mMeetingAdapter);
         mMeetingPlansRv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        mMeetingPlansRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mMeetingPresenter.scrollStateChanged(newState);
+            }
+        });
         return view;
     }
 
@@ -82,5 +90,16 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
     @Override
     public void notifyItemInserted(int position) {
         mMeetingAdapter.notifyItemInserted(position);
+    }
+
+    @Override
+    public void hideFab() {
+        ((GroupHomeActivity)getActivity()).hideFab();
+    }
+
+    @Override
+    public void showFab() {
+        ((GroupHomeActivity)getActivity()).showFab();
+
     }
 }

@@ -37,8 +37,6 @@
     <string name="publish">publish</string>
     <string name="update_posted">Update posted</string>
     <string name="title_activity_view_groups">ViewGroupsActivity</string>
-    <string name="leave_group">Leave Group</string>
-    <string name="manage_account">Manage Account</string>
     <string name="meeting_date">Meeting Date</string>
     <string name="meeting_time">Meeting Time</string>
     <string name="name">Name</string>
@@ -70,8 +68,10 @@
     <string name="cancel">Cancel</string>
     <string name="upload">Upload</string>
     <string name="file_name">File name</string>
+    <string name="select_a_member">Select a member...</string>
     <string name="camera_upload">Camera upload</string>
     <string name="download">Download</string>
     <string name="go_on_say_something">Go on, say something...</string>
+
 
 </resources>

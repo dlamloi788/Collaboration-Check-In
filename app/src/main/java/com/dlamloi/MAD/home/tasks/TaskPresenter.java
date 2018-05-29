@@ -1,5 +1,7 @@
 package com.dlamloi.MAD.home.tasks;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 
@@ -26,5 +28,19 @@ public class TaskPresenter implements TaskContract.Presenter, TaskContract.TaskL
     public void onTaskAdd(Task tasks) {
         mTasks.add(tasks);
         mView.populateRecyclerView(mTasks);
+    }
+
+
+    @Override
+    public void scrollStateChanged(int state) {
+        switch (state) {
+            case RecyclerView.SCROLL_STATE_IDLE:
+                mView.showFab();
+                break;
+
+            default:
+                mView.hideFab();
+                break;
+        }
     }
 }

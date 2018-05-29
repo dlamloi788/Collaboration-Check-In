@@ -48,6 +48,9 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         setContentView(R.layout.activity_post_update);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
+        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mPostUpdatePresenter = new PostUpdatePresenter(this, mGroupId);
@@ -64,6 +67,10 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                leave();
+                break;
+
             case R.id.publish_update:
                 String updateTitle = mUpdateTitleEt.getText().toString();
                 String updateInformation = mUpdateInformationEt.getText().toString();

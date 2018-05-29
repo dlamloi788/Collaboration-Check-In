@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.home.files;
 
+import com.dlamloi.MAD.base.BasePresenter;
 import com.dlamloi.MAD.base.BaseView;
 import com.dlamloi.MAD.model.CloudFile;
 
@@ -13,7 +14,7 @@ public interface FileContract {
 
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter{
 
         void downloadFile(String name, String uri, String externalFilesDir);
     }
