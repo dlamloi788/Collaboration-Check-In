@@ -30,8 +30,8 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
         if (doesListContainAllEmptyEmails(userEmails)) {
             mView.showNoEmailEnteredToast();
         } else {
-            FirebaseUser user = mFirebaseAuthenticationManager.getCurrentUser();
-            Group group = new Group(groupName, user.getEmail(), userEmails);
+            String userEmail = mFirebaseAuthenticationManager.getCurrentUserEmail();
+            Group group = new Group(groupName, userEmail, userEmails);
             mFirebaseRepositoryManager.addGroup(group);
         }
         mView.groupCreated();

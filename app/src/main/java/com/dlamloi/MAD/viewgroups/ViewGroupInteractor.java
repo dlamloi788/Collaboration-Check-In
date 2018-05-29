@@ -49,14 +49,14 @@ public class ViewGroupInteractor implements ViewGroupContract.Interactor{
     }
 
     private boolean isUserAMember(Group group) {
-        String currentUserEmail = mFirebaseUser.getEmail();
+        String currentUserEmail = mFirebaseUser.getEmail().trim();
         Log.d("CURRENTEMAIL", currentUserEmail);
         if (group.getAdminEmail().equalsIgnoreCase(currentUserEmail)) {
             return true;
         }
 
         for (String email : group.getMemberEmails()) {
-            if (currentUserEmail.equalsIgnoreCase(email)) {
+            if (currentUserEmail.equalsIgnoreCase(email.trim())) {
                 return true;
             }
         }

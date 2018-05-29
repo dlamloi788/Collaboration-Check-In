@@ -10,11 +10,13 @@ public interface CreateTaskContract {
 
     interface View {
 
-        void showSpinnerData(ArrayList<String> userEmails);
+        void setUpSpinnerData(ArrayList<String> userEmails);
 
         void showDateDialog(int year, int month, int day);
 
         void setDueDate(String date);
+
+        void leave();
     }
 
     interface Presenter {
@@ -25,6 +27,8 @@ public interface CreateTaskContract {
         void datePicked(int year, int month, int dayOfMonth);
 
         void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription);
+
+        void addSpinnerData(ArrayList<String> displayNames);
     }
 
 

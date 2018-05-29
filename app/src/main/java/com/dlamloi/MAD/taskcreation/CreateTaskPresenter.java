@@ -24,12 +24,13 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     public CreateTaskPresenter(CreateTaskContract.View view, String groupId) {
         mView = view;
         mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
+        mFirebaseRepositoryManager.taskOnStart(this);
+
     }
 
     @Override
     public void loadSpinnerData(String groupId) {
-        ArrayList<String> memberEmails = mFirebaseRepositoryManager.getGroupMemberEmails(groupId);
-        mView.showSpinnerData(memberEmails);
+
     }
 
     @Override
@@ -56,5 +57,11 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     public void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription) {
         Task task = new Task(taskTitle, taskDescription, STATUS_PENDING, assignedMember, dueDate);
         mFirebaseRepositoryManager.addTask(task);
+        mView.leave();
+    }
+
+    @Override
+    public void addSpinnerData(ArrayList<String> displayNames) {
+        mView.setUpSpinnerData(displayNames);
     }
 }

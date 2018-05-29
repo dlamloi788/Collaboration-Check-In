@@ -7,32 +7,27 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
-import butterknife.OnItemSelected;
 
 public class CreateTaskActivity extends AppCompatActivity implements CreateTaskContract.View {
+
+    public static final String SPINNER_SELECT = "Spinner item selected";
+
 
     private CreateTaskPresenter mCreateTaskPresenter;
     private String mGroupId;
     private ArrayAdapter<String> mSpinnerAdapter;
-    private ArrayList<String> mStrings;
 
     @BindView(R.id.assign_member_spinner)
     Spinner mAssignMemberSp;
@@ -54,9 +49,10 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
         ButterKnife.bind(this);
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
-        mCreateTaskPresenter = new CreateTaskPresenter(this, mGroupId);
-        mCreateTaskPresenter.loadSpinnerData(mGroupId);
+        mSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        mAssignMemberSp.setAdapter(mSpinnerAdapter);
 
+        mCreateTaskPresenter = new CreateTaskPresenter(this, mGroupId);
     }
 
     @OnClick(R.id.task_duedate_edittext)
@@ -69,22 +65,17 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                leave();
                 break;
 
             case R.id.create_task_menu_button:
-                String assignedMember = "dlamloi2415@gmail.com"; //Until spinner works use some dummy data
+                String assignedMember = mAssignMemberSp.getSelectedItem().toString();
                 String taskTitle = taskTitleEt.getText().toString();
                 String dueDate = taskDueDatEt.getText().toString();
                 String taskDescription = taskDescriptionEt.getText().toString();
-
                 mCreateTaskPresenter.assignTask(assignedMember, taskTitle, dueDate, taskDescription);
                 break;
-
-
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -95,12 +86,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     }
 
     @Override
-    public void showSpinnerData(ArrayList<String> userEmails) {
-        mSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, userEmails);
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mAssignMemberSp.setAdapter(mSpinnerAdapter);
-        mAssignMemberSp.setSelection(0);
-
+    public void setUpSpinnerData(ArrayList<String> displayNames) {
+        mSpinnerAdapter.addAll(displayNames);
+        mSpinnerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -119,5 +107,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         taskDueDatEt.setText(date);
     }
 
+    @Override
+    public void leave() {
+        finish();
+    }
 
 }

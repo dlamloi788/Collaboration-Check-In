@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="#EEEEEE"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.dlamloi.MAD.viewgroups.ViewGroupsActivity"
     tools:showIn="@layout/activity_view_groups">
 
@@ -14,22 +14,17 @@
         android:id="@+id/groups_loading_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/colorPrimaryDark"
-        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_marginTop="20dp"
+        android:indeterminateTint="@color/colorPrimaryDark" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/groups_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         />
-
-
-
-
-
 
 
 </RelativeLayout>

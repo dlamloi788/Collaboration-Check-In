@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +44,8 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
     private ViewGroupPresenter mViewGroupPresenter;
 
+
+
     @BindView(R.id.groups_loading_progressbar)
     ProgressBar mLoadingGroupsPb;
     @BindView(R.id.groups_recyclerview)
@@ -60,8 +64,6 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         intent.putExtra(GROUP_TITLE_KEY, title);
         startActivity(intent);
     };
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
         setUpMaterialDrawer(toolbar);
+
 
     }
 

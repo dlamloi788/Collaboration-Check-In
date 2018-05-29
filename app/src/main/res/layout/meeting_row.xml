@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/color_margin"
+        android:layout_toStartOf="@id/meeting_author_textview"
         android:maxLength="30"
         android:padding="10dp"
         android:text="Project Meeting "
@@ -48,6 +49,7 @@
         android:paddingBottom="10dp">
 
         <ImageView
+            android:id="@+id/icon_imageview"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="10dp"
@@ -79,17 +81,27 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/location_icon_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/meeting_details_linearlayout"
+        android:src="@drawable/location_icon_grey"
+        android:layout_alignStart="@id/meeting_details_linearlayout"
+        android:layout_marginStart="8dp"
+        />
+
     <TextView
         android:id="@+id/meeting_publish_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/meeting_details_linearlayout"
-        android:layout_alignStart="@id/meeting_details_linearlayout"
         android:textColor="@color/bottom_sheet_dialog_textcolor"
         android:text="Created on: 17 May 2016"
+        android:layout_toEndOf="@id/location_icon_imageview"
         android:paddingBottom="10dp"
         android:paddingEnd="11dp"
-        android:paddingStart="11dp"
+        android:layout_marginStart="6dp"
         />
 
 

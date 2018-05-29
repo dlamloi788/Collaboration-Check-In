@@ -19,7 +19,9 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/username_drawable" />
+            android:src="@drawable/username_drawable"
+            android:layout_gravity="center_vertical"
+            />
 
         <Spinner
             android:id="@+id/assign_member_spinner"
@@ -27,21 +29,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-
             android:theme="@style/ThemeOverlay.AppCompat.Light" />
 
+        <ProgressBar
+            android:id="@+id/spinner_progressbar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
     </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/assign_member_layout"
-        >
+        android:layout_below="@id/assign_member_layout">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/task_title_textinputlayout"
@@ -59,9 +66,8 @@
                     android:id="@+id/task_title_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/md_black_1000"
                     android:maxLines="1"
-                    />
+                    android:textColor="@color/md_black_1000" />
 
             </android.support.design.widget.TextInputLayout>
 

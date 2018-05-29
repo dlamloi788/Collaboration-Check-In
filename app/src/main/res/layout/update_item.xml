@@ -15,7 +15,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Update #1"
-
+        android:layout_toStartOf="@id/update_published_date_textview"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="#000000" />
 
@@ -32,10 +32,10 @@
         android:id="@+id/update_details_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/update_published_date_textview"
+        android:layout_below="@+id/update_title_textview"
         android:textColor="#000000"
         android:text="Lorem ipsum dolor sit amet, orci porttitor id lorem varius, diam sit justo dui. Elementum arcu sed dolor nibh duis, massa adipiscing vivamus suspendisse in, eget convallis nulla. Vitae tortor, elementum consectetuer dolor pretium, fusce feugiat vestibulum morbi, porttitor pellentesque lectus nec eget enim id. Metus lacus etiam vel vulputate enim condimentum. Sed at vel suscipit. Faucibus tellus litora sed dictum in, tempor reiciendis donec duis vivamus enim, massa libero dui, morbi cras. Ornare erat ut quis, cursus mauris porta arcu metus vestibulum purus, mauris platea. Vel eu odio quis imperdiet eleifend malesuada. Egestas egestas suspendisse, nascetur sed vestibulum tellus at. Erat malesuada dolorum, lectus voluptas sed volutpat nascetur vivamus ac, hac faucibus ultricies metus vitae, convallis nulla eli"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:layout_marginTop="10dp"
-        android:text="dlamloi2415@gmail.com"
+        android:text="D Loi"
         android:textStyle="italic|bold"
         />
 

@@ -38,7 +38,7 @@ public class MessagePresenter implements MessageContract.Presenter, MessageContr
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yy (hh:mma)");
         String time = dateFormat.format(calendar.getTime());
-        String username = mFirebaseAuthenticationManager.getCurrentUser().getDisplayName();
+        String username = mFirebaseAuthenticationManager.getCurrentUserEmail();
         ChatMessage message = new ChatMessage(time, username, messageText);
         mFirebaseRepositoryManager.sendMessage(message);
     }

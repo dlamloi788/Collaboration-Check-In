@@ -28,7 +28,6 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
 
 
     private final GroupHomeContract.View mView;
-    private FirebaseUser mUser;
     private String mGroupId;
     private Uri mFile;
     private FirebaseStorageManager mFirebaseStorageManager;
@@ -39,7 +38,6 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
     public GroupHomePresenter(GroupHomeContract.View view) {
         mView = view;
         mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
-        mUser = mFirebaseAuthenticationManager.getCurrentUser();
         mFirebaseStorageManager = new FirebaseStorageManager(this);
     }
 
@@ -87,9 +85,10 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
 
     @Override
     public void loadProfileData() {
-        mView.setProfileImage(mUser.getPhotoUrl().toString());
-        mView.setDisplayName(mUser.getDisplayName());
-        mView.setEmail(mUser.getEmail());
+        FirebaseAuthenticationManager authenticationManager = new FirebaseAuthenticationManager();
+        mView.setProfileImage(authenticationManager.getPhotoUrl());
+        mView.setDisplayName(authenticationManager.getCurrentUserDisplayName());
+        mView.setEmail(authenticationManager.getCurrentUserEmail());
     }
 
     @Override

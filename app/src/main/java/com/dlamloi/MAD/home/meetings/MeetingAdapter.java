@@ -36,7 +36,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         public TextView meetingTitleTv;
         public TextView meetingDateTv;
         public TextView meetingTimeTv;
-        public TextView meetingPublishDateTv;
+        public TextView meetingLocationTv;
         public TextView meetingAuthorTv;
 
         public ViewHolder(View itemView) {
@@ -46,7 +46,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             meetingTitleTv = itemView.findViewById(R.id.meeting_title_textview);
             meetingDateTv = itemView.findViewById(R.id.meeting_date_textview);
             meetingTimeTv = itemView.findViewById(R.id.meeting_time_textview);
-            meetingPublishDateTv = itemView.findViewById(R.id.meeting_publish_date);
+            meetingLocationTv = itemView.findViewById(R.id.meeting_publish_date);
             meetingAuthorTv = itemView.findViewById(R.id.meeting_author_textview);
 
         }
@@ -79,7 +79,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         holder.meetingTitleTv.setText(meeting.getMeetingTitle());
         holder.meetingTimeTv.setText(meeting.getMeetingTime());
         holder.meetingAuthorTv.setText(meeting.getCreatorEmail());
-        holder.meetingPublishDateTv.setText(meeting.getMeetingPublishDate());
+        holder.meetingLocationTv.setText(meeting.getMeetingLocation());
         holder.meetingDateTv.setText(meeting.getMeetingDate());
     }
 

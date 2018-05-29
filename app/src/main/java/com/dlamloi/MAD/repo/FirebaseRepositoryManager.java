@@ -1,12 +1,19 @@
 package com.dlamloi.MAD.repo;
 
+import android.util.Log;
+
 import com.dlamloi.MAD.model.ChatMessage;
 import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.model.Update;
+import com.dlamloi.MAD.model.User;
+import com.dlamloi.MAD.taskcreation.CreateTaskContract;
+import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.security.auth.callback.Callback;
 
 /**
  * Created by Don on 25/05/2018.
@@ -21,8 +31,14 @@ import java.util.ArrayList;
 
 public class FirebaseRepositoryManager {
 
+    public static final String SPINNER_CALL = "Spinner call";
+    public static final String ADMIN_EMAIL = "Admin email";
+    public static final String CURRENT_EMAIL = "Current email";
+
     private DatabaseReference mDatabaseReference;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
     private String mGroupId;
+    private String adminEmail;
 
 
     /**
@@ -30,6 +46,7 @@ public class FirebaseRepositoryManager {
      */
     public FirebaseRepositoryManager() {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(FirebaseCallbackManager.GROUPS);
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
     }
 
     /**
@@ -40,7 +57,6 @@ public class FirebaseRepositoryManager {
     public FirebaseRepositoryManager(String groupId) {
         this();
         mGroupId = groupId;
-
     }
 
     /**
@@ -52,34 +68,63 @@ public class FirebaseRepositoryManager {
         return mDatabaseReference.push().getKey();
     }
 
+    /**
+     * Adds a group into the firebase database
+     *
+     * @param group the group to be added
+     */
     public void addGroup(Group group) {
         String id = generateKey();
         group.setId(id);
         mDatabaseReference.child(id).setValue(group);
     }
 
+    /**
+     * Adds an update into the firebase database
+     *
+     * @param update the update to be added
+     */
     public void addUpdate(Update update) {
         String id = generateKey();
         update.setId(id);
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.UPDATES).child(id).setValue(update);
     }
 
+    /**
+     * Adds a meeting into the firebase database
+     *
+     * @param meeting the meeting to be added
+     */
     public void addMeeting(Meeting meeting) {
         String id = generateKey();
         meeting.setId(id);
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.MEETINGS).child(id).setValue(meeting);
     }
 
+    /**
+     * Adds a task into the firebase database
+     *
+     * @param task the task to be added
+     */
     public void addTask(Task task) {
         String id = generateKey();
         task.setId(id);
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.TASKS).child(id).setValue(task);
     }
 
+    /**
+     * Adds a selected file into the firebase database
+     *
+     * @param cloudFile the file to be added
+     */
     public void addFile(CloudFile cloudFile) {
         String id = generateKey();
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.FILES).child(id).setValue(cloudFile);
 
+    }
+
+    public void addUser(User user) {
+        mDatabaseReference.getRoot().child(FirebaseCallbackManager.USERS).push().setValue(user);
     }
 
     public void sendMessage(ChatMessage message) {
@@ -88,15 +133,35 @@ public class FirebaseRepositoryManager {
     }
 
 
+    public void getUsernames(CreateTaskContract.Presenter presenter) {
 
-    public ArrayList<String> getGroupMemberEmails(String groupId) {
-        ArrayList<String> userEmails = new ArrayList<>();
-        mDatabaseReference.child(groupId).child("memberEmails").addValueEventListener(new ValueEventListener() {
+
+
+    }
+
+    public void taskOnStart(CreateTaskPresenter presenter) {
+        mDatabaseReference.child(mGroupId).child("adminEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot emailSnapshot : dataSnapshot.getChildren()) {
-                    String email = emailSnapshot.getValue(String.class);
-                    userEmails.add(email);
+                adminEmail = dataSnapshot.getValue(String.class);
+                Log.d(ADMIN_EMAIL, adminEmail);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ArrayList<User> users = new ArrayList<>();
+        DatabaseReference userReference = mDatabaseReference.getRoot().child(FirebaseCallbackManager.USERS);
+        userReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    Log.d("User Email", user.getEmail());
+                    users.add(user);
                 }
             }
 
@@ -105,9 +170,29 @@ public class FirebaseRepositoryManager {
 
             }
         });
-        return userEmails;
+        mDatabaseReference.child(mGroupId).child("memberEmails").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final ArrayList<String> displayNames = new ArrayList<>();
+                for (DataSnapshot emailSnapshot : dataSnapshot.getChildren()) {
+                    String email = emailSnapshot.getValue(String.class);
+                    for (User user : users) {
+                        Log.d(CURRENT_EMAIL, user.getEmail());
+                        if (user.getEmail().equalsIgnoreCase(email) || user.getEmail().equalsIgnoreCase(adminEmail)) {
+                            displayNames.add(user.getDisplayName());
+                            break;
+                        }
+                    }
+                }
+                presenter.addSpinnerData(displayNames);
+                Log.d("AddSpinnerData", "I'm called...");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
-
-
-
 }

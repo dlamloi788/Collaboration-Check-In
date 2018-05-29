@@ -29,7 +29,7 @@ public class PostUpdatePresenter implements PostUpdateContract.Presenter {
     public void publishUpdate(String updateTitle, String updateInformation) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         String updateDate = dateFormat.format(Calendar.getInstance().getTime());
-        String updatePublisher = mFirebaseAuthenticationManager.getCurrentUser().getDisplayName();
+        String updatePublisher = mFirebaseAuthenticationManager.getCurrentUserDisplayName();
         Update update = new Update(updateTitle, updateDate, updateInformation, updatePublisher);
         mFirebaseRepositoryManager.addUpdate(update);
         mView.leave();

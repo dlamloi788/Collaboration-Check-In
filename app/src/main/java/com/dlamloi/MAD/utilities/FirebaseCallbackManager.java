@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class FirebaseCallbackManager {
 
     public static final String GROUPS = "groups";
+    public static final String USERS = "users";
     public static final String UPDATES = "updates";
     public static final String MEETINGS = "meetings";
     public static final String TASKS = "tasks";

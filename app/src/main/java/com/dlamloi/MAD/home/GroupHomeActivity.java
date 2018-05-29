@@ -375,6 +375,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     @Override
     public void showFab() {
         mFloatingActionsMenu.setVisibility(View.VISIBLE);
+
     }
 
     @Override

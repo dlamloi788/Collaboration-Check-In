@@ -77,7 +77,7 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM YYYY");
         String dateToday = dateFormat.format(calendar.getTime());
 
-        String meetingCreator = new FirebaseAuthenticationManager().getCurrentUser().getEmail();
+        String meetingCreator = new FirebaseAuthenticationManager().getCurrentUserEmail();
         Meeting meeting = new Meeting(meetingCreator, dateToday ,meetingTitle, meetingDate, meetingTime,
                 meetingLocation, meetingAgenda);
         mFirebaseRepositoryManager.addMeeting(meeting);
