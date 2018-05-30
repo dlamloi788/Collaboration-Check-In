@@ -5,7 +5,9 @@
     <item
         android:id="@+id/create_task_menu_button"
         android:title="@string/assign"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        android:enabled="false"
+        >
 
 
     </item>

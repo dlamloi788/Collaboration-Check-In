@@ -2,6 +2,7 @@ package com.dlamloi.MAD.taskcreation;
 
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
+import com.dlamloi.MAD.utilities.Utility;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,11 +26,6 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
         mView = view;
         mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
         mFirebaseRepositoryManager.getUsers(this);
-
-    }
-
-    @Override
-    public void loadSpinnerData(String groupId) {
 
     }
 
@@ -63,5 +59,14 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     @Override
     public void addSpinnerData(ArrayList<String> displayNames) {
         mView.setUpSpinnerData(displayNames);
+    }
+
+    @Override
+    public void shouldAssignBeEnabled(String selectedItem, String title, String duedate, String description) {
+        if (Utility.areAnyRequiredFieldsEmpty(selectedItem, title, duedate, description)) {
+            mView.disableAssignButton();
+        } else {
+            mView.enableAssignButton();
+        }
     }
 }

@@ -23,13 +23,13 @@
     <include layout="@layout/content_create_group" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/publish_group_button"
+        android:id="@+id/create_group_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/done_icon"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimary"
         />
 
 </android.support.design.widget.CoordinatorLayout>

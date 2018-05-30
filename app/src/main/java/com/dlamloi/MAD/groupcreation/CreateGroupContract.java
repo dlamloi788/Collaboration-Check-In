@@ -12,12 +12,18 @@ public class CreateGroupContract {
 
         void groupCreated();
 
-        void showNoEmailEnteredToast();
+        void showFab();
+
+        void hideFab();
+
+        void showEmailError(String error);
     }
 
     interface Presenter {
 
         void createGroup(String groupName, ArrayList<String> userEmails);
+
+        void shouldCreateBeEnabled(String s, ArrayList<String> emails);
     }
 
 }

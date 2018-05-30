@@ -30,6 +30,7 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
     @Override
     public void dataAdded() {
         mView.hideLoadingProgressBar();
+        mView.showFab();
     }
 
     @Override

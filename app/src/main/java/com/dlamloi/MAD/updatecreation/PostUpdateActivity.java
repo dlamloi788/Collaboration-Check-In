@@ -1,6 +1,8 @@
 package com.dlamloi.MAD.updatecreation;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,11 +23,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 
 public class PostUpdateActivity extends AppCompatActivity implements PostUpdateContract.View {
 
@@ -36,10 +41,14 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
 
     private String mGroupId;
 
+    @BindView(R.id.update_title_textinputlayout)
+    TextInputLayout mTitleTextInputLayout;
     @BindView(R.id.update_title_edittext)
     EditText mUpdateTitleEt;
     @BindView(R.id.update_information_edittext)
-    EditText mUpdateInformationEt;
+    TextInputEditText mUpdateInformationEt;
+
+    private Menu mMenu;
 
 
     @Override
@@ -54,11 +63,11 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         ButterKnife.bind(this);
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mPostUpdatePresenter = new PostUpdatePresenter(this, mGroupId);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.create_update_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -72,6 +81,7 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
                 break;
 
             case R.id.publish_update:
+                item.setEnabled(false);
                 String updateTitle = mUpdateTitleEt.getText().toString();
                 String updateInformation = mUpdateInformationEt.getText().toString();
                 mPostUpdatePresenter.publishUpdate(updateTitle, updateInformation);
@@ -81,8 +91,26 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         return super.onOptionsItemSelected(item);
     }
 
+    @OnTextChanged(R.id.update_title_edittext)
+    public void updateTitleEtChange() {
+        mPostUpdatePresenter.shouldPublishBeEnabled(mUpdateTitleEt.getText().toString());
+    }
+
+
     @Override
     public void leave() {
         finish();
     }
+
+    @Override
+    public void disablePublishButton() {
+        mMenu.findItem(R.id.publish_update).setEnabled(false);
+    }
+
+    @Override
+    public void enablePublishButton() {
+        mMenu.findItem(R.id.publish_update).setEnabled(true);
+    }
+
+
 }

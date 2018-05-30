@@ -34,5 +34,15 @@ public class PostUpdatePresenter implements PostUpdateContract.Presenter {
         mFirebaseRepositoryManager.addUpdate(update);
         mView.leave();
 
+
+    }
+
+    @Override
+    public void shouldPublishBeEnabled(String updateTitle) {
+        if (updateTitle.isEmpty()) {
+            mView.disablePublishButton();
+        } else {
+            mView.enablePublishButton();
+        }
     }
 }

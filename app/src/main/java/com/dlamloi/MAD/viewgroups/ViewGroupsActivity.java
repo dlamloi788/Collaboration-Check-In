@@ -91,6 +91,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
             }
         });
         mGroupAdapter = new GroupAdapter(mGroups, mGroupItemClickListener);
+        hideFab();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGroupsRv.setLayoutManager(layoutManager);
         mGroupsRv.setAdapter(mGroupAdapter);
@@ -162,6 +163,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
     @Override
     public void showFab() {
+        mCreateGroupButton.setVisibility(View.VISIBLE);
         mCreateGroupButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 

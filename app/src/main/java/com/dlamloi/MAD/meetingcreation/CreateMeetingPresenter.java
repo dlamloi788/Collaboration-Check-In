@@ -3,10 +3,12 @@ package com.dlamloi.MAD.meetingcreation;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
+import com.dlamloi.MAD.utilities.Utility;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -70,6 +72,18 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
         mView.setTimeText(time);
 
     }
+
+    @Override
+    public void shouldCreateBeEnabled(String name, String date, String time, String location) {
+        if (Utility.areAnyRequiredFieldsEmpty(name, date, time, location)) {
+            mView.disableCreateButton();
+        } else {
+            mView.enableCreateButton();
+        }
+    }
+
+
+
 
     @Override
     public void createMeeting(String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String meetingAgenda) {

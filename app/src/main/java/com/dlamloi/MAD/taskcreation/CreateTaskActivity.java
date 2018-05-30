@@ -4,9 +4,10 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class CreateTaskActivity extends AppCompatActivity implements CreateTaskContract.View {
 
@@ -32,11 +34,13 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     @BindView(R.id.assign_member_spinner)
     Spinner mAssignMemberSp;
     @BindView(R.id.task_title_edittext)
-    EditText taskTitleEt;
+    EditText mTaskTitleEt;
     @BindView(R.id.task_duedate_edittext)
-    EditText taskDueDatEt;
+    EditText mTaskDueDatEt;
     @BindView(R.id.task_description_edittext)
-    EditText taskDescriptionEt;
+    EditText mTaskDescriptionEt;
+
+    private Menu mMenu;
 
 
     @Override
@@ -51,8 +55,18 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mAssignMemberSp.setAdapter(mSpinnerAdapter);
-
         mCreateTaskPresenter = new CreateTaskPresenter(this, mGroupId);
+        mAssignMemberSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mAssignMemberSp.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @OnClick(R.id.task_duedate_edittext)
@@ -60,6 +74,18 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         mCreateTaskPresenter.taskDateClicked();
     }
 
+
+    @OnTextChanged(value = {R.id.task_title_edittext, R.id.task_duedate_edittext,
+    R.id.task_description_edittext},
+    callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void shouldAssignBeEnabled() {
+        mCreateTaskPresenter.shouldAssignBeEnabled(
+                (String) mAssignMemberSp.getSelectedItem(),
+                mTaskTitleEt.getText().toString(),
+                mTaskDueDatEt.getText().toString(),
+                mTaskDescriptionEt.getText().toString()
+        );
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -70,9 +96,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
 
             case R.id.create_task_menu_button:
                 String assignedMember = mAssignMemberSp.getSelectedItem().toString();
-                String taskTitle = taskTitleEt.getText().toString();
-                String dueDate = taskDueDatEt.getText().toString();
-                String taskDescription = taskDescriptionEt.getText().toString();
+                String taskTitle = mTaskTitleEt.getText().toString();
+                String dueDate = mTaskDueDatEt.getText().toString();
+                String taskDescription = mTaskDescriptionEt.getText().toString();
                 mCreateTaskPresenter.assignTask(assignedMember, taskTitle, dueDate, taskDescription);
                 break;
         }
@@ -82,6 +108,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_task_meeting, menu);
+        mMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -104,12 +131,23 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
 
     @Override
     public void setDueDate(String date) {
-        taskDueDatEt.setText(date);
+        mTaskDueDatEt.setText(date);
     }
 
     @Override
     public void leave() {
         finish();
+    }
+
+    @Override
+    public void disableAssignButton() {
+        mMenu.findItem(R.id.create_task_menu_button).setEnabled(false);
+    }
+
+    @Override
+    public void enableAssignButton() {
+        mMenu.findItem(R.id.create_task_menu_button).setEnabled(true);
+
     }
 
 }

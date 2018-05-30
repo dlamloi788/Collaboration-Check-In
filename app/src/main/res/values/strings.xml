@@ -72,6 +72,15 @@
     <string name="camera_upload">Camera upload</string>
     <string name="download">Download</string>
     <string name="go_on_say_something">Go on, say something...</string>
+    <string name="member_1_email">Member #1 Email</string>
+    <string name="member_2_email">Member #2 Email</string>
+    <string name="member_3_email">Member #3 Email</string>
+    <string name="member_4_email">Member #4 Email</string>
+    <string name="member_5_email">Member #5 Email</string>
+    <string name="group_name">Group name</string>
+    <string name="members">Members</string>
+    <string name="input_group_name">Please input a group name</string>
+    <string name="input_at_least_one_email">Please input at least one email</string>
 
 
 </resources>

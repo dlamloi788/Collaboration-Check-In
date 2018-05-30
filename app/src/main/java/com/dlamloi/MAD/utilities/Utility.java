@@ -19,19 +19,18 @@ public class Utility {
         context.startActivity(intent);
     }
 
-    public static boolean areAnyTextFieldsEmpty(EditText... editTexts) {
-        for (EditText editText : editTexts) {
-            if (editText.getText().toString().isEmpty()) {
+    public static void showToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static boolean areAnyRequiredFieldsEmpty(String...fields) {
+        for (String field : fields) {
+            if (field.isEmpty()) {
                 return true;
             }
         }
         return false;
     }
-
-    public static void showToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-    }
-
 
 
 

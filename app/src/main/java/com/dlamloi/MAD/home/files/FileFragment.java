@@ -93,6 +93,7 @@ public class FileFragment extends Fragment implements FileContract.View {
 
     @Override
     public void hideFab() {
+
         ((GroupHomeActivity)getActivity()).hideFab();
     }
 

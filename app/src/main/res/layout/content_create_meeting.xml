@@ -52,8 +52,8 @@
                 android:layout_centerHorizontal="true"
                 android:backgroundTint="@color/md_grey_500"
                 android:hint="@string/name"
-                android:textColor="@color/md_black_1000"
-                android:textColorHint="@color/md_grey_500"
+                android:textColor="@color/black"
+                android:textColorHint="@color/edittext_hint_color"
 
                 />
 

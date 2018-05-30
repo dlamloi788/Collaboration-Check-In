@@ -34,6 +34,10 @@ public interface CreateMeetingContract {
         void setMeetingDate(String date);
 
         void setTimeText(String time);
+
+        void enableCreateButton();
+
+        void disableCreateButton();
     }
 
     interface Presenter {
@@ -56,6 +60,8 @@ public interface CreateMeetingContract {
         void datePicked(int year, int month, int dayOfMonth);
 
         void timePicked(int hourOfDay, int minute);
+
+        void shouldCreateBeEnabled(String s, String s1, String s2, String s3);
     }
 
 }

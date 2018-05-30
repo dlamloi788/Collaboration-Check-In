@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFA500</color>
-    <color name="colorPrimaryDark">#E59400</color>
+    <color name="colorPrimary">#f44336</color>
+    <color name="colorPrimaryDark">#D32F2F</color>
     <color name="colorAccent">#E0E0E0</color>
     <color name="TopBarColor">#29b8c4</color>
     <color name="ActionBarColor">#2dc9d6</color>
@@ -22,7 +22,6 @@
     <color name="material_drawer_primary_light">#BBDEFB</color>
     <color name="material_drawer_accent">#FF4081</color>
 
-    <!-- OVERWRITE THESE COLORS FOR A LIGHT THEME -->
     <!-- MaterialDrawer DEFAULT colors -->
     <color name="material_drawer_background">#F9F9F9</color>
     <!-- Material DEFAULT text / items colors -->
@@ -49,6 +48,8 @@
     <color name="material_drawer_dark_selected">#202020</color>
     <color name="material_drawer_dark_selected_text">@color/material_drawer_primary</color>
     <color name="material_drawer_dark_header_selection_text">#FFF</color>
+    <color name="black">#000000</color>
+    <color name="edittext_hint_color">@color/md_grey_500</color>
     
 
 

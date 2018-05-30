@@ -17,10 +17,13 @@ public interface CreateTaskContract {
         void setDueDate(String date);
 
         void leave();
+
+        void disableAssignButton();
+
+        void enableAssignButton();
     }
 
     interface Presenter {
-        void loadSpinnerData(String groupId);
 
         void taskDateClicked();
 
@@ -29,6 +32,8 @@ public interface CreateTaskContract {
         void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription);
 
         void addSpinnerData(ArrayList<String> displayNames);
+
+        void shouldAssignBeEnabled(String selectedItem, String s, String s1, String s2);
     }
 
 

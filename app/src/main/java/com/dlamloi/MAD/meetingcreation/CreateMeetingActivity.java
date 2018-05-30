@@ -33,6 +33,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class CreateMeetingActivity extends AppCompatActivity implements CreateMeetingContract.View {
 
@@ -51,8 +52,8 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     EditText mMeetingLocationEt;
     @BindView(R.id.meeting_agenda_edittext)
     EditText mMeetingAgendaEt;
-    @BindView(R.id.create_meeting_layout)
-    CoordinatorLayout mCreateMeetingLayout;
+
+    private Menu mMenu;
 
 
     @Override
@@ -68,7 +69,6 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mCreateMeetingPresenter = new CreateMeetingPresenter(this, mGroupId);
 
-
     }
 
     @OnClick(R.id.meeting_location_edittext)
@@ -78,32 +78,6 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
         } else {
             setUpBottomSheetDialog();
         }
-    }
-
-    /**
-     * Opens up a menu at the bottom of the screen if the user attempts to
-     * change the location after a location has been chosen
-     */
-    private void setUpBottomSheetDialog() {
-        BottomSheetDialog bottomSheetDialog =
-                new BottomSheetDialog(this);
-        View bottomSheetView = CreateMeetingActivity.this.getLayoutInflater()
-                .inflate(R.layout.bottom_sheet_dialog, null);
-
-        bottomSheetDialog.setContentView(bottomSheetView);
-
-        LinearLayout removeLocationLinearLayout = bottomSheetDialog.findViewById(R.id.remove_meeting_location_linearlayout);
-        removeLocationLinearLayout.setOnClickListener(v -> {
-            mMeetingLocationEt.getText().clear();
-            bottomSheetDialog.dismiss();
-        });
-
-        LinearLayout changeLocationLinearLayout =  bottomSheetDialog.findViewById(R.id.change_meeting_location_linearlayout);
-        changeLocationLinearLayout.setOnClickListener(v -> {
-            mCreateMeetingPresenter.selectLocation();
-            bottomSheetDialog.dismiss();
-        });
-        bottomSheetDialog.show();
     }
 
     @OnClick(R.id.meeting_date_edittext)
@@ -116,10 +90,23 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
         mCreateMeetingPresenter.meetingTimeClick();
     }
 
+    @OnTextChanged(value = {R.id.meeting_name_edittext, R.id.meeting_date_edittext,
+            R.id.meeting_time_edittext, R.id.meeting_location_edittext, R.id.meeting_agenda_edittext},
+            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void shouldCreateBeEnabled() {
+        mCreateMeetingPresenter.shouldCreateBeEnabled(
+                mMeetingNameEt.getText().toString(),
+                mMeetingDateEt.getText().toString(),
+                mMeetingTimeEt.getText().toString(),
+                mMeetingLocationEt.getText().toString()
+        );
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_meeting_menu, menu);
+        mMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -188,7 +175,7 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
                 mMeetingTimeEt.getText().toString(),
                 mMeetingLocationEt.getText().toString(),
                 mMeetingAgendaEt.getText().toString()
-                );
+        );
     }
 
     @Override
@@ -204,6 +191,16 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     @Override
     public void setTimeText(String time) {
         mMeetingTimeEt.setText(time);
+    }
+
+    @Override
+    public void enableCreateButton() {
+        mMenu.findItem(R.id.create_meeting_menu_button).setEnabled(true);
+    }
+
+    @Override
+    public void disableCreateButton() {
+        mMenu.findItem(R.id.create_meeting_menu_button).setEnabled(false);
     }
 
     @Override
@@ -237,6 +234,32 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     @Override
     public void hideLeaveDialog(AlertDialog leaveConfirmationDialog) {
         leaveConfirmationDialog.dismiss();
+    }
+
+    /**
+     * Opens up a menu at the bottom of the screen if the user attempts to
+     * change the location after a location has been chosen
+     */
+    private void setUpBottomSheetDialog() {
+        BottomSheetDialog bottomSheetDialog =
+                new BottomSheetDialog(this);
+        View bottomSheetView = CreateMeetingActivity.this.getLayoutInflater()
+                .inflate(R.layout.bottom_sheet_dialog, null);
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        LinearLayout removeLocationLinearLayout = bottomSheetDialog.findViewById(R.id.remove_meeting_location_linearlayout);
+        removeLocationLinearLayout.setOnClickListener(v -> {
+            mMeetingLocationEt.getText().clear();
+            bottomSheetDialog.dismiss();
+        });
+
+        LinearLayout changeLocationLinearLayout = bottomSheetDialog.findViewById(R.id.change_meeting_location_linearlayout);
+        changeLocationLinearLayout.setOnClickListener(v -> {
+            mCreateMeetingPresenter.selectLocation();
+            bottomSheetDialog.dismiss();
+        });
+        bottomSheetDialog.show();
     }
 }
 
