@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/launcher_ic"
@@ -69,6 +68,14 @@
             android:name=".taskcreation.CreateTaskActivity"
             android:label="@string/title_activity_create_task"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".viewtask.ViewTaskActivity"
+            android:label="@string/title_activity_view_meeting"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".viewmeeting.ViewMeetingActivity"
+            android:label="@string/title_activity_view_meeting"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,15 +19,10 @@ import android.widget.LinearLayout;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
-import com.dlamloi.MAD.home.meetings.MeetingFragment;
-import com.dlamloi.MAD.model.Group;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,9 +48,9 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     EditText mMeetingAgendaEt;
 
     private Menu mMenu;
+    private BottomSheetDialog mBottomSheetDialog;
+    private Intent placePickerIntent;
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_meeting);
@@ -68,16 +62,24 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
         ButterKnife.bind(this);
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mCreateMeetingPresenter = new CreateMeetingPresenter(this, mGroupId);
+        setUpPlacePickerIntent();
+        setUpBottomSheetDialog();
+    }
+
+    private void setUpPlacePickerIntent() {
+        try {
+            placePickerIntent = new PlacePicker.IntentBuilder().build(this);
+        } catch (GooglePlayServicesRepairableException e) {
+            placePickerIntent = null;
+        } catch (GooglePlayServicesNotAvailableException e) {
+            placePickerIntent = null;
+        }
 
     }
 
     @OnClick(R.id.meeting_location_edittext)
     public void meetingLocationEtClicked() {
-        if (mMeetingLocationEt.getText().toString().isEmpty()) {
-            mCreateMeetingPresenter.selectLocation();
-        } else {
-            setUpBottomSheetDialog();
-        }
+        mCreateMeetingPresenter.selectLocation(mMeetingLocationEt.getText().toString());
     }
 
     @OnClick(R.id.meeting_date_edittext)
@@ -136,12 +138,6 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCreateMeetingPresenter.result(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void startShowLocation(PlacePicker.IntentBuilder builder) throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
-        Intent intent = builder.build(this);
-        startActivityForResult(intent, PLACE_PICKER_REQUEST);
     }
 
     @Override
@@ -204,6 +200,16 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     }
 
     @Override
+    public void showBottomSheetDialog() {
+        mBottomSheetDialog.show();
+    }
+
+    @Override
+    public void startSelectLocation() {
+        startActivityForResult(placePickerIntent, PLACE_PICKER_REQUEST);
+    }
+
+    @Override
     public void meetingPublished() {
         finish();
     }
@@ -217,7 +223,6 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     public void showLeaveConfirmationDialog(AlertDialog leaveConfirmationDialog) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
-
         leaveConfirmationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         leaveConfirmationDialog.setCancelable(false);
         leaveConfirmationDialog.setMessage(getString(R.string.quit_scheduling_meeting));
@@ -241,25 +246,24 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
      * change the location after a location has been chosen
      */
     private void setUpBottomSheetDialog() {
-        BottomSheetDialog bottomSheetDialog =
+        mBottomSheetDialog =
                 new BottomSheetDialog(this);
         View bottomSheetView = CreateMeetingActivity.this.getLayoutInflater()
                 .inflate(R.layout.bottom_sheet_dialog, null);
 
-        bottomSheetDialog.setContentView(bottomSheetView);
+        mBottomSheetDialog.setContentView(bottomSheetView);
 
-        LinearLayout removeLocationLinearLayout = bottomSheetDialog.findViewById(R.id.remove_meeting_location_linearlayout);
+        LinearLayout removeLocationLinearLayout = mBottomSheetDialog.findViewById(R.id.remove_meeting_location_linearlayout);
         removeLocationLinearLayout.setOnClickListener(v -> {
             mMeetingLocationEt.getText().clear();
-            bottomSheetDialog.dismiss();
+            mBottomSheetDialog.dismiss();
         });
 
-        LinearLayout changeLocationLinearLayout = bottomSheetDialog.findViewById(R.id.change_meeting_location_linearlayout);
+        LinearLayout changeLocationLinearLayout = mBottomSheetDialog.findViewById(R.id.change_meeting_location_linearlayout);
         changeLocationLinearLayout.setOnClickListener(v -> {
-            mCreateMeetingPresenter.selectLocation();
-            bottomSheetDialog.dismiss();
+            mCreateMeetingPresenter.selectLocation(mMeetingLocationEt.getText().toString());
+            mBottomSheetDialog.dismiss();
         });
-        bottomSheetDialog.show();
     }
 }
 

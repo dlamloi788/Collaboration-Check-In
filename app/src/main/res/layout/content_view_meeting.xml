@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="15dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.dlamloi.MAD.viewmeeting.ViewMeetingActivity"
+    tools:showIn="@layout/activity_view_meeting">
+
+    <TextView
+        android:id="@+id/view_meeting_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="MAD Meeting "
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/view_meeting_title_margin"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/view_meeting_title_textview"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/md_grey_500" />
+
+    <TextView
+        android:id="@+id/view_meeting_date_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_meeting_title_margin"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/meeting_date_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/view_meeting_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/view_meeting_date_title"
+        android:layout_toEndOf="@id/view_meeting_date_title"
+        android:text="03 Jun. 2018"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/view_meeting_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_meeting_date_title"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/meeting_time_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/view_meeting_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/view_meeting_time_title"
+        android:layout_toEndOf="@id/view_meeting_date_title"
+        android:text="12:30PM"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/view_meeting_location_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_meeting_time_title"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/meeting_location_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/view_meeting_location_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_meeting_location_title"
+        android:text="4 Queens Street, Berala 2141..."
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/view_meeting_agenda_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_meeting_location_textview"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/meeting_agenda"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/view_meeting_agenda_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_meeting_agenda_title"
+        android:textColor="@color/black"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non dolor nisl. Donec convallis est lacus. Etiam vel euismod risus. Aenean eget ante sed elit tempor vestibulum placerat sed augue. Nam et ullamcorper lacus. Nullam id mauris sed urna iaculis venenatis nec laoreet sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis at tellus eu consectetur. Donec fermentum, nibh ac malesuada porta, nibh mi facilisis ante, ac interdum sapien purus nec libero. Ut lectus lorem, semper quis pulvinar in, dignissim pharetra sapien. Cras nec sapien vulputate mi semper molestie eu quis dolor."
+        />
+
+</RelativeLayout>

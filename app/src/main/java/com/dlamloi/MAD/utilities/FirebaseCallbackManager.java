@@ -34,6 +34,7 @@ public class FirebaseCallbackManager {
     public static final String TASKS = "tasks";
     public static final String FILES = "files";
     public static final String MESSAGES = "messages";
+    public static final String STATUS = "status";
 
     private DatabaseReference mDatabaseReference;
     private String mGroupId;
@@ -151,7 +152,8 @@ public class FirebaseCallbackManager {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                Task task = dataSnapshot.getValue(Task.class);
+                taskListener.onTaskComplete(task.getId());
             }
 
             @Override

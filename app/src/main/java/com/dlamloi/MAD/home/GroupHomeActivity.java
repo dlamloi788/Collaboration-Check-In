@@ -331,7 +331,6 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         intent.putExtra(GROUP_KEY, mGroupId);
         Utility.startIntent(this, intent);
 
-
     }
 
     @Override

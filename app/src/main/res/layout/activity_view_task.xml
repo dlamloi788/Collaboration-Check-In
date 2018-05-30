@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dlamloi.MAD.viewgroups.ViewGroupsActivity">
+    tools:context="com.dlamloi.MAD.viewtask.ViewTaskActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,17 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_view_groups" />
+    <include layout="@layout/content_view_task" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/create_group_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/create_icon"
-        android:backgroundTint="@color/colorPrimary"
-        android:visibility="invisible"
-        />
+
 
 </android.support.design.widget.CoordinatorLayout>

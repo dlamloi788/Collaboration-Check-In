@@ -30,6 +30,20 @@ public class TaskPresenter implements TaskContract.Presenter, TaskContract.TaskL
         mView.populateRecyclerView(mTasks);
     }
 
+    @Override
+    public void onTaskComplete(String id) {
+        ArrayList<Task> tasks = mView.getTasks();
+        int index = 0;
+        for (Task task : tasks) {
+            if (task.getId().equalsIgnoreCase(id)) {
+                break;
+            }
+            ++index;
+        }
+        mView.taskCompleted(index);
+
+    }
+
 
     @Override
     public void scrollStateChanged(int state) {
@@ -43,4 +57,6 @@ public class TaskPresenter implements TaskContract.Presenter, TaskContract.TaskL
                 break;
         }
     }
+
+
 }

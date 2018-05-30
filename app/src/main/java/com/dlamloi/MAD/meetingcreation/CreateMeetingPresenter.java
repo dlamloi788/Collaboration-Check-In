@@ -3,7 +3,6 @@ package com.dlamloi.MAD.meetingcreation;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
@@ -32,14 +31,11 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
     }
 
     @Override
-    public void selectLocation() {
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-        try {
-            mView.startShowLocation(builder);
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-        } catch (GooglePlayServicesRepairableException e) {
-            e.printStackTrace();
+    public void selectLocation(String location) {
+        if (location.isEmpty()) {
+            mView.startSelectLocation();
+        } else {
+            mView.showBottomSheetDialog();
         }
     }
 
@@ -82,17 +78,14 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
         }
     }
 
-
-
-
     @Override
     public void createMeeting(String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String meetingAgenda) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM YYYY");
         String dateToday = dateFormat.format(calendar.getTime());
 
-        String meetingCreator = new FirebaseAuthenticationManager().getCurrentUserEmail();
-        Meeting meeting = new Meeting(meetingCreator, dateToday ,meetingTitle, meetingDate, meetingTime,
+        String meetingCreator = new FirebaseAuthenticationManager().getCurrentUserDisplayName();
+        Meeting meeting = new Meeting(meetingCreator, dateToday, meetingTitle, meetingDate, meetingTime,
                 meetingLocation, meetingAgenda);
         mFirebaseRepositoryManager.addMeeting(meeting);
         mView.meetingPublished();
@@ -132,7 +125,6 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
         String date = dateFormat.format(calendar.getTime());
         mView.setMeetingDate(date);
     }
-
 
 
     private boolean areAllFieldsEmpty(String... texts) {

@@ -2,6 +2,7 @@ package com.dlamloi.MAD.repo;
 
 import android.util.Log;
 
+import com.dlamloi.MAD.home.tasks.TaskFragment;
 import com.dlamloi.MAD.model.ChatMessage;
 import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.model.Group;
@@ -13,7 +14,8 @@ import com.dlamloi.MAD.taskcreation.CreateTaskContract;
 import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
-import com.google.firebase.database.ChildEventListener;
+import com.dlamloi.MAD.viewmeeting.ViewMeetingContract;
+import com.dlamloi.MAD.viewtask.ViewTaskContract;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,9 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import javax.security.auth.callback.Callback;
 
 /**
  * Created by Don on 25/05/2018.
@@ -124,22 +123,31 @@ public class FirebaseRepositoryManager {
 
     }
 
+    /**
+     * Adds a user into the firebase database
+     *
+     * @param user the user to be added
+     */
     public void addUser(User user) {
         mDatabaseReference.getRoot().child(FirebaseCallbackManager.USERS).push().setValue(user);
     }
 
+    /**
+     * Adds a message to the firebase database
+     *
+     * @param message the message to be stored
+     */
     public void sendMessage(ChatMessage message) {
         String id = generateKey();
         mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.MESSAGES).child(id).setValue(message);
     }
 
 
-    public void getUsernames(CreateTaskContract.Presenter presenter) {
-
-
-
-    }
-
+    /**
+     * Begins the process of retreiving the display names of the group members
+     *
+     * @param presenter the create task presenter
+     */
     public void getUsers(CreateTaskPresenter presenter) {
         mDatabaseReference.child(mGroupId).child("adminEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -173,6 +181,13 @@ public class FirebaseRepositoryManager {
 
     }
 
+    /**
+     * Transforms user emails to display names and passes it to the
+     * presenter
+     *
+     * @param users     the users of the group
+     * @param presenter the creater task presenter
+     */
     private void taskOnStart(ArrayList<User> users, CreateTaskPresenter presenter) {
         mDatabaseReference.child(mGroupId).child("memberEmails").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -209,6 +224,48 @@ public class FirebaseRepositoryManager {
 
             }
         });
+    }
+
+    /**
+     * Provides data of the task tapped
+     *
+     * @param taskId    the task id of the task tapped
+     * @param presenter the task presenter
+     */
+    public void setUpTaskData(String taskId, ViewTaskContract.Presenter presenter) {
+        mDatabaseReference.child(mGroupId).child("tasks").child(taskId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Task task = dataSnapshot.getValue(Task.class);
+                presenter.onDataReceive(task);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void completedTask(String taskId) {
+        mDatabaseReference.child(mGroupId).child("tasks").child(taskId).child(FirebaseCallbackManager.STATUS).setValue(TaskFragment.COMPLETE);
+    }
+
+    public void setUpMeetingData(String meetingId, ViewMeetingContract.Presenter presenter) {
+        mDatabaseReference.child(mGroupId).child("meetings").child(meetingId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Meeting meeting = dataSnapshot.getValue(Meeting.class);
+                presenter.onDataReceive(meeting);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }
 

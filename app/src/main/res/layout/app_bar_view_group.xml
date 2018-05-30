@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/group_home_rootview"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/group_home_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dlamloi.MAD.home.GroupHomeActivity">
-
 
 
     <android.support.design.widget.AppBarLayout
@@ -16,31 +15,28 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
 
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
                 android:id="@+id/upload_progressbar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:cpb_background_progressbar_color="@color/white"
-                app:cpb_progress="50"
-                app:cpb_progressbar_color="@color/md_blue_300"
-                app:cpb_background_progressbar_width="3dp"
-                app:cpb_progressbar_width="3dp"
                 android:layout_gravity="end"
                 android:layout_margin="3dp"
                 android:visibility="invisible"
-                />
+                app:cpb_background_progressbar_color="@color/white"
+                app:cpb_background_progressbar_width="3dp"
+                app:cpb_progress="50"
+                app:cpb_progressbar_color="@color/md_blue_300"
+                app:cpb_progressbar_width="3dp" />
 
 
         </android.support.v7.widget.Toolbar>
-
 
 
         <android.support.design.widget.TabLayout
@@ -53,7 +49,6 @@
             app:tabSelectedTextColor="@android:color/white"
 
             />
-
 
 
     </android.support.design.widget.AppBarLayout>
@@ -71,8 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/higher_transparent_black"
-        android:visibility="invisible"
-        />
+        android:visibility="invisible" />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/floating_actions_menu"
@@ -80,13 +74,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:fab_addButtonColorNormal="@color/colorPrimary"
+        app:fab_addButtonColorPressed="@color/colorPrimaryDark"
         app:fab_labelStyle="@style/menu_labels_style"
         app:fab_labelsPosition="left">
+
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/post_update_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
             app:fab_icon="@drawable/add_update"
             app:fab_size="mini"
             app:fab_title="@string/post_update" />
@@ -95,6 +95,8 @@
             android:id="@+id/schedule_meeting_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
             app:fab_icon="@drawable/schedule_meeting_icon"
             app:fab_size="mini"
             app:fab_title="@string/schedule_meeting" />
@@ -104,6 +106,8 @@
             android:id="@+id/assign_task_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
             app:fab_icon="@drawable/task_icon"
             app:fab_size="mini"
             app:fab_title="@string/assign_task" />
@@ -112,6 +116,8 @@
             android:id="@+id/upload_file_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
             app:fab_icon="@drawable/upload_file_icon"
             app:fab_size="mini"
             app:fab_title="@string/upload_file" />
@@ -120,15 +126,14 @@
             android:id="@+id/upload_camera_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
             app:fab_icon="@drawable/camera_icon"
             app:fab_size="mini"
-            app:fab_title="@string/camera_upload"
-            />
+            app:fab_title="@string/camera_upload" />
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

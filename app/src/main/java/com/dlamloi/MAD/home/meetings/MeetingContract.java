@@ -25,5 +25,8 @@ public interface MeetingContract {
 
     }
 
+    interface MeetingItemClickListener {
 
+        void meetingClick(String meetingId);
+    }
 }

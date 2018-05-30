@@ -15,7 +15,6 @@ public interface CreateMeetingContract {
 
     interface View {
 
-        void startShowLocation(PlacePicker.IntentBuilder builder) throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException;
 
         void setPlaceText(Intent data);
 
@@ -38,12 +37,16 @@ public interface CreateMeetingContract {
         void enableCreateButton();
 
         void disableCreateButton();
+
+        void showBottomSheetDialog();
+
+        void startSelectLocation();
     }
 
     interface Presenter {
 
 
-        void selectLocation();
+        void selectLocation(String s);
 
         void result(int requestCode, int resultCode, Intent data);
 

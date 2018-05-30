@@ -1,10 +1,12 @@
 package com.dlamloi.MAD.home.tasks;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.model.Task;
+import com.dlamloi.MAD.viewtask.ViewTaskActivity;
 
 import java.util.ArrayList;
 
@@ -23,12 +26,22 @@ import java.util.ArrayList;
 public class TaskFragment extends Fragment implements TaskContract.View {
 
     public static final int SPAN_COUNT = 2;
+    public static final String TASK_ID = "task id";
+    public static final String COMPLETE = "Complete";
 
     private RecyclerView mTasksRv;
     private String mGroupId;
     private TaskPresenter mTaskPresenter;
     private TaskAdapter mTaskAdapter;
     private ArrayList<Task> mTasks = new ArrayList<>();
+
+    private TaskContract.TaskItemClickListener mTaskItemClickListener = taskId -> {
+        Intent intent = new Intent(getActivity(), ViewTaskActivity.class);
+        intent.putExtra(TASK_ID, taskId);
+        intent.putExtra(GroupHomeActivity.GROUP_KEY, mGroupId);
+        startActivity(intent);
+
+    };
 
     public TaskFragment() {
         // Required empty public constructor
@@ -51,7 +64,7 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         }
         mTasks = new ArrayList<>();
         mTaskPresenter = new TaskPresenter(this, mGroupId);
-        mTaskAdapter = new TaskAdapter(mTasks);
+        mTaskAdapter = new TaskAdapter(mTasks, mTaskItemClickListener);
     }
 
     @Override
@@ -72,8 +85,6 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         });
         return view;
     }
-
-
 
     @Override
     public void notifyItemInserted(int position) {
@@ -98,5 +109,16 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         }
         mTasks.addAll(tasks);
         notifyItemInserted(tasks.size());
+    }
+
+    @Override
+    public ArrayList<Task> getTasks() {
+        return mTasks;
+    }
+
+    @Override
+    public void taskCompleted(int index) {
+        mTasks.get(index).setStatus(COMPLETE);
+        mTaskAdapter.notifyItemChanged(index);
     }
 }

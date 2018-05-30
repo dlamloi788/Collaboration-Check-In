@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="15dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.dlamloi.MAD.viewtask.ViewTaskActivity"
+    tools:showIn="@layout/activity_view_task">
+
+    <TextView
+        android:id="@+id/view_task_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Complete the use case diagram"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/view_task_title_margin"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/view_task_title_textview"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/md_grey_500"
+
+        />
+
+    <TextView
+        android:id="@+id/view_task_description_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_task_title_margin"
+        android:layout_marginTop="15dp"
+        android:text="@string/task_description_heading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/view_task_description_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_task_description_heading"
+        android:text="Complete the class diagram, make sure that the diagram is legible and ensure that each depedency is labelled as show in class"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/view_task_due_date_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_task_description_textview"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/task_due_date_heading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/view_task_due_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/view_task_due_date_heading"
+        android:layout_toEndOf="@+id/view_task_due_date_heading"
+        android:text="03 Jun. 2018"
+        android:textColor="@color/black" />
+
+
+</RelativeLayout>

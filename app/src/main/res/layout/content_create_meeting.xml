@@ -52,6 +52,8 @@
                 android:layout_centerHorizontal="true"
                 android:backgroundTint="@color/md_grey_500"
                 android:hint="@string/name"
+                android:maxLines="1"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/edittext_hint_color"
 
@@ -122,10 +124,9 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/md_grey_500"
                 android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:hint="@string/meeting_location"
-                android:textColor="@color/md_black_1000"
-
-                />
+                android:textColor="@color/md_black_1000" />
 
         </android.support.design.widget.TextInputLayout>
 

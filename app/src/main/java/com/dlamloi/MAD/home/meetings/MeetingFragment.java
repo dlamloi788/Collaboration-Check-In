@@ -1,6 +1,7 @@
 package com.dlamloi.MAD.home.meetings;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.model.Meeting;
+import com.dlamloi.MAD.viewmeeting.ViewMeetingActivity;
 
 import java.util.ArrayList;
 
@@ -22,13 +24,19 @@ import java.util.ArrayList;
  */
 public class MeetingFragment extends Fragment implements MeetingContract.View {
 
-    public static final String GROUP_KEY = "group";
+    public static final String MEETING_ID = "Meeting id";
 
     private RecyclerView mMeetingPlansRv;
     private String mGroupId;
     private MeetingPresenter mMeetingPresenter;
     private MeetingAdapter mMeetingAdapter;
     private ArrayList<Meeting> mMeetings;
+    private MeetingContract.MeetingItemClickListener mMeetingItemClickListener = meetingId -> {
+        Intent intent = new Intent(getActivity(), ViewMeetingActivity.class);
+        intent.putExtra(GroupHomeActivity.GROUP_KEY, mGroupId);
+        intent.putExtra(MEETING_ID, meetingId);
+        startActivity(intent);
+    };
 
 
     public MeetingFragment() {
@@ -54,7 +62,7 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         }
         mMeetings = new ArrayList<>();
         mMeetingPresenter = new MeetingPresenter(this, mGroupId);
-        mMeetingAdapter = new MeetingAdapter(mMeetings);
+        mMeetingAdapter = new MeetingAdapter(mMeetings, mMeetingItemClickListener);
 
     }
 

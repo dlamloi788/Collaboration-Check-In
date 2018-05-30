@@ -1,25 +1,17 @@
 package com.dlamloi.MAD.home.tasks;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Task;
-import com.dlamloi.MAD.taskcreation.CreateTaskActivity;
 import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -30,28 +22,35 @@ import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
+    private TaskContract.TaskItemClickListener mTaskItemClickListener;
     private ArrayList<Task> mTasks = new ArrayList<>();
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView statusIv;
-        public TextView taskAssignedMemberTv;
-        public TextView taskTitleTv;
+        public RelativeLayout mTaskRowContainer;
+        public ImageView mStatusIv;
+        public TextView mTaskAssignedMemberTv;
+        public TextView mTaskTitleTv;
+        public TextView mTaskDueDateTv;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            statusIv = itemView.findViewById(R.id.status_imageview);
-            taskAssignedMemberTv = itemView.findViewById(R.id.task_assigned_member_textview);
-            taskTitleTv = itemView.findViewById(R.id.task_title_textview);
+
+            mTaskRowContainer = itemView.findViewById(R.id.task_row_container);
+            mStatusIv = itemView.findViewById(R.id.status_imageview);
+            mTaskAssignedMemberTv = itemView.findViewById(R.id.task_assigned_member_textview);
+            mTaskTitleTv = itemView.findViewById(R.id.task_title_textview);
+            mTaskDueDateTv = itemView.findViewById(R.id.task_due_date_textview);
         }
 
     }
 
 
-    public TaskAdapter(ArrayList<Task> tasks) {
+    public TaskAdapter(ArrayList<Task> tasks, TaskContract.TaskItemClickListener taskItemClickListener) {
         this.mTasks = tasks;
+        this.mTaskItemClickListener = taskItemClickListener;
     }
 
 
@@ -73,13 +72,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         } else if (status.equals(CreateTaskPresenter.STATUS_COMPLETE)) {
             drawableReference = R.drawable.complete_icon;
 
-        } else{
+        } else {
             drawableReference = R.drawable.overdue_icon;
         }
-        holder.statusIv.setImageResource(drawableReference);
-        holder.taskAssignedMemberTv.setText(task.getAssignedMember());
-        holder.taskTitleTv.setText(task.getTitle());
-
+        holder.mStatusIv.setImageResource(drawableReference);
+        holder.mTaskAssignedMemberTv.setText(task.getAssignedMember());
+        holder.mTaskTitleTv.setText(task.getTitle());
+        holder.mTaskDueDateTv.setText(holder.itemView.getContext().getString(R.string.due, task.getDueDate()));
+        holder.mTaskRowContainer.setOnClickListener(v -> mTaskItemClickListener.taskClick(task.getId()));
 
 
     }
@@ -88,7 +88,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public int getItemCount() {
         return mTasks.size();
     }
-
 
 
 }

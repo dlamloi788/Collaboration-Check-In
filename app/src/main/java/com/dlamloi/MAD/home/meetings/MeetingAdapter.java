@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder> {
 
     private ArrayList<Meeting> mMeetings;
-
+    private MeetingContract.MeetingItemClickListener mMeetingItemClickListener;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,8 +52,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         }
     }
 
-    public MeetingAdapter(ArrayList<Meeting> meetings) {
+    public MeetingAdapter(ArrayList<Meeting> meetings, MeetingContract.MeetingItemClickListener meetingItemClickListener) {
         mMeetings = meetings;
+        mMeetingItemClickListener = meetingItemClickListener;
     }
 
     @NonNull
@@ -81,6 +82,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         holder.meetingAuthorTv.setText(meeting.getCreatorEmail());
         holder.meetingLocationTv.setText(meeting.getMeetingLocation());
         holder.meetingDateTv.setText(meeting.getMeetingDate());
+        holder.meetingRowLayout.setOnClickListener(v -> mMeetingItemClickListener.meetingClick(meeting.getId()));
     }
 
     @Override
