@@ -15,6 +15,9 @@ import com.dlamloi.MAD.utilities.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * This class is responsible for displaying the UI of viewing tasks
+ */
 public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContract.View{
 
     @BindView(R.id.view_task_title_textview)
@@ -28,6 +31,9 @@ public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContr
     private String mGroupId;
     private ViewTaskPresenter mViewTaskPresenter;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +51,18 @@ public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContr
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.view_task_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -67,7 +79,9 @@ public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContr
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void bindTaskData(String title, String detail, String dueDate) {
         mViewTaskTitleTv.setText(title);
@@ -75,16 +89,25 @@ public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContr
         mViewTaskDueDateTv.setText(dueDate);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void leave() {
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showTaskCompleteError() {
         Utility.showToast(this, getString(R.string.not_assigned_to_task));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showTaskCompleteToast() {
         Utility.showToast(this, "Great Job! Task Complete");

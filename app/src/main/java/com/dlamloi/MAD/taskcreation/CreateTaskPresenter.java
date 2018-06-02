@@ -13,6 +13,9 @@ import java.util.Calendar;
  * Created by Don on 17/05/2018.
  */
 
+/**
+ * This class is responsible for handling the UI logic of the view
+ */
 public class CreateTaskPresenter implements CreateTaskContract.Presenter {
 
     public static final String STATUS_PENDING = "Pending";
@@ -21,7 +24,12 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     private final CreateTaskContract.View mView;
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
 
-
+    /**
+     * Creates an instance of the create task presenter
+     *
+     * @param view the view that the presenter will be moderating
+     * @param groupId the id of the group that the user is currently in
+     */
     public CreateTaskPresenter(CreateTaskContract.View view, String groupId) {
         mView = view;
         mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
@@ -29,6 +37,9 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void taskDateClicked() {
         Calendar date = Calendar.getInstance();
@@ -38,6 +49,9 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
         mView.showDateDialog(year, month, day);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void datePicked(int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
@@ -49,6 +63,9 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
         mView.setDueDate(date);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription) {
         String[] assignedMemberSplit = assignedMember.split("-");
@@ -59,20 +76,29 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
         mView.leave();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addSpinnerData(ArrayList<String> displayNames) {
         mView.setUpSpinnerData(displayNames);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void shouldAssignBeEnabled(String selectedItem, String title, String duedate) {
-        if (Utility.areAnyRequiredFieldsEmpty(selectedItem, title, duedate)) {
+        if (Utility.areAnyTextEmpty(selectedItem, title, duedate)) {
             mView.disableAssignButton();
         } else {
             mView.enableAssignButton();
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void homeButtonPressed(String title, String dueDate) {
         if (!title.isEmpty() || !dueDate.isEmpty()) {

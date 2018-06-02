@@ -19,12 +19,18 @@ import java.util.ArrayList;
  * Created by Don on 11/04/2018.
  */
 
+/**
+ * This class is responsible for receiving a list and converting it into
+ * rows for a recyclerview
+ */
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
     private ViewGroupContract.GroupItemClickListener mGroupItemClickListener;
     private ArrayList<Group> mGroups;
 
-
+    /**
+     * Caches the meeting rows
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView groupDisplayIv;
@@ -40,11 +46,20 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     }
 
+    /**
+     * Creates an instance of the GroupAdapter
+     *
+     * @param groups the groups to convert into a row
+     * @param groupItemClickListener the listener for row taps
+     */
     public GroupAdapter(ArrayList<Group> groups, ViewGroupContract.GroupItemClickListener groupItemClickListener) {
         this.mGroups = groups;
         this.mGroupItemClickListener = groupItemClickListener;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,6 +68,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Group group = mGroups.get(position);
@@ -60,6 +78,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         holder.groupParentRl.setOnClickListener(v -> mGroupItemClickListener.groupClick(group.getId(), group.getName()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return mGroups.size();

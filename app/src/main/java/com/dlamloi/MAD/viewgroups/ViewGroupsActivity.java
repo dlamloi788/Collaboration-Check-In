@@ -35,6 +35,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * This class is responsible for displaying the UI
+ */
 public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupContract.View {
 
     public static final String USER_PHOTO_URI = "User uri";
@@ -42,8 +45,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
     public static final String GROUP_TITLE_KEY = "group_title";
     public static final String GROUP_REFERENCE = "groups";
 
-    private ViewGroupPresenter mViewGroupPresenter;
-
+    private ViewGroupContract.Presenter mViewGroupPresenter;
 
     @BindView(R.id.groups_loading_progressbar)
     ProgressBar mLoadingGroupsPb;
@@ -67,6 +69,9 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         startActivity(intent);
     };
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,34 +110,51 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         });
     }
 
-
+    /**
+     * Starts activity to create a new intent
+     */
     @OnClick(R.id.create_group_button)
     public void createGroupButtonClick() {
-        startActivity(new Intent(this, CreateGroupActivity.class));
+        mViewGroupPresenter.createGroupClicked();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void logout() {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setProfileImage(String url) {
         Glide.with(this).load(url).into(mProfileImageIv);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setDisplayName(String displayName) {
         mFirstNameTv.setText(displayName);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEmail(String email) {
         mEmailTv.setText(email);
     }
 
+    /**
+     * Sets up the material drawer on the provided toolbar
+     * @param toolbar the toolbar to setup the material drawer on
+     */
     private void setUpMaterialDrawer(Toolbar toolbar) {
         View view = getLayoutInflater().inflate(R.layout.nav_header_view_group, null, false);
         mProfileImageIv = view.findViewById(R.id.profilePictureIv);
@@ -151,22 +173,34 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyItemInserted(int position) {
         mGroupAdapter.notifyItemInserted(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
         mCreateGroupButton.animate().translationY(mCreateGroupButton.getHeight() + 30).setInterpolator(new AccelerateInterpolator(2)).start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
         mCreateGroupButton.setVisibility(View.VISIBLE);
         mCreateGroupButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void populateRecyclerView(ArrayList<Group> groups) {
         if (!mGroups.isEmpty()) {
@@ -176,6 +210,17 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
         mGroupAdapter.notifyItemInserted(groups.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void navigateToCreateGroup() {
+        startActivity(new Intent(this, CreateGroupActivity.class));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideLoadingProgressBar() {
         mLoadingGroupsPb.setVisibility(View.INVISIBLE);

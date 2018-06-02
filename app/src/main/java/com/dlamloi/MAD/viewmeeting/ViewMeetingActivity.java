@@ -33,7 +33,9 @@ public class ViewMeetingActivity extends AppCompatActivity implements ViewMeetin
     private String mGroupId;
     private String mMeetingId;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,9 @@ public class ViewMeetingActivity extends AppCompatActivity implements ViewMeetin
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void bindData(String meetingTitle, String meetingTime, String meetingDate, String meetingLocation, String agenda) {
         mMeetingTitleTv.setText(meetingTitle);
@@ -60,11 +65,17 @@ public class ViewMeetingActivity extends AppCompatActivity implements ViewMeetin
         mMeetingAgendaTv.setText(agenda);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void leave() {
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

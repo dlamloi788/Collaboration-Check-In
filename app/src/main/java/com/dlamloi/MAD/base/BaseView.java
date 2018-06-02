@@ -32,7 +32,7 @@ public interface BaseView<T> {
     /**
      * Populates the recyclerview with the provided type of data
      *
-     * @param t the type of view
+     * @param t the list to populate the recyclerview
      */
     void populateRecyclerView(ArrayList<T> t);
 

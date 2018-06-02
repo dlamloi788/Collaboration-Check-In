@@ -15,7 +15,9 @@ import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 import com.dlamloi.MAD.viewmeeting.ViewMeetingContract;
+import com.dlamloi.MAD.viewtask.ViewTaskActivity;
 import com.dlamloi.MAD.viewtask.ViewTaskContract;
+import com.dlamloi.MAD.viewtask.ViewTaskPresenter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,9 @@ import java.util.ArrayList;
  * Created by Don on 25/05/2018.
  */
 
+/**
+ * This class handles data entry into the database
+ */
 public class FirebaseRepositoryManager {
 
     public static final String SPINNER_CALL = "Spinner call";
@@ -182,7 +187,7 @@ public class FirebaseRepositoryManager {
     }
 
     /**
-     * Transforms user emails to display names and passes it to the
+     * Transforms user emails to a dash seperated list of display names and emails and passes it to the
      * presenter
      *
      * @param users     the users of the group
@@ -247,10 +252,21 @@ public class FirebaseRepositoryManager {
         });
     }
 
-    public void updateTask(String taskId, String status) {
-        mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.TASKS).child(taskId).child(FirebaseCallbackManager.STATUS).setValue(status);
+    /**
+     * Marks the selected task as "Completed"
+     *
+     * @param taskId the selected task id
+     */
+    public void updateTask(String taskId) {
+        mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.TASKS).child(taskId).child(FirebaseCallbackManager.STATUS).setValue(CreateTaskPresenter.STATUS_COMPLETE);
     }
 
+    /**
+     * Provides the data of the selected meeting
+     *
+     * @param meetingId the id of the selected meeting
+     * @param presenter the view meeting presenter
+     */
     public void setUpMeetingData(String meetingId, ViewMeetingContract.Presenter presenter) {
         mDatabaseReference.child(mGroupId).child("meetings").child(meetingId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -16,6 +16,9 @@ import com.google.firebase.auth.UserProfileChangeRequest;
  * Created by Don on 25/05/2018.
  */
 
+/**
+ * This class manages details involving Firebase Authentication
+ */
 public class FirebaseAuthenticationManager {
 
     public static final String DEFAULT_PROFILE_PICTURE_URL = "https://firebasestorage.googleapis.com/v0/b/mad-application-69143.appspot.com/o/profile%20pictures%2Fdefault-profile.jpg?alt=media&token=3be71da7-0e32-4320-b916-b8fafdbcf54e";
@@ -25,11 +28,23 @@ public class FirebaseAuthenticationManager {
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
     private BaseAuthentication mAuthentication;
 
-    //Empty constructor
+    /**
+     * Creates an instance of the Firebase Authentication Manager
+     *
+     * Use this constructor when only wanting to retrieve user data
+     */
     public FirebaseAuthenticationManager() {
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Creates an instance of the Firebase Authentication Manager with a listener to notify
+     * of events occuring
+     *
+     * Use this when involving login or registration
+     *
+     * @param authenticationListener the authentication event listener
+     */
     public FirebaseAuthenticationManager(BaseAuthentication authenticationListener) {
         this();
         mAuthentication = authenticationListener;
@@ -77,6 +92,14 @@ public class FirebaseAuthenticationManager {
         }
     }
 
+    /**
+     * Registers the user to Firebase Authentication and notifies the listener about the outcome
+     *
+     * @param email the users email
+     * @param password the users password
+     * @param firstName the users first name
+     * @param surname the users surname
+     */
     public void register(String email, String password, String firstName, String surname) {
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
@@ -99,22 +122,45 @@ public class FirebaseAuthenticationManager {
                 });
     }
 
+    /**
+     * Returns the current user
+     *
+     * @return the current user
+     */
     private FirebaseUser getCurrentUser() {
         return mFirebaseAuth.getCurrentUser();
     }
 
+    /**
+     * Gets the email of the current user
+     *
+     * @return the email of the current user
+     */
     public String getCurrentUserEmail() {
         return getCurrentUser().getEmail();
     }
 
+    /**
+     * Gets the display name of the current user
+     *
+     * @return the display name of the current user
+     */
     public String getCurrentUserDisplayName() {
         return getCurrentUser().getDisplayName();
     }
 
+    /**
+     * Gets the url of the current users profile picture
+     *
+     * @return
+     */
     public String getPhotoUrl() {
         return getCurrentUser().getPhotoUrl().toString();
     }
 
+    /**
+     * Signs the current user out
+     */
     public void signOut() {
         mFirebaseAuth.signOut();
 

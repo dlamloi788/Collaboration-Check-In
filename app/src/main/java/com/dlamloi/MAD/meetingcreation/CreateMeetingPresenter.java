@@ -91,7 +91,7 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
      */
     @Override
     public void shouldCreateBeEnabled(String name, String date, String time, String location) {
-        if (Utility.areAnyRequiredFieldsEmpty(name, date, time, location)) {
+        if (Utility.areAnyTextEmpty(name, date, time, location)) {
             mView.disableCreateButton();
         } else {
             mView.enableCreateButton();

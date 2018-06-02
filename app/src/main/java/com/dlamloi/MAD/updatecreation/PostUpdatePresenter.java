@@ -11,13 +11,21 @@ import java.util.Calendar;
  * Created by Don on 17/05/2018.
  */
 
+/**
+ * This class handles the presentation logic for the post update view
+ */
 public class PostUpdatePresenter implements PostUpdateContract.Presenter {
 
     private final PostUpdateContract.View mView;
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
     private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
 
-
+    /**
+     * Creates an instance of the post update presenter
+     *
+     * @param view the view that the presenter will be moderating over
+     * @param groupId the id of the group that the user is currently in
+     */
     public PostUpdatePresenter(PostUpdateContract.View view, String groupId) {
         mView = view;
         mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
@@ -25,6 +33,9 @@ public class PostUpdatePresenter implements PostUpdateContract.Presenter {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void publishUpdate(String updateTitle, String updateInformation) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
@@ -37,6 +48,9 @@ public class PostUpdatePresenter implements PostUpdateContract.Presenter {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void shouldPublishBeEnabled(String updateTitle) {
         if (updateTitle.isEmpty()) {
@@ -46,6 +60,9 @@ public class PostUpdatePresenter implements PostUpdateContract.Presenter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void homeButtonPressed(String updateTitle) {
         if (!updateTitle.isEmpty()) {

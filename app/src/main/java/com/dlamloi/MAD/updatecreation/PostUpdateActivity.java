@@ -34,12 +34,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
+/**
+ * This class is responsible for setting up and displaying the UI
+ */
 public class PostUpdateActivity extends AppCompatActivity implements PostUpdateContract.View {
 
-    public static final String DATE_TOSTRING = "date toString";
-    public static final String GROUP_ID = "Group ID";
-
-    private PostUpdatePresenter mPostUpdatePresenter;
+    private PostUpdateContract.Presenter mPostUpdatePresenter;
 
     private String mGroupId;
 
@@ -53,6 +53,9 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
     private Menu mMenu;
     private AlertDialog mLeaveAlertDialog;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +71,9 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         mLeaveAlertDialog = Utility.setUpLeaveAlertDialog(this, getString(R.string.quit_posting_update));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;
@@ -76,6 +82,9 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -94,28 +103,42 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Calls the presenter to determine whether publish button should be enabled
+     */
     @OnTextChanged(R.id.update_title_edittext)
     public void updateTitleEtChange() {
         mPostUpdatePresenter.shouldPublishBeEnabled(mUpdateTitleEt.getText().toString());
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void leave() {
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void disablePublishButton() {
         mMenu.findItem(R.id.publish_update).setEnabled(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void enablePublishButton() {
         mMenu.findItem(R.id.publish_update).setEnabled(true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showAlertDialog() {
         mLeaveAlertDialog.show();

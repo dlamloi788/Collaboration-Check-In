@@ -24,12 +24,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
+/**
+ * This class is reponsible for displaying the UI of the create meeting activity
+ */
 public class CreateTaskActivity extends AppCompatActivity implements CreateTaskContract.View {
 
     public static final String SPINNER_SELECT = "Spinner item selected";
 
 
-    private CreateTaskPresenter mCreateTaskPresenter;
+    private CreateTaskContract.Presenter mCreateTaskPresenter;
     private String mGroupId;
     private ArrayAdapter<String> mSpinnerAdapter;
 
@@ -45,6 +48,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     private Menu mMenu;
     private AlertDialog mLeaveAlertDialog;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +85,8 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
 
 
     @OnTextChanged(value = {R.id.task_title_edittext, R.id.task_duedate_edittext,
-    R.id.task_description_edittext},
-    callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+            R.id.task_description_edittext},
+            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void shouldAssignBeEnabled() {
         mCreateTaskPresenter.shouldAssignBeEnabled(
                 (String) mAssignMemberSp.getSelectedItem(),
@@ -89,13 +95,16 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mCreateTaskPresenter.homeButtonPressed(mTaskTitleEt.getText().toString(),
                         mTaskDueDatEt.getText().toString()
-                        );
+                );
                 break;
 
             case R.id.create_task_menu_button:
@@ -109,6 +118,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_task_meeting, menu);
@@ -116,12 +128,18 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setUpSpinnerData(ArrayList<String> displayNames) {
         mSpinnerAdapter.addAll(displayNames);
         mSpinnerAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showDateDialog(int currentYear, int currentMonth, int currentDayOfMonth) {
 
@@ -133,27 +151,42 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         datePickerDialog.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setDueDate(String date) {
         mTaskDueDatEt.setText(date);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void leave() {
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void disableAssignButton() {
         mMenu.findItem(R.id.create_task_menu_button).setEnabled(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void enableAssignButton() {
         mMenu.findItem(R.id.create_task_menu_button).setEnabled(true);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showAlertDialog() {
         mLeaveAlertDialog.show();
