@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.home.tasks.TaskFragment;
+import com.dlamloi.MAD.utilities.Utility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,9 +56,11 @@ public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContr
         switch (item.getItemId()) {
             case android.R.id.home:
                 mViewTaskPresenter.leave();
+                break;
 
             case R.id.task_completed_button:
                 mViewTaskPresenter.taskCompleted();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -77,5 +80,13 @@ public class ViewTaskActivity extends AppCompatActivity implements ViewTaskContr
         finish();
     }
 
+    @Override
+    public void showTaskCompleteError() {
+        Utility.showToast(this, getString(R.string.not_assigned_to_task));
+    }
 
+    @Override
+    public void showTaskCompleteToast() {
+        Utility.showToast(this, "Great Job! Task Complete");
+    }
 }

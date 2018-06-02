@@ -1,9 +1,7 @@
 package com.dlamloi.MAD.home.meetings;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +11,25 @@ import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Meeting;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Don on 10/05/2018.
  */
 
+/**
+ * This class displays the list of meetings in rows of a recyclerview
+ */
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder> {
 
     private ArrayList<Meeting> mMeetings;
     private MeetingContract.MeetingItemClickListener mMeetingItemClickListener;
 
+    /**
+     * Caches the rows the recyclerview
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public RelativeLayout meetingRowLayout;
@@ -52,11 +53,20 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         }
     }
 
+    /**
+     * Creates a new instance of the meeting adapter
+     *
+     * @param meetings the meetings to displayed in the recyclerview
+     * @param meetingItemClickListener the recyclerview row tap listener
+     */
     public MeetingAdapter(ArrayList<Meeting> meetings, MeetingContract.MeetingItemClickListener meetingItemClickListener) {
         mMeetings = meetings;
         mMeetingItemClickListener = meetingItemClickListener;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,6 +75,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meeting meeting = mMeetings.get(position);
@@ -85,8 +98,21 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         holder.meetingRowLayout.setOnClickListener(v -> mMeetingItemClickListener.meetingClick(meeting.getId()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return mMeetings.size();
     }
+
+    /**
+     * Sorts the meeting list by date in ascending order
+     */
+    public void sort() {
+        Collections.sort(mMeetings, new Meeting.MeetingComparator());
+    }
+
+
+
 }

@@ -1,7 +1,10 @@
 package com.dlamloi.MAD.viewtask;
 
+import com.dlamloi.MAD.home.tasks.TaskFragment;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
+import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 
 /**
  * Created by Don on 30/05/2018.
@@ -11,6 +14,7 @@ public class ViewTaskPresenter implements ViewTaskContract.Presenter, ViewTaskCo
 
     private final ViewTaskContract.View mView;
     private String mTaskId;
+    private String mAssignedMember;
 
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
 
@@ -29,6 +33,7 @@ public class ViewTaskPresenter implements ViewTaskContract.Presenter, ViewTaskCo
 
     @Override
     public void onDataReceive(Task task) {
+        mAssignedMember = task.getAssignedMember();
         mView.bindTaskData(
                 task.getTitle(),
                 task.getDetail(),
@@ -43,7 +48,13 @@ public class ViewTaskPresenter implements ViewTaskContract.Presenter, ViewTaskCo
 
     @Override
     public void taskCompleted() {
-        mFirebaseRepositoryManager.completedTask(mTaskId);
+        String currentMember = new FirebaseAuthenticationManager().getCurrentUserEmail();
+        if (mAssignedMember.equalsIgnoreCase(currentMember)) {
+            mFirebaseRepositoryManager.updateTask(mTaskId, CreateTaskPresenter.STATUS_COMPLETE);
+            mView.showTaskCompleteToast();
+        } else {
+            mView.showTaskCompleteError();
+        }
 
     }
 

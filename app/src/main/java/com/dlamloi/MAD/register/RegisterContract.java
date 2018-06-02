@@ -6,9 +6,16 @@ import com.dlamloi.MAD.base.BaseAuthentication;
  * Created by Don on 14/05/2018.
  */
 
+/**
+ * The contract between the register presenter and view
+ */
 public interface RegisterContract {
 
+    /**
+     * The associated view in the contract
+     */
     interface View {
+
 
         void showPasswordError();
 
@@ -45,6 +52,9 @@ public interface RegisterContract {
         void navigateToLogin();
     }
 
+    /**
+     * The associated presenter in the contract
+     */
     interface Presenter {
 
 
@@ -61,12 +71,6 @@ public interface RegisterContract {
         void confirmPasswordHasFocus(boolean hasFocus);
 
         void shouldRegisterBeEnabled(String... details);
-    }
-
-    interface Interactor {
-
-        void firebaseRegister(String email, String password, String firstName, String lastName);
-
     }
 
     interface OnRegisterListener extends BaseAuthentication{

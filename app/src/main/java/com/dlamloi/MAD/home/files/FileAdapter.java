@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.home.files;
 
+import android.app.Activity;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +18,17 @@ import java.util.ArrayList;
  * Created by Don on 24/05/2018.
  */
 
+/**
+ * This class displays the list files in rows of a recyclerview
+ */
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>{
 
     private ArrayList<CloudFile> mCloudFiles = new ArrayList<>();
-    private FileDownloadListener mFileDownloadListener;
+    private FileContract.FileDownloadListener mFileDownloadListener;
 
+    /**
+     * Caches the file rows of the recyclerview
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView fileNameTv;
@@ -34,13 +41,21 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>{
         }
     }
 
-
-    public FileAdapter(ArrayList<CloudFile> cloudFiles, FileDownloadListener fileDownloadListener) {
+    /**
+     * Creates an instance of the file adapter
+     *
+     * @param cloudFiles the list of files to display
+     * @param fileDownloadListener the listener for download button clicks
+     */
+    public FileAdapter(ArrayList<CloudFile> cloudFiles, FileContract.FileDownloadListener fileDownloadListener) {
         mCloudFiles = cloudFiles;
         mFileDownloadListener = fileDownloadListener;
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,14 +65,21 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>{
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CloudFile cloudFile = mCloudFiles.get(position);
         holder.fileNameTv.setText(cloudFile.getName());
-        holder.downloadBtn.setOnClickListener(v -> mFileDownloadListener.downloadFile(cloudFile.getName(), cloudFile.getUri(),
-                holder.downloadBtn.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath()));
+        holder.downloadBtn.setOnClickListener(v -> mFileDownloadListener.downloadFile(
+                cloudFile.getName(), cloudFile.getUri(),
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return mCloudFiles.size();

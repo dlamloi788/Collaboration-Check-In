@@ -13,6 +13,8 @@ public interface PostUpdateContract {
         void disablePublishButton();
 
         void enablePublishButton();
+
+        void showAlertDialog();
     }
 
      interface Presenter {
@@ -20,6 +22,8 @@ public interface PostUpdateContract {
          void publishUpdate(String updateTitle, String updateInformation);
 
          void shouldPublishBeEnabled(String updateTitle);
+
+         void homeButtonPressed(String s);
      }
 
 }

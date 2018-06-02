@@ -1,27 +1,20 @@
 package com.dlamloi.MAD.home;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +50,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * This class is reponsible for handling the home page of the selected group
+ */
 public class GroupHomeActivity extends AppCompatActivity implements GroupHomeContract.View {
 
 
@@ -64,9 +60,8 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     public static final String FILE_TYPE = "*/*";
     public static final int FILE_MANAGER_REQUEST_CODE = 1;
     public static final int CAMERA_REQUEST_CODE = 2;
-    private static final String IMAGE_DIRECTORY = "Image Directory";
 
-    private GroupHomePresenter mGroupHomePresenter;
+    private GroupHomeContract.Presenter mGroupHomePresenter;
     private ViewPagerAdapter mViewPagerAdapter;
     private CircleImageView mProfileImageIv;
     private TextView mFirstNameTv;
@@ -97,8 +92,12 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     View mShadowView;
     @BindView(R.id.upload_progressbar)
     CircularProgressBar mUploadCPb;
+    @BindView(R.id.download_progressbar)
+    CircularProgressBar mDownloadCPb;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +108,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         mGroupHomePresenter = new GroupHomePresenter(this);
         setUpMaterialDrawer(toolbar);
         mGroupHomePresenter.setup(getIntent());
-        initTableLayout();
+        initTabLayout();
         mGroupId = getIntent().getStringExtra(ViewGroupsActivity.GROUP_ID_KEY);
         mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
@@ -124,14 +123,18 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         });
     }
 
-
-
+    /**
+     * Handles the post update button click
+     */
     @OnClick(R.id.post_update_button)
     public void postUpdateButtonClick() {
         mGroupHomePresenter.postUpdate();
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
+    /**
+     * Handles the schedule meeting button click
+     */
     @OnClick(R.id.schedule_meeting_button)
     public void scheduleMeetingButtonClick() {
         mGroupHomePresenter.scheduleMeeting();
@@ -139,24 +142,36 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     }
 
+    /**
+     * Handles the assign task button click
+     */
     @OnClick(R.id.assign_task_button)
     public void assignTaskButtonClick() {
         mGroupHomePresenter.assignTask();
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
+    /**
+     * Handles the upload file button click
+     */
     @OnClick(R.id.upload_file_button)
     public void uploadFileButtonClick() {
         mGroupHomePresenter.uploadFile();
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
+    /**
+     * Hadnles the camera upload button click
+     */
     @OnClick(R.id.upload_camera_button)
     public void uploadCameraButtonClick() {
-        mGroupHomePresenter.cameraUpload();
+        mGroupHomePresenter.generateImageURI(this);
         mGroupHomePresenter.onActionMenuItemSelected();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -166,17 +181,23 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
                 break;
 
             case CAMERA_REQUEST_CODE:
-                mGroupHomePresenter.cameraUpload(resultCode, mPhotoPath);
+                mGroupHomePresenter.generateImageURI(resultCode, mPhotoPath);
                 break;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setGroupTitle(String title) {
         setTitle(title);
     }
 
-    private void initTableLayout() {
+    /**
+     * Sets up the tablayout with a viewpager and attaches specified icosn
+     */
+    private void initTabLayout() {
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(android.R.color.white));
         int[] drawables = {R.drawable.home_icon, R.drawable.group_icon,
@@ -202,7 +223,11 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         });
     }
 
-
+    /**
+     * Sets up the material drawer in the toolbar
+     *
+     * @param toolbar the toolbar which the drawer is attached to
+     */
     private void setUpMaterialDrawer(Toolbar toolbar) {
         View view = getLayoutInflater().inflate(R.layout.nav_header_view_group, null, false);
         mProfileImageIv = view.findViewById(R.id.profilePictureIv);
@@ -217,33 +242,48 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
                 .withOnDrawerItemClickListener(((view1, position, drawerItem) -> mGroupHomePresenter.onDrawerItemClicked(position, drawerItem)))
                 .build();
 
-        drawer.addItem(new PrimaryDrawerItem().withName("View your groups").withIcon(R.drawable.group_icon).withIdentifier(1).withSelectable(false));
+        drawer.addItem(new PrimaryDrawerItem().withName(R.string.view_your_groups).withIcon(R.drawable.group_icon).withIdentifier(1).withSelectable(false));
         drawer.addItem(new DividerDrawerItem());
         drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(2).withSelectable(false));
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setProfileImage(String url) {
         Glide.with(this).load(url).into(mProfileImageIv);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setDisplayName(String displayName) {
         mFirstNameTv.setText(displayName);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEmail(String email) {
         mEmailTv.setText(email);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void logout() {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setUpViewPager(String groupId) {
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -260,43 +300,93 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         mViewPager.setAdapter(mViewPagerAdapter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showShadow() {
         mShadowView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideShadow() {
         mShadowView.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collapseActionMenu() {
         mFloatingActionsMenu.collapse();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void showProgressbar() {
+    public void showUploadProgressbar() {
         mUploadCPb.setProgress(0);
         mUploadCPb.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void hideProgressbar() {
-        mUploadCPb.setVisibility(View.INVISIBLE);
+    public void hideUploadProgressbar() {
+        mUploadCPb.setVisibility(View.GONE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showDownloadProgressbar() {
+        mDownloadCPb.setProgress(0);
+        mDownloadCPb.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void hideDownloadProgressbar() {
+        mDownloadCPb.setVisibility(View.GONE);
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateProgressBar(int currentProgress) {
+    public void updateUploadProgressBar(int currentProgress) {
         mUploadCPb.setProgressWithAnimation(currentProgress, 500);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateDownloadProgressBar(int currentProgress) {
+        mDownloadCPb.setProgressWithAnimation(currentProgress, 500);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showUploadCompleteToast() {
         Toast.makeText(this, "Upload successful", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showSetFileNameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -320,11 +410,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         uploadDialog.show();
     }
 
-    @Override
-    public File getImageDirectory() {
-        return getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void navigateToPostUpdate() {
         Intent intent = new Intent(this, PostUpdateActivity.class);
@@ -333,6 +421,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void navigateToScheduleMeeting() {
         Intent intent = new Intent(this, CreateMeetingActivity.class);
@@ -342,6 +433,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void navigateToAssignTask() {
         Intent intent = new Intent(this, CreateTaskActivity.class);
@@ -350,6 +444,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void navigateToUploadFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -357,34 +454,41 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         startActivityForResult(intent, FILE_MANAGER_REQUEST_CODE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void navigateToCameraUpload(String timeStamp) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        String imageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+        File filename = new File(imageDirectory + "_" + timeStamp + ".jpg");
+        mPhotoPath = filename.getPath();
+        Uri imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", filename);
 
-        } else {
-            Log.d(IMAGE_DIRECTORY, getImageDirectory().getPath());
-            File filename = new File(getImageDirectory().getPath() + "_" + timeStamp + ".jpg");
-            mPhotoPath = filename.getPath();
-            Uri imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", filename);
-
-            Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            startActivityForResult(captureImageIntent, CAMERA_REQUEST_CODE);
-        }
+        Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(captureImageIntent, CAMERA_REQUEST_CODE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
         mFloatingActionsMenu.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
         mFloatingActionsMenu.animate().translationY(mFloatingActionsMenu.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void goBackToGroups() {
         finish();

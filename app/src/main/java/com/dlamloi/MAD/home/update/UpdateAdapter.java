@@ -15,17 +15,22 @@ import java.util.ArrayList;
  * Created by Don on 20/04/2018.
  */
 
+/**
+ * This class helps display a provided list as recyclerview rows
+ */
 public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.ViewHolder> {
 
     private ArrayList<Update> mUpdates;
 
+    /**
+     * Caches the update rows
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTv;
         public TextView publishedDateTv;
         public TextView detailsTv;
         public TextView publisherTv;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -37,11 +42,18 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.ViewHolder
         }
     }
 
+    /**
+     * Creates an instance of the update adapter
+     *
+     * @param updates the list to be converted into recyclerview rows
+     */
     public UpdateAdapter(ArrayList<Update> updates) {
         this.mUpdates = updates;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -49,6 +61,9 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Update update = mUpdates.get(position);
@@ -58,6 +73,9 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.ViewHolder
         holder.publisherTv.setText(update.getPublisher());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return mUpdates.size();

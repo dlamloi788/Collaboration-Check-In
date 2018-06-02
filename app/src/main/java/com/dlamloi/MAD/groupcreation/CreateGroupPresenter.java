@@ -5,12 +5,10 @@ import android.util.Log;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Created by Don on 17/05/2018.
@@ -18,7 +16,6 @@ import java.util.Set;
 
 public class CreateGroupPresenter implements CreateGroupContract.Presenter {
 
-    private static final String HASHSET_COMPARISION = "Hashset comparison";
     private final CreateGroupContract.View mView;
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
     private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
@@ -58,7 +55,7 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
             Log.d("GROUOPCREATED", "I'm called...?");
             Group group = new Group(groupName, adminEmail, memberEmails);
             mFirebaseRepositoryManager.addGroup(group);
-            mView.groupCreated();
+            mView.leave();
         }
     }
 
@@ -80,6 +77,9 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
         return emailSet.size() < memberEmails.size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void shouldCreateBeEnabled(String groupName, ArrayList<String> emails) {
         if (!groupName.isEmpty() && !doesListContainAllEmptyEmails(emails)) {
@@ -88,6 +88,18 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
             mView.hideFab();
         }
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void homeButtonClicked(String groupName, ArrayList<String> emails) {
+        if (!groupName.isEmpty() || !doesListContainAllEmptyEmails(emails)) {
+            mView.showLeaveDialog();
+        } else {
+            mView.leave();
+        }
     }
 
 

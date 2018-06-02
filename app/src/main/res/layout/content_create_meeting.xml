@@ -12,7 +12,7 @@
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:padding="15dp"
         tools:context="com.dlamloi.MAD.meetingcreation.CreateMeetingActivity">
 
 
@@ -84,7 +84,8 @@
                     android:focusable="false"
                     android:hint="@string/meeting_date"
                     android:textColor="@color/md_black_1000"
-
+                    android:maxLines="1"
+                    android:inputType="text"
                     />
 
             </android.support.design.widget.TextInputLayout>

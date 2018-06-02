@@ -3,6 +3,16 @@ package com.dlamloi.MAD.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.dlamloi.MAD.meetingcreation.CreateMeetingPresenter;
+import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by Don on 8/05/2018.
  */
@@ -11,7 +21,6 @@ public class Meeting {
 
     private String mId;
     private String mCreatorEmail;
-    private String mMeetingPublishDate;
     private String mMeetingTitle;
     private String mMeetingDate; //In the form of DD-MONTH-YYYY
     private String mMeetingTime; //In the form of HH:MM am/pm
@@ -25,17 +34,15 @@ public class Meeting {
     /**
      * Use this constructor to a create an instance before passing to the RepositoryManager
      *
-     * @param creatorEmail       the email of the meeting publisher
-     * @param meetingPublishDate the date the meeting was published
-     * @param meetingTitle       the title of the meeting
-     * @param meetingDate        the meeting date
-     * @param meetingTime        the meeting time
-     * @param meetingLocation    the location of the meeting
-     * @param agenda             the agenda of the meeting
+     * @param creatorEmail    the email of the meeting publisher
+     * @param meetingTitle    the title of the meeting
+     * @param meetingDate     the meeting date
+     * @param meetingTime     the meeting time
+     * @param meetingLocation the location of the meeting
+     * @param agenda          the agenda of the meeting
      */
-    public Meeting(String creatorEmail, String meetingPublishDate, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
+    public Meeting(String creatorEmail, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
         mCreatorEmail = creatorEmail;
-        mMeetingPublishDate = meetingPublishDate;
         mMeetingTitle = meetingTitle;
         mMeetingDate = meetingDate;
         mMeetingTime = meetingTime;
@@ -43,10 +50,9 @@ public class Meeting {
         mAgenda = agenda;
     }
 
-    public Meeting(String id, String creatorEmail, String meetingPublishDate, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
+    public Meeting(String id, String creatorEmail, String meetingTitle, String meetingDate, String meetingTime, String meetingLocation, String agenda) {
         this.mId = id;
         this.mCreatorEmail = creatorEmail;
-        this.mMeetingPublishDate = meetingPublishDate;
         this.mMeetingTitle = meetingTitle;
         this.mMeetingDate = meetingDate;
         this.mMeetingTime = meetingTime;
@@ -69,14 +75,6 @@ public class Meeting {
 
     public void setCreatorEmail(String creatorEmail) {
         this.mCreatorEmail = creatorEmail;
-    }
-
-    public String getMeetingPublishDate() {
-        return mMeetingPublishDate;
-    }
-
-    public void setMeetingPublishDate(String meetingPublishDate) {
-        mMeetingPublishDate = meetingPublishDate;
     }
 
     public String getMeetingLocation() {
@@ -119,4 +117,23 @@ public class Meeting {
         this.mAgenda = agenda;
     }
 
+    public static class MeetingComparator implements Comparator<Meeting> {
+        @Override
+        public int compare(Meeting o1, Meeting o2) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(CreateMeetingPresenter.DATE_PATTERN, Locale.ENGLISH);
+            Date firstMeeting = null;
+            Date secondMeeting = null;
+            try {
+                firstMeeting = dateFormat.parse(o1.getMeetingDate());
+                secondMeeting = dateFormat.parse(o2.getMeetingDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return firstMeeting.compareTo(secondMeeting);
+
+        };
+    }
+
 }
+
+

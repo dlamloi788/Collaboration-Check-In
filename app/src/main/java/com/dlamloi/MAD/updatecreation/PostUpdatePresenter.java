@@ -45,4 +45,13 @@ public class PostUpdatePresenter implements PostUpdateContract.Presenter {
             mView.enablePublishButton();
         }
     }
+
+    @Override
+    public void homeButtonPressed(String updateTitle) {
+        if (!updateTitle.isEmpty()) {
+            mView.showAlertDialog();
+        } else {
+            mView.leave();
+        }
+    }
 }

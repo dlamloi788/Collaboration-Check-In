@@ -21,6 +21,8 @@ public interface CreateTaskContract {
         void disableAssignButton();
 
         void enableAssignButton();
+
+        void showAlertDialog();
     }
 
     interface Presenter {
@@ -33,7 +35,9 @@ public interface CreateTaskContract {
 
         void addSpinnerData(ArrayList<String> displayNames);
 
-        void shouldAssignBeEnabled(String selectedItem, String s, String s1, String s2);
+        void shouldAssignBeEnabled(String selectedItem, String title, String duedate);
+
+        void homeButtonPressed(String toString, String string);
     }
 
 

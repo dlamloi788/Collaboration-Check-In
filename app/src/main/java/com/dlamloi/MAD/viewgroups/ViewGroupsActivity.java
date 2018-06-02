@@ -60,7 +60,7 @@ public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupCo
     private DatabaseReference mDatabaseReference;
     private ArrayList<Group> mGroups;
 
-    private GroupItemClickListener mGroupItemClickListener = (id, title) -> {
+    private ViewGroupContract.GroupItemClickListener mGroupItemClickListener = (id, title) -> {
         Intent intent = new Intent(this, GroupHomeActivity.class);
         intent.putExtra(GROUP_ID_KEY, id);
         intent.putExtra(GROUP_TITLE_KEY, title);

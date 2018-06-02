@@ -15,6 +15,7 @@ import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.model.Update;
+import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 import com.dlamloi.MAD.viewgroups.ViewGroupContract;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ public class FirebaseCallbackManager {
     public static final String MESSAGES = "messages";
     public static final String STATUS = "status";
 
+    private FirebaseRepositoryManager mFirebaseRepositoryManager;
     private DatabaseReference mDatabaseReference;
     private String mGroupId;
 
@@ -47,7 +49,9 @@ public class FirebaseCallbackManager {
     public FirebaseCallbackManager(String groupId) {
         this();
         mGroupId = groupId;
-     }
+        mFirebaseRepositoryManager = new FirebaseRepositoryManager(mGroupId);
+
+    }
 
 
 
@@ -143,6 +147,7 @@ public class FirebaseCallbackManager {
     }
 
     public void attachTasksListener(TaskContract.TaskListener taskListener) {
+
         mDatabaseReference.child(mGroupId).child(TASKS).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -171,9 +176,10 @@ public class FirebaseCallbackManager {
 
             }
         });
+
     }
 
-    public void attachFilesListener(FileContract.FileListener fileListener) {
+    public void attachFilesListener(FileContract.newFileListener fileListener) {
         mDatabaseReference.child(mGroupId).child(FILES).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

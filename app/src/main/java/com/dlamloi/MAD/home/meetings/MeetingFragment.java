@@ -16,11 +16,11 @@ import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.viewmeeting.ViewMeetingActivity;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link MeetingFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This class is responsible for displaying the meeting screen
  */
 public class MeetingFragment extends Fragment implements MeetingContract.View {
 
@@ -28,7 +28,7 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
 
     private RecyclerView mMeetingPlansRv;
     private String mGroupId;
-    private MeetingPresenter mMeetingPresenter;
+    private MeetingContract.Presenter mMeetingPresenter;
     private MeetingAdapter mMeetingAdapter;
     private ArrayList<Meeting> mMeetings;
     private MeetingContract.MeetingItemClickListener mMeetingItemClickListener = meetingId -> {
@@ -52,7 +52,9 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         return meetingFragment;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,9 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,7 +90,9 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         return view;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void populateRecyclerView(ArrayList<Meeting> meetings) {
         if (!mMeetings.isEmpty()) {
@@ -95,19 +102,29 @@ public class MeetingFragment extends Fragment implements MeetingContract.View {
         notifyItemInserted(meetings.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyItemInserted(int position) {
-        mMeetingAdapter.notifyItemInserted(position);
+        mMeetingAdapter.sort();
+        mMeetingAdapter.notifyItemRangeChanged(0, position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
-        ((GroupHomeActivity)getActivity()).hideFab();
+        ((GroupHomeActivity) getActivity()).hideFab();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
-        ((GroupHomeActivity)getActivity()).showFab();
+        ((GroupHomeActivity) getActivity()).showFab();
 
     }
 }

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.model.Update;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
-    private GroupItemClickListener mGroupItemClickListener;
+    private ViewGroupContract.GroupItemClickListener mGroupItemClickListener;
     private ArrayList<Group> mGroups;
 
 
@@ -41,7 +40,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     }
 
-    public GroupAdapter(ArrayList<Group> groups, GroupItemClickListener groupItemClickListener) {
+    public GroupAdapter(ArrayList<Group> groups, ViewGroupContract.GroupItemClickListener groupItemClickListener) {
         this.mGroups = groups;
         this.mGroupItemClickListener = groupItemClickListener;
     }

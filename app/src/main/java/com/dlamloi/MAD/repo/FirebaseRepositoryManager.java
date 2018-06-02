@@ -205,11 +205,11 @@ public class FirebaseRepositoryManager {
                         Log.d("LoopEmail", email);
                         Log.d("UserEmail", user.getEmail());
                         if (user.getEmail().equalsIgnoreCase(email)) {
-                            displayNames.add(user.getDisplayName());
+                            displayNames.add(user.getDisplayName() + " - " + email.toLowerCase());
                             break;
                         }
                         if (!hasAdminBeenFound && user.getEmail().equalsIgnoreCase(adminEmail)) {
-                            displayNames.add(user.getDisplayName());
+                            displayNames.add(user.getDisplayName() + " - " + adminEmail.toLowerCase());
                             hasAdminBeenFound = true;
                         }
                     }
@@ -247,8 +247,8 @@ public class FirebaseRepositoryManager {
         });
     }
 
-    public void completedTask(String taskId) {
-        mDatabaseReference.child(mGroupId).child("tasks").child(taskId).child(FirebaseCallbackManager.STATUS).setValue(TaskFragment.COMPLETE);
+    public void updateTask(String taskId, String status) {
+        mDatabaseReference.child(mGroupId).child(FirebaseCallbackManager.TASKS).child(taskId).child(FirebaseCallbackManager.STATUS).setValue(status);
     }
 
     public void setUpMeetingData(String meetingId, ViewMeetingContract.Presenter presenter) {
@@ -267,5 +267,7 @@ public class FirebaseRepositoryManager {
 
 
     }
+
+
 }
 

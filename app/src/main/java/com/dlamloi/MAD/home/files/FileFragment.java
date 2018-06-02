@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
@@ -17,22 +18,28 @@ import com.dlamloi.MAD.model.CloudFile;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This class is reponsible for displaying the file screen
  */
 public class FileFragment extends Fragment implements FileContract.View {
 
     private String mGroupId;
     private ArrayList<CloudFile> mCloudFiles;
-    private FilePresenter mFilePresenter;
+    private FileContract.Presenter mFilePresenter;
     private FileAdapter mFileAdapter;
     private RecyclerView mFileRv;
-    private FileDownloadListener mFileDownloadListener;
+    private FileContract.FileDownloadListener mFileDownloadListener;
 
 
     public FileFragment() {
         //Empty constructor required
     }
 
+    /**
+     * Creates an instance of the file fragment
+     *
+     * @param groupId
+     * @return
+     */
     public static FileFragment newInstance(String groupId) {
         FileFragment fragment = new FileFragment();
         Bundle args = new Bundle();
@@ -41,8 +48,9 @@ public class FileFragment extends Fragment implements FileContract.View {
         return fragment;
     }
 
-
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +60,17 @@ public class FileFragment extends Fragment implements FileContract.View {
         }
         mCloudFiles = new ArrayList<>();
         mFilePresenter = new FilePresenter(this, mGroupId);
-        mFileDownloadListener = (name, uri, externalFilesDir) -> {
-            mFilePresenter.downloadFile(name, uri, externalFilesDir);
+        mFileDownloadListener = (name, uri, downloadFolderDir) -> {
+            mFilePresenter.downloadFile(getActivity(), name, uri, downloadFolderDir);
         };
         mFileAdapter = new FileAdapter(mCloudFiles, mFileDownloadListener);
 
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +88,9 @@ public class FileFragment extends Fragment implements FileContract.View {
         return view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void populateRecyclerView(ArrayList<CloudFile> cloudFiles) {
         if (!mCloudFiles.isEmpty()) {
@@ -86,20 +100,61 @@ public class FileFragment extends Fragment implements FileContract.View {
         notifyItemInserted(cloudFiles.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyItemInserted(int position) {
         mFileAdapter.notifyItemInserted(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
-
         ((GroupHomeActivity)getActivity()).hideFab();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
         ((GroupHomeActivity)getActivity()).showFab();
 
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showProgressBar() {
+        ((GroupHomeActivity)getActivity()).showDownloadProgressbar();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void hideProgressBar() {
+        ((GroupHomeActivity)getActivity()).hideDownloadProgressbar();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateProgressBar(int currentProgress) {
+        ((GroupHomeActivity)getActivity()).updateDownloadProgressBar(currentProgress);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showDownloadCompleteToast() {
+        Toast.makeText(getActivity(), R.string.download_complete, Toast.LENGTH_LONG).show();
+    }
 }
+

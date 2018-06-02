@@ -28,11 +28,22 @@
                 android:layout_height="40dp"
                 android:layout_gravity="end"
                 android:layout_margin="3dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:cpb_background_progressbar_color="@color/white"
                 app:cpb_background_progressbar_width="3dp"
-                app:cpb_progress="50"
                 app:cpb_progressbar_color="@color/md_blue_300"
+                app:cpb_progressbar_width="3dp" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/download_progressbar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_margin="3dp"
+                android:visibility="gone"
+                app:cpb_background_progressbar_color="@color/white"
+                app:cpb_background_progressbar_width="3dp"
+                app:cpb_progressbar_color="@color/download_green"
                 app:cpb_progressbar_width="3dp" />
 
 

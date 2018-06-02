@@ -3,6 +3,7 @@ package com.dlamloi.MAD.viewgroups;
 import android.util.Log;
 
 import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,16 +18,13 @@ import java.util.ArrayList;
 public class ViewGroupInteractor implements ViewGroupContract.Interactor{
 
     private ViewGroupContract.ViewGroupListener mViewGroupListener;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseUser mFirebaseUser;
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
     private FirebaseCallbackManager mFirebaseCallbackManager;
     private ArrayList<Group> mGroups = new ArrayList<>();
 
     public ViewGroupInteractor(ViewGroupContract.ViewGroupListener viewGroupListener)  {
         mViewGroupListener = viewGroupListener;
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
         mFirebaseCallbackManager = new FirebaseCallbackManager();
         mFirebaseCallbackManager.attachGroupListener(this);
     }
@@ -39,18 +37,9 @@ public class ViewGroupInteractor implements ViewGroupContract.Interactor{
         mViewGroupListener.onGroupAdd(mGroups);
     }
 
-    @Override
-    public String[] retrieveUserInformation() {
-        String userInformation[] = new String[3];
-        userInformation[0] = mFirebaseUser.getPhotoUrl().toString();
-        userInformation[1] = mFirebaseUser.getDisplayName();
-        userInformation[2] = mFirebaseUser.getEmail();
-        return userInformation;
-    }
 
     private boolean isUserAMember(Group group) {
-        String currentUserEmail = mFirebaseUser.getEmail().trim();
-        Log.d("CURRENTEMAIL", currentUserEmail);
+        String currentUserEmail = mFirebaseAuthenticationManager.getCurrentUserEmail();
         if (group.getAdminEmail().equalsIgnoreCase(currentUserEmail)) {
             return true;
         }
@@ -77,6 +66,6 @@ public class ViewGroupInteractor implements ViewGroupContract.Interactor{
 
     @Override
     public void signout() {
-        mFirebaseAuth.signOut();
+        mFirebaseAuthenticationManager.signOut();
     }
 }

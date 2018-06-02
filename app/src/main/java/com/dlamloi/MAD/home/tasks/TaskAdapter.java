@@ -20,40 +20,52 @@ import java.util.ArrayList;
  * Created by Don on 14/05/2018.
  */
 
+/**
+ * This class displays a list as rows in a recyclerview
+ */
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private TaskContract.TaskItemClickListener mTaskItemClickListener;
     private ArrayList<Task> mTasks = new ArrayList<>();
 
-
+    /**
+     * Caches the task rows
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public RelativeLayout mTaskRowContainer;
-        public ImageView mStatusIv;
-        public TextView mTaskAssignedMemberTv;
-        public TextView mTaskTitleTv;
-        public TextView mTaskDueDateTv;
+        public RelativeLayout taskRowContainer;
+        public ImageView statusIv;
+        public TextView taskAssignedMemberTv;
+        public TextView taskTitleTv;
+        public TextView taskDueDateTv;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            mTaskRowContainer = itemView.findViewById(R.id.task_row_container);
-            mStatusIv = itemView.findViewById(R.id.status_imageview);
-            mTaskAssignedMemberTv = itemView.findViewById(R.id.task_assigned_member_textview);
-            mTaskTitleTv = itemView.findViewById(R.id.task_title_textview);
-            mTaskDueDateTv = itemView.findViewById(R.id.task_due_date_textview);
+            taskRowContainer = itemView.findViewById(R.id.task_row_container);
+            statusIv = itemView.findViewById(R.id.status_imageview);
+            taskAssignedMemberTv = itemView.findViewById(R.id.task_assigned_member_textview);
+            taskTitleTv = itemView.findViewById(R.id.task_title_textview);
+            taskDueDateTv = itemView.findViewById(R.id.task_due_date_textview);
         }
 
     }
 
-
+    /**
+     * Creates a new instance of the task adapter
+     *
+     * @param tasks the list of the tasks to be displayed as rows
+     * @param taskItemClickListener the listener row recyclerview row taps
+     */
     public TaskAdapter(ArrayList<Task> tasks, TaskContract.TaskItemClickListener taskItemClickListener) {
         this.mTasks = tasks;
         this.mTaskItemClickListener = taskItemClickListener;
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,6 +74,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Task task = mTasks.get(position);
@@ -69,21 +84,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         int drawableReference;
         if (status.equals(CreateTaskPresenter.STATUS_PENDING)) {
             drawableReference = R.drawable.alarm_icon;
-        } else if (status.equals(CreateTaskPresenter.STATUS_COMPLETE)) {
-            drawableReference = R.drawable.complete_icon;
-
         } else {
-            drawableReference = R.drawable.overdue_icon;
+            drawableReference = R.drawable.complete_icon;
         }
-        holder.mStatusIv.setImageResource(drawableReference);
-        holder.mTaskAssignedMemberTv.setText(task.getAssignedMember());
-        holder.mTaskTitleTv.setText(task.getTitle());
-        holder.mTaskDueDateTv.setText(holder.itemView.getContext().getString(R.string.due, task.getDueDate()));
-        holder.mTaskRowContainer.setOnClickListener(v -> mTaskItemClickListener.taskClick(task.getId()));
+        holder.statusIv.setImageResource(drawableReference);
+        holder.taskAssignedMemberTv.setText(task.getAssignedMemberDisplayName());
+        holder.taskTitleTv.setText(task.getTitle());
+        holder.taskDueDateTv.setText(holder.itemView.getContext().getString(R.string.due, task.getDueDate()));
+        holder.taskRowContainer.setOnClickListener(v -> mTaskItemClickListener.taskClick(task.getId()));
 
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return mTasks.size();

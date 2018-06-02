@@ -22,9 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link MessagesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This class is reponsible for showing the message tab
  */
 public class MessagesFragment extends Fragment implements MessageContract.View {
 
@@ -41,6 +39,12 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
         // Required empty public constructor
     }
 
+    /**
+     * Creates a new instance of the message fragment
+     *
+     * @param groupId the group id the user is current in
+     * @return an instance of the messages fragment
+     */
     public static MessagesFragment newInstance(String groupId) {
         MessagesFragment fragment = new MessagesFragment();
         Bundle args = new Bundle();
@@ -50,6 +54,9 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +69,9 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,6 +95,9 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
         return view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clearMessageBox() {
         mMessageEt.getText().clear();
@@ -99,19 +112,28 @@ public class MessagesFragment extends Fragment implements MessageContract.View {
         notifyItemInserted(chatMessages.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyItemInserted(int position) {
         mMessageAdapter.notifyItemInserted(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
-        ((GroupHomeActivity)getActivity()).hideFab();
+        ((GroupHomeActivity) getActivity()).hideFab();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
-        ((GroupHomeActivity)getActivity()).showFab();
+        ((GroupHomeActivity) getActivity()).showFab();
 
     }
 

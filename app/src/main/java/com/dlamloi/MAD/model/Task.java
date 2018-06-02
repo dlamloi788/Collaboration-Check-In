@@ -14,6 +14,7 @@ public class Task {
     private String mDetail;
     private String mStatus; //The status of the task. Pending/Complete/Overdue
     private String mAssignedMember; //The email of the assigned member
+    private String mAssignedMemberDisplayName; //The displayname of the assigned member
     private String mDueDate;
 
 
@@ -31,20 +32,22 @@ public class Task {
      * @param assignedMember the member assigned to the task
      * @param dueDate        the date the task is to be complete by
      */
-    public Task(String title, String detail, String status, String assignedMember, String dueDate) {
+    public Task(String title, String detail, String status, String assignedMember, String assignedMemberDisplayName, String dueDate) {
         mTitle = title;
         mDetail = detail;
         mStatus = status;
         mAssignedMember = assignedMember;
+        mAssignedMemberDisplayName = assignedMemberDisplayName;
         mDueDate = dueDate;
     }
 
-    public Task(String id, String title, String detail, String status, String assignedMember, String dueDate) {
+    public Task(String id, String title, String detail, String status, String assignedMember, String assignedMemberDisplayName, String dueDate) {
         mId = id;
         mTitle = title;
         mDetail = detail;
         mStatus = status;
         mAssignedMember = assignedMember;
+        mAssignedMemberDisplayName = assignedMemberDisplayName;
         mDueDate = dueDate;
     }
 
@@ -87,6 +90,14 @@ public class Task {
 
     public void setAssignedMember(String assignedMember) {
         mAssignedMember = assignedMember;
+    }
+
+    public String getAssignedMemberDisplayName() {
+        return mAssignedMemberDisplayName;
+    }
+
+    public void setAssignedMemberDisplayName(String assignedMemberDisplayName) {
+        mAssignedMemberDisplayName = assignedMemberDisplayName;
     }
 
     public String getDueDate() {

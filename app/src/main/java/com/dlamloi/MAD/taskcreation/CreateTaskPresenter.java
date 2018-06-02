@@ -1,5 +1,6 @@
 package com.dlamloi.MAD.taskcreation;
 
+import com.dlamloi.MAD.meetingcreation.CreateMeetingPresenter;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 import com.dlamloi.MAD.utilities.Utility;
@@ -16,7 +17,6 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
 
     public static final String STATUS_PENDING = "Pending";
     public static final String STATUS_COMPLETE = "Complete";
-    public static final String STATUS_OVERDUE = "Overdue";
 
     private final CreateTaskContract.View mView;
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
@@ -41,7 +41,7 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     @Override
     public void datePicked(int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(CreateMeetingPresenter.DATE_PATTERN);
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -51,7 +51,10 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
 
     @Override
     public void assignTask(String assignedMember, String taskTitle, String dueDate, String taskDescription) {
-        Task task = new Task(taskTitle, taskDescription, STATUS_PENDING, assignedMember, dueDate);
+        String[] assignedMemberSplit = assignedMember.split("-");
+        String assignMemberEmail = assignedMemberSplit[1].trim();
+        String assignMemberDisplayName = assignedMemberSplit[0].trim();
+        Task task = new Task(taskTitle, taskDescription, STATUS_PENDING, assignMemberEmail, assignMemberDisplayName, dueDate);
         mFirebaseRepositoryManager.addTask(task);
         mView.leave();
     }
@@ -62,11 +65,20 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     }
 
     @Override
-    public void shouldAssignBeEnabled(String selectedItem, String title, String duedate, String description) {
-        if (Utility.areAnyRequiredFieldsEmpty(selectedItem, title, duedate, description)) {
+    public void shouldAssignBeEnabled(String selectedItem, String title, String duedate) {
+        if (Utility.areAnyRequiredFieldsEmpty(selectedItem, title, duedate)) {
             mView.disableAssignButton();
         } else {
             mView.enableAssignButton();
+        }
+    }
+
+    @Override
+    public void homeButtonPressed(String title, String dueDate) {
+        if (!title.isEmpty() || !dueDate.isEmpty()) {
+            mView.showAlertDialog();
+        } else {
+            mView.leave();
         }
     }
 }

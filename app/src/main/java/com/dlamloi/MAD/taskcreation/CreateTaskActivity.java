@@ -2,6 +2,7 @@ package com.dlamloi.MAD.taskcreation;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
+import com.dlamloi.MAD.utilities.Utility;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     EditText mTaskDescriptionEt;
 
     private Menu mMenu;
-
+    private AlertDialog mLeaveAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         mSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mAssignMemberSp.setAdapter(mSpinnerAdapter);
         mCreateTaskPresenter = new CreateTaskPresenter(this, mGroupId);
+        mLeaveAlertDialog = Utility.setUpLeaveAlertDialog(this, getString(R.string.quit_assigning_task));
         mAssignMemberSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -82,8 +85,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         mCreateTaskPresenter.shouldAssignBeEnabled(
                 (String) mAssignMemberSp.getSelectedItem(),
                 mTaskTitleEt.getText().toString(),
-                mTaskDueDatEt.getText().toString(),
-                mTaskDescriptionEt.getText().toString()
+                mTaskDueDatEt.getText().toString()
         );
     }
 
@@ -91,7 +93,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                leave();
+                mCreateTaskPresenter.homeButtonPressed(mTaskTitleEt.getText().toString(),
+                        mTaskDueDatEt.getText().toString()
+                        );
                 break;
 
             case R.id.create_task_menu_button:
@@ -148,6 +152,11 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     public void enableAssignButton() {
         mMenu.findItem(R.id.create_task_menu_button).setEnabled(true);
 
+    }
+
+    @Override
+    public void showAlertDialog() {
+        mLeaveAlertDialog.show();
     }
 
 }

@@ -3,6 +3,7 @@ package com.dlamloi.MAD.updatecreation;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.dlamloi.MAD.home.update.UpdateFragment;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Group;
 import com.dlamloi.MAD.model.Update;
+import com.dlamloi.MAD.utilities.Utility;
 import com.dlamloi.MAD.viewgroups.ViewGroupsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +51,7 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
     TextInputEditText mUpdateInformationEt;
 
     private Menu mMenu;
-
+    private AlertDialog mLeaveAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
         ButterKnife.bind(this);
         mGroupId = getIntent().getStringExtra(GroupHomeActivity.GROUP_KEY);
         mPostUpdatePresenter = new PostUpdatePresenter(this, mGroupId);
+        mLeaveAlertDialog = Utility.setUpLeaveAlertDialog(this, getString(R.string.quit_posting_update));
     }
 
     @Override
@@ -77,7 +80,7 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                leave();
+                mPostUpdatePresenter.homeButtonPressed(mUpdateTitleEt.getText().toString());
                 break;
 
             case R.id.publish_update:
@@ -97,6 +100,7 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
     }
 
 
+
     @Override
     public void leave() {
         finish();
@@ -110,6 +114,11 @@ public class PostUpdateActivity extends AppCompatActivity implements PostUpdateC
     @Override
     public void enablePublishButton() {
         mMenu.findItem(R.id.publish_update).setEnabled(true);
+    }
+
+    @Override
+    public void showAlertDialog() {
+        mLeaveAlertDialog.show();
     }
 
 

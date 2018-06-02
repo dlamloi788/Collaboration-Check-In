@@ -1,9 +1,9 @@
 package com.dlamloi.MAD.viewgroups;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.dlamloi.MAD.model.Group;
+import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
@@ -14,16 +14,16 @@ import java.util.ArrayList;
 
 public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGroupContract.ViewGroupListener {
 
-    public static final String LOG_GROUP = "The group is";
-
 
     private final ViewGroupContract.View mView;
     private ViewGroupContract.Interactor mViewGroupInteractor;
+    private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
 
 
     public ViewGroupPresenter(ViewGroupContract.View view) {
         mView = view;
         mViewGroupInteractor = new ViewGroupInteractor(this);
+        mFirebaseAuthenticationManager = new FirebaseAuthenticationManager();
     }
 
 
@@ -41,11 +41,9 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
 
     @Override
     public void loadProfileData() {
-        String[] userInformation = mViewGroupInteractor.retrieveUserInformation();
-        Log.d("DOESUSEREXIST?", userInformation[0]);
-        mView.setProfileImage(userInformation[0]);
-        mView.setDisplayName(userInformation[1]);
-        mView.setEmail(userInformation[2]);
+        mView.setProfileImage(mFirebaseAuthenticationManager.getPhotoUrl());
+        mView.setDisplayName(mFirebaseAuthenticationManager.getCurrentUserDisplayName());
+        mView.setEmail(mFirebaseAuthenticationManager.getCurrentUserEmail());
     }
 
     @Override
@@ -65,14 +63,6 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
         mView.populateRecyclerView(groups);
     }
 
-
-
-    @Override
-    public void isStateIdle(int state) {
-        if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            mView.showFab();
-        }
-    }
 
     @Override
     public void scrollStateChanged(int newState) {

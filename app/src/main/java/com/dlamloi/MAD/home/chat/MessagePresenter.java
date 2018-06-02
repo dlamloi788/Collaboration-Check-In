@@ -13,6 +13,9 @@ import java.util.Calendar;
  * Created by Don on 27/05/2018.
  */
 
+/**
+ * This class deals with the presentation logic and calls the appropriate class for data storage
+ */
 public class MessagePresenter implements MessageContract.Presenter, MessageContract.newMessageListener {
 
     private ArrayList<ChatMessage> mChatMessages = new ArrayList<>();
@@ -22,7 +25,12 @@ public class MessagePresenter implements MessageContract.Presenter, MessageContr
     private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
     private FirebaseCallbackManager mFirebaseCallbackManager;
 
-
+    /**
+     * Creates a new instance of the message presenter
+     *
+     * @param view    the view that this presenter is moderating
+     * @param groupId the id of the group the user is in
+     */
     public MessagePresenter(MessageContract.View view, String groupId) {
         mView = view;
         mFirebaseRepositoryManager = new FirebaseRepositoryManager(groupId);
@@ -31,8 +39,10 @@ public class MessagePresenter implements MessageContract.Presenter, MessageContr
         mFirebaseCallbackManager.attachMessageListener(this);
     }
 
-
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void sendMessage(String messageText) {
         mView.clearMessageBox();
         Calendar calendar = Calendar.getInstance();
@@ -43,6 +53,9 @@ public class MessagePresenter implements MessageContract.Presenter, MessageContr
         mFirebaseRepositoryManager.sendMessage(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onNewMessage(ChatMessage message) {
         mChatMessages.add(message);

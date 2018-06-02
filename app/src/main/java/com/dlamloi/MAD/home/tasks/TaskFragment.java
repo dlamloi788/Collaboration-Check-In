@@ -14,24 +14,22 @@ import android.view.ViewGroup;
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
 import com.dlamloi.MAD.model.Task;
+import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
 import com.dlamloi.MAD.viewtask.ViewTaskActivity;
 
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link TaskFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This class is responsible for displaying the task screen
  */
 public class TaskFragment extends Fragment implements TaskContract.View {
 
     public static final int SPAN_COUNT = 2;
     public static final String TASK_ID = "task id";
-    public static final String COMPLETE = "Complete";
 
     private RecyclerView mTasksRv;
     private String mGroupId;
-    private TaskPresenter mTaskPresenter;
+    private TaskContract.Presenter mTaskPresenter;
     private TaskAdapter mTaskAdapter;
     private ArrayList<Task> mTasks = new ArrayList<>();
 
@@ -47,6 +45,12 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         // Required empty public constructor
     }
 
+    /**
+     * Creates a new instance of the task fragment
+     *
+     * @param groupId the id of the group that the user is currently in
+     * @return an instance of the task fragment
+     */
     public static TaskFragment newInstance(String groupId) {
         TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
@@ -55,6 +59,9 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         return fragment;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +74,9 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         mTaskAdapter = new TaskAdapter(mTasks, mTaskItemClickListener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,22 +96,34 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         return view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyItemInserted(int position) {
         mTaskAdapter.notifyItemInserted(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
         ((GroupHomeActivity)getActivity()).hideFab();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
         ((GroupHomeActivity)getActivity()).showFab();
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void populateRecyclerView(ArrayList<Task> tasks) {
         if (!mTasks.isEmpty()) {
@@ -111,14 +133,20 @@ public class TaskFragment extends Fragment implements TaskContract.View {
         notifyItemInserted(tasks.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<Task> getTasks() {
         return mTasks;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void taskCompleted(int index) {
-        mTasks.get(index).setStatus(COMPLETE);
+        mTasks.get(index).setStatus(CreateTaskPresenter.STATUS_COMPLETE);
         mTaskAdapter.notifyItemChanged(index);
     }
 }

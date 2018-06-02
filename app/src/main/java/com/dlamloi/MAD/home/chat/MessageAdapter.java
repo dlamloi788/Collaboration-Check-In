@@ -16,15 +16,25 @@ import java.util.ArrayList;
  * Created by Don on 27/05/2018.
  */
 
+/**
+ * An adapter that loads messages into the message recyclerview
+ */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     private ArrayList<ChatMessage> mMessages;
 
+    /**
+     * Creates a new instance of the message adapter
+     *
+     * @param chatMessages the messages to be displayed
+     */
     public MessageAdapter(ArrayList<ChatMessage> chatMessages) {
         mMessages = chatMessages;
     }
 
-
+    /**
+     * Caches the rows of the messages
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView messageComposerTv;
@@ -40,6 +50,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,6 +61,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatMessage chatMessage = mMessages.get(position);
@@ -56,6 +72,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.messageTimeSentTv.setText(chatMessage.getTimeSent());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return mMessages.size();

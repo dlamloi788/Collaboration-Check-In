@@ -43,8 +43,6 @@ public interface ViewGroupContract {
 
         boolean onDrawerItemClicked(int position, IDrawerItem drawerItem);
 
-        void isStateIdle(int newState);
-
         void scrollStateChanged(int newState);
     }
 
@@ -52,7 +50,6 @@ public interface ViewGroupContract {
 
         void onGroupReceive(Group group);
 
-        String[] retrieveUserInformation();
 
         void signout();
 
@@ -64,7 +61,10 @@ public interface ViewGroupContract {
 
     }
 
+    
+    interface GroupItemClickListener {
 
+        void groupClick(String id, String title);
 
-
+    }
 }

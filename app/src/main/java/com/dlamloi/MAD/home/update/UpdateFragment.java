@@ -15,19 +15,28 @@ import com.dlamloi.MAD.model.Update;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class is reponsible for displaying the update screen
+ */
 public class UpdateFragment extends Fragment implements UpdateContract.View {
 
 
     private RecyclerView mUpdatesRv;
     private String mGroupId;
     private UpdateAdapter mUpdateAdapter;
-    private UpdatePresenter mUpdatePresenter;
+    private UpdateContract.Presenter mUpdatePresenter;
     private ArrayList<Update> mUpdates;
 
     public UpdateFragment() {
+        //Empty constructor required
     }
 
+    /**
+     * Creates a new instance of the update fragment
+     *
+     * @param groupId the id of the group the user is currently in
+     * @return an instance of the update fragment
+     */
     public static UpdateFragment newInstance(String groupId) {
         UpdateFragment fragment = new UpdateFragment();
         Bundle args = new Bundle();
@@ -37,7 +46,9 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +61,9 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         mUpdateAdapter = new UpdateAdapter(mUpdates);
     }
 
-
-
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +82,9 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         return view;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void populateRecyclerView(ArrayList<Update> updates) {
         if (!mUpdates.isEmpty()) {
@@ -80,16 +94,25 @@ public class UpdateFragment extends Fragment implements UpdateContract.View {
         notifyItemInserted(updates.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyItemInserted(int position) {
         mUpdateAdapter.notifyItemInserted(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hideFab() {
         ((GroupHomeActivity) getActivity()).hideFab();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showFab() {
         ((GroupHomeActivity)getActivity()).showFab();

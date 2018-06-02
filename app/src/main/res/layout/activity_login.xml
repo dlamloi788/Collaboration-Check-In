@@ -134,17 +134,6 @@
             android:textSize="20dp"
             />
 
-        <Button
-            android:id="@+id/forgot_password_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="@string/forgot_password"
-            android:textAllCaps="false"
-            android:textColor="#939393"
-            android:fontFamily="@font/roboto"
-            />
-
     </LinearLayout>
 
     <LinearLayout

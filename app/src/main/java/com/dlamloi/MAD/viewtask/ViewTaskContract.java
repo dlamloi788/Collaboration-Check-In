@@ -14,6 +14,10 @@ public interface ViewTaskContract {
         void bindTaskData(String title, String detail, String dueDate);
 
         void leave();
+
+        void showTaskCompleteError();
+
+        void showTaskCompleteToast();
     }
 
 
