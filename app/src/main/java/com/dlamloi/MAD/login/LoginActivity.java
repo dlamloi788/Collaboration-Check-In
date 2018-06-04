@@ -23,12 +23,13 @@ import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 
 /**
- * This class is responsbile for the user logging into their account
+ * This class is responsible for the user logging into their account
  */
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
     public static final int REGISTER_REQUEST_CODE = 1;
     public static final String USER_EMAIL_KEY = "user email";
+    public static final String LOGIN_SUCCESS = "loginsuccess";
 
     private LoginContract.Presenter mLoginPresenter;
 
@@ -157,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
      */
     @Override
     public void loginSuccess() {
-        Log.d("loginsuccess", "loginSuccess() called...?");
+        Log.d(LOGIN_SUCCESS, "loginSuccess() called...?");
         Utility.startIntent(this, ViewGroupsActivity.class);
         finish();
     }
@@ -217,7 +218,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
      * Highlights specified the edittext and imageview in the  colour white
      *
      * @param editText  the edittext to change colour
-     * @param imageView the imageview to changecolour
+     * @param imageView the imageview to change colour
      */
     private void highlightEditText(EditText editText, ImageView imageView) {
         imageView.setColorFilter(Color.WHITE);
@@ -227,7 +228,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     /**
-     * Removes the highlight from the specified edittext and iamgeview
+     * Removes the highlight from the specified edittext and imageview
      *
      * @param editText  the edittext to remove the highlight
      * @param imageView the imageview to remove the highlight

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group_home_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="false"
     tools:context="com.dlamloi.MAD.home.GroupHomeActivity">
 
 
@@ -83,13 +83,15 @@
         android:id="@+id/floating_actions_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:backgroundTint="@color/colorPrimary"
         app:fab_addButtonColorNormal="@color/colorPrimary"
         app:fab_addButtonColorPressed="@color/colorPrimaryDark"
         app:fab_labelStyle="@style/menu_labels_style"
-        app:fab_labelsPosition="left">
+        app:fab_labelsPosition="left"
+
+        >
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -100,7 +102,8 @@
             app:fab_colorPressed="@color/colorPrimaryDark"
             app:fab_icon="@drawable/add_update"
             app:fab_size="mini"
-            app:fab_title="@string/post_update" />
+            app:fab_title="@string/post_update"
+            />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/schedule_meeting_button"

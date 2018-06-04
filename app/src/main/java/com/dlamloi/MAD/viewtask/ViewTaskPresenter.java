@@ -1,10 +1,8 @@
 package com.dlamloi.MAD.viewtask;
 
-import com.dlamloi.MAD.home.tasks.TaskFragment;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
-import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
 
 /**
  * Created by Don on 30/05/2018.

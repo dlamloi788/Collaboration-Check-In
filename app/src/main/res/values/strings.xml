@@ -29,8 +29,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Log out</string>
-    <string name="title_activity_create_meeting">CreateMeetingActivity</string>
-    <string name="title_activity_post_update">PostUpdateActivity</string>
+    <string name="title_activity_create_meeting">Schedule a meeting</string>
+    <string name="title_activity_post_update">Post an update</string>
     <string name="what_s_new">What\'s new?</string>
     <string name="enter_update_title">Enter Update Title</string>
     <string name="publish">publish</string>
@@ -52,7 +52,7 @@
     <string name="post_update">Post update</string>
     <string name="assign_task">Assign task</string>
     <string name="upload_file">Upload file</string>
-    <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="title_activity_create_task">Assign a task</string>
     <string name="task_title">Task Title</string>
     <string name="task_due_date">Task Due Date</string>
     <string name="task_description">Task Description</string>
@@ -97,6 +97,12 @@
     <string name="download_complete">File downloaded to your download folder</string>
     <string name="view_your_groups">View your groups</string>
     <string name="not_assigned_to_task">Sorry, you\'re not assigned to this task</string>
+    <string name="enter_file_name">Please enter a file name</string>
+    <string name="create_group">Create Group</string>
+    <string name="schedule_a_meeting">Schedule a meeting</string>
+    <string name="assign_a_task">Assign a Task</string>
+    <string name="post_an_update">Post an update</string>
+    <string name="enter_email_twice">Sorry, you can\'t enter the same email twice</string>
 
 
 </resources>

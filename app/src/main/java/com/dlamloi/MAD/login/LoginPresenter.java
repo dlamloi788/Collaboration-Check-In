@@ -1,6 +1,6 @@
 package com.dlamloi.MAD.login;
 
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
 
 /**
  * Created by Don on 14/05/2018.

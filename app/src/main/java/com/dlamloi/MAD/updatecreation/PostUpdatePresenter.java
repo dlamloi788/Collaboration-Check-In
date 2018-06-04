@@ -1,7 +1,7 @@
 package com.dlamloi.MAD.updatecreation;
 
 import com.dlamloi.MAD.model.Update;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 
 import java.text.SimpleDateFormat;

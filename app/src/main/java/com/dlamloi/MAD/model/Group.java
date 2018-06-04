@@ -1,7 +1,6 @@
 package com.dlamloi.MAD.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +9,10 @@ import java.util.HashMap;
  * Created by Don on 11/04/2018.
  */
 
-public class Group implements Parcelable {
+/**
+ * This class encapsulates the group data into an object
+ */
+public class Group {
 
 
     private String id;
@@ -62,18 +64,6 @@ public class Group implements Parcelable {
         in.readMap(chatMessages, ChatMessage.class.getClassLoader());
 
     }
-
-    public static final Creator<Group> CREATOR = new Creator<Group>() {
-        @Override
-        public Group createFromParcel(Parcel in) {
-            return new Group(in);
-        }
-
-        @Override
-        public Group[] newArray(int size) {
-            return new Group[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -147,32 +137,6 @@ public class Group implements Parcelable {
         this.chatMessages = chatMessages;
     }
 
-    public static Creator<Group> getCREATOR() {
-        return CREATOR;
-    }
-
-    @Override
-    public String toString() {
-        return name + " - " + id;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(adminEmail);
-        dest.writeStringList(memberEmails);
-        dest.writeMap(updates);
-        dest.writeMap(meetingPlans);
-        dest.writeStringList(fileUris);
-        dest.writeMap(tasks);
-        dest.writeMap(chatMessages);
-    }
 }
 
 

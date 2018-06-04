@@ -2,8 +2,9 @@ package com.dlamloi.MAD.groupcreation;
 
 import android.util.Log;
 
+import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
 
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ import java.util.Iterator;
  */
 
 public class CreateGroupPresenter implements CreateGroupContract.Presenter {
+
+    public static final String BACK_PRESED = "Back press";
+
 
     private final CreateGroupContract.View mView;
     private FirebaseRepositoryManager mFirebaseRepositoryManager;
@@ -50,7 +54,7 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
         String adminEmail = mFirebaseAuthenticationManager.getCurrentUserEmail();
 
         if (doesSameEmailAppearTwice(memberEmails, adminEmail)) {
-            mView.showEmailError("Sorry, you can't enter the same email twice");
+            mView.showEmailError();
         } else {
             Log.d("GROUOPCREATED", "I'm called...?");
             Group group = new Group(groupName, adminEmail, memberEmails);
@@ -97,7 +101,9 @@ public class CreateGroupPresenter implements CreateGroupContract.Presenter {
     public void homeButtonClicked(String groupName, ArrayList<String> emails) {
         if (!groupName.isEmpty() || !doesListContainAllEmptyEmails(emails)) {
             mView.showLeaveDialog();
+            Log.d(BACK_PRESED, "I should show...");
         } else {
+            Log.d(BACK_PRESED, "I shouldn't show...");
             mView.leave();
         }
     }

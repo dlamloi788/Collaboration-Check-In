@@ -2,7 +2,6 @@ package com.dlamloi.MAD.repo;
 
 import android.util.Log;
 
-import com.dlamloi.MAD.home.tasks.TaskFragment;
 import com.dlamloi.MAD.model.ChatMessage;
 import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.model.Group;
@@ -10,14 +9,11 @@ import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.model.Task;
 import com.dlamloi.MAD.model.Update;
 import com.dlamloi.MAD.model.User;
-import com.dlamloi.MAD.taskcreation.CreateTaskContract;
 import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
 import com.dlamloi.MAD.viewmeeting.ViewMeetingContract;
-import com.dlamloi.MAD.viewtask.ViewTaskActivity;
 import com.dlamloi.MAD.viewtask.ViewTaskContract;
-import com.dlamloi.MAD.viewtask.ViewTaskPresenter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -149,7 +145,7 @@ public class FirebaseRepositoryManager {
 
 
     /**
-     * Begins the process of retreiving the display names of the group members
+     * Begins the process of retrieving the display names of the group members
      *
      * @param presenter the create task presenter
      */
@@ -187,11 +183,11 @@ public class FirebaseRepositoryManager {
     }
 
     /**
-     * Transforms user emails to a dash seperated list of display names and emails and passes it to the
+     * Transforms user emails to a dash separated list of display names and emails and passes it to the
      * presenter
      *
      * @param users     the users of the group
-     * @param presenter the creater task presenter
+     * @param presenter the creator task presenter
      */
     private void taskOnStart(ArrayList<User> users, CreateTaskPresenter presenter) {
         mDatabaseReference.child(mGroupId).child("memberEmails").addListenerForSingleValueEvent(new ValueEventListener() {

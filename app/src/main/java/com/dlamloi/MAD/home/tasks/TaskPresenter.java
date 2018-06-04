@@ -1,10 +1,9 @@
 package com.dlamloi.MAD.home.tasks;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.dlamloi.MAD.model.Task;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
 
 import java.util.ArrayList;
 

@@ -15,7 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.CycleInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,7 +53,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * This class is reponsible for handling the home page of the selected group
+ * This class is responsible for handling the home page of the selected group
  */
 public class GroupHomeActivity extends AppCompatActivity implements GroupHomeContract.View {
 
@@ -66,6 +68,9 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     private CircleImageView mProfileImageIv;
     private TextView mFirstNameTv;
     private TextView mEmailTv;
+    private AlertDialog mUploadAlertDialog;
+    private EditText mFileNameEditText;
+    private TextView mUploadDialogErrorTv;
 
     private String mGroupId;
     private String mPhotoPath;
@@ -110,6 +115,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         mGroupHomePresenter.setup(getIntent());
         initTabLayout();
         mGroupId = getIntent().getStringExtra(ViewGroupsActivity.GROUP_ID_KEY);
+        setupUploadDialog();
         mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
@@ -122,6 +128,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
             }
         });
     }
+
 
     /**
      * Handles the post update button click
@@ -161,7 +168,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     }
 
     /**
-     * Hadnles the camera upload button click
+     * Handles the camera upload button click
      */
     @OnClick(R.id.upload_camera_button)
     public void uploadCameraButtonClick() {
@@ -195,7 +202,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     }
 
     /**
-     * Sets up the tablayout with a viewpager and attaches specified icosn
+     * Sets up the tablayout with a viewpager and attaches specified icons
      */
     private void initTabLayout() {
         mTabLayout.setupWithViewPager(mViewPager);
@@ -211,6 +218,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mGroupHomePresenter.shouldFabBeHidden(tab.getPosition());
+
             }
 
             @Override
@@ -246,6 +254,34 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         drawer.addItem(new DividerDrawerItem());
         drawer.addItem(new PrimaryDrawerItem().withName(R.string.log_out).withIcon(R.drawable.logout_icon).withIdentifier(2).withSelectable(false));
 
+    }
+
+    /**
+     * Sets up the upload dialog to prevent instantiation every time show dialog
+     * is called
+     */
+    private void setupUploadDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View uploadDialogView = LayoutInflater.from(this).inflate(R.layout.upload_file_dialog, null);
+        builder.setView(uploadDialogView);
+
+        mFileNameEditText = uploadDialogView.findViewById(R.id.upload_file_name_edittext);
+        Button cancelButton = uploadDialogView.findViewById(R.id.upload_cancel_button);
+        Button uploadButton = uploadDialogView.findViewById(R.id.upload_upload_button);
+        mUploadDialogErrorTv = uploadDialogView.findViewById(R.id.upload_dialog_error_textview);
+
+        mUploadAlertDialog = builder.create();
+        mUploadAlertDialog.setCancelable(false);
+
+        cancelButton.setOnClickListener(view -> {
+            mUploadAlertDialog.dismiss();
+            clearFileName();
+            hideFileNameError();
+        });
+        uploadButton.setOnClickListener(view -> {
+            String fileName = mFileNameEditText.getText().toString().trim();
+            mGroupHomePresenter.uploadFile(fileName);
+        });
     }
 
     /**
@@ -389,25 +425,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
      */
     @Override
     public void showSetFileNameDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View uploadDialogView = LayoutInflater.from(this).inflate(R.layout.upload_file_dialog, null);
-        builder.setView(uploadDialogView);
-
-        EditText fileNameEt = uploadDialogView.findViewById(R.id.upload_file_name_edittext);
-        Button cancelButton = uploadDialogView.findViewById(R.id.upload_cancel_button);
-        Button uploadButton = uploadDialogView.findViewById(R.id.upload_upload_button);
-
-        AlertDialog uploadDialog = builder.create();
-        uploadDialog.setCancelable(false);
-
-        cancelButton.setOnClickListener(view -> uploadDialog.dismiss());
-        uploadButton.setOnClickListener(view -> {
-            String fileName = fileNameEt.getText().toString().trim();
-            mGroupHomePresenter.uploadFile(fileName);
-            uploadDialog.dismiss();
-        });
-
-        uploadDialog.show();
+        mUploadAlertDialog.show();
     }
 
     /**
@@ -465,7 +483,7 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
         Uri imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", filename);
 
         Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Intent intent = captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(captureImageIntent, CAMERA_REQUEST_CODE);
     }
 
@@ -495,4 +513,37 @@ public class GroupHomeActivity extends AppCompatActivity implements GroupHomeCon
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void hideEnterFileNameDialog() {
+        mUploadAlertDialog.hide();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void shakeUploadFileName() {
+        TranslateAnimation shake = new TranslateAnimation(0, 10, 0, 0);
+        shake.setDuration(500);
+        shake.setInterpolator(new CycleInterpolator(7));
+        mFileNameEditText.startAnimation(shake);
+    }
+
+    @Override
+    public void showFileNameError() {
+        mUploadDialogErrorTv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideFileNameError() {
+        mUploadDialogErrorTv.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void clearFileName() {
+        mFileNameEditText.getText().clear();
+    }
 }

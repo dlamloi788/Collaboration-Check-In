@@ -4,6 +4,9 @@ package com.dlamloi.MAD.model;
  * Created by Don on 24/05/2018.
  */
 
+/**
+ * This class wraps a file that will be stored into the database
+ */
 public class CloudFile {
 
     private String name;

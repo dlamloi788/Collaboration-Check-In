@@ -15,10 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.dlamloi.MAD.R;
-import com.dlamloi.MAD.groupcreation.CreateGroupContract;
-import com.dlamloi.MAD.groupcreation.CreateGroupPresenter;
 import com.dlamloi.MAD.home.GroupHomeActivity;
-import com.dlamloi.MAD.taskcreation.CreateTaskContract;
 import com.dlamloi.MAD.utilities.Utility;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -31,7 +28,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 /**
- * This class is reponsible for showing the create meeting activity UI
+ * This class is responsible for showing the create meeting activity UI
  */
 public class CreateMeetingActivity extends AppCompatActivity implements CreateMeetingContract.View {
 
@@ -55,6 +52,8 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     private BottomSheetDialog mBottomSheetDialog;
     private Intent placePickerIntent;
     private AlertDialog mLeaveAlertDialog;
+    private TimePickerDialog mTimePickerDialog;
+    private DatePickerDialog mDatePickerDialog;
 
     /**
      * {@inheritDoc}
@@ -64,7 +63,6 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_meeting);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.new_meeting);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.cross_icon));
@@ -74,6 +72,8 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
         mCreateMeetingPresenter = new CreateMeetingPresenter(this, mGroupId);
         setUpBottomSheetDialog();
         mLeaveAlertDialog = Utility.setUpLeaveAlertDialog(this, getString(R.string.quit_scheduling_meeting));
+        mCreateMeetingPresenter.setUpTimePickerDialog();
+        mCreateMeetingPresenter.setUpDatePickerDialog();
     }
 
     /**
@@ -96,6 +96,8 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
     public void meetingLocationEtClicked() {
         mCreateMeetingPresenter.selectLocation(mMeetingLocationEt.getText().toString());
     }
+
+
 
     /**
      * Opens the date dialog when the meeting date edittext is tapped on
@@ -172,7 +174,20 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
      * {@inheritDoc}
      */
     @Override
+    public void onBackPressed() {
+        mCreateMeetingPresenter.homeButtonPressed(mMeetingNameEt.getText().toString(),
+                mMeetingDateEt.getText().toString(),
+                mMeetingTimeEt.getText().toString(),
+                mMeetingLocationEt.getText().toString(),
+                mMeetingAgendaEt.getText().toString());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mMeetingLocationEt.setEnabled(true);
         mCreateMeetingPresenter.result(requestCode, resultCode, data);
     }
 
@@ -189,14 +204,9 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
      * {@inheritDoc}
      */
     @Override
-    public void showDateDialog(int currentYear, int currentMonth, int currentDayOfMonth) {
+    public void showDateDialog() {
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year, month, dayOfMonth) -> {
-                    mCreateMeetingPresenter.datePicked(year, month, dayOfMonth);
-                }, currentYear, currentMonth, currentDayOfMonth);
-
-        datePickerDialog.show();
+        mDatePickerDialog.show();
     }
 
     /**
@@ -211,13 +221,10 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
      * {@inheritDoc}
      */
     @Override
-    public void showTimeDialog(int currentHourOfDay, int currentMinute) {
+    public void showTimeDialog() {
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                (view, hourOfDay, minute) -> {
-                    mCreateMeetingPresenter.timePicked(hourOfDay, minute);
-                }, currentHourOfDay, currentMinute, false);
-        timePickerDialog.show();
+
+        mTimePickerDialog.show();
     }
 
     /**
@@ -257,8 +264,33 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
      */
     @Override
     public void startSelectLocation() {
+        mMeetingLocationEt.setEnabled(false);
         startActivityForResult(placePickerIntent, PLACE_PICKER_REQUEST);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUpDatePickerDialog(int currentYear, int currentMonth, int currentDayOfMonth) {
+        mDatePickerDialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    mCreateMeetingPresenter.datePicked(year, month, dayOfMonth);
+                }, currentYear, currentMonth, currentDayOfMonth);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUpTimePickerDialog(int currentHourOfDay, int currentMinute) {
+        mTimePickerDialog = new TimePickerDialog(this,
+                (view, hourOfDay, minute) -> {
+                    mCreateMeetingPresenter.timePicked(hourOfDay, minute);
+                }, currentHourOfDay, currentMinute, false);
+    }
+
+
 
     /**
      * {@inheritDoc}
@@ -301,5 +333,6 @@ public class CreateMeetingActivity extends AppCompatActivity implements CreateMe
             mBottomSheetDialog.dismiss();
         });
     }
+
 }
 

@@ -3,7 +3,7 @@ package com.dlamloi.MAD.home.update;
 import android.support.v7.widget.RecyclerView;
 
 import com.dlamloi.MAD.model.Update;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 
 /**
- * This class handles the presntation logic and listeners for updates being added to the database
+ * This class handles the presentation logic and listeners for updates being added to the database
  */
 public class UpdatePresenter implements UpdateContract.Presenter, UpdateContract.UpdateListener {
 

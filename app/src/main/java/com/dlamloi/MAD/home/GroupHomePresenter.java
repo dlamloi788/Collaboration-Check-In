@@ -8,8 +8,8 @@ import android.util.Log;
 
 import com.dlamloi.MAD.model.CloudFile;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseStorageManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseStorageManager;
 import com.dlamloi.MAD.viewgroups.ViewGroupsActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -141,9 +141,18 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
      */
     @Override
     public void uploadFile(String fileName) {
-        mView.showUploadProgressbar();
-        String fileExtension = mFile.toString().substring(mFile.toString().lastIndexOf('.'));
-        mFirebaseStorageManager.uploadFile(mGroupId, mFile, fileName + fileExtension);
+        if (!fileName.isEmpty()) {
+            mView.showUploadProgressbar();
+            String fileExtension = mFile.toString().substring(mFile.toString().lastIndexOf('.'));
+            mFirebaseStorageManager.uploadFile(mGroupId, mFile, fileName + fileExtension);
+            mView.hideFileNameError();
+            mView.clearFileName();
+            mView.hideEnterFileNameDialog();
+        } else {
+            mView.showFileNameError();
+            mView.shakeUploadFileName();
+        }
+
     }
 
     /**
@@ -235,6 +244,7 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
         } else {
             mView.showFab();
         }
+        mView.collapseActionMenu();
     }
 
     /**
@@ -273,7 +283,7 @@ public class GroupHomePresenter implements GroupHomeContract.Presenter, GroupHom
     }
 
     /**
-     * Shows the dialog to save the file with a desired naem
+     * Shows the dialog to save the file with a desired name
      */
     private void saveFileWithName() {
         mView.showSetFileNameDialog();

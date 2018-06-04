@@ -1,12 +1,7 @@
 package com.dlamloi.MAD.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.dlamloi.MAD.meetingcreation.CreateMeetingPresenter;
-import com.dlamloi.MAD.taskcreation.CreateTaskPresenter;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
@@ -17,6 +12,9 @@ import java.util.Locale;
  * Created by Don on 8/05/2018.
  */
 
+/**
+ * This class encapsulate the meeting data into an object
+ */
 public class Meeting {
 
     private String mId;
@@ -131,7 +129,7 @@ public class Meeting {
             }
             return firstMeeting.compareTo(secondMeeting);
 
-        };
+        }
     }
 
 }

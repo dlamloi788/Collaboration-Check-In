@@ -1,14 +1,11 @@
 package com.dlamloi.MAD.utilities;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.menu.ActionMenuItem;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dlamloi.MAD.R;
@@ -18,7 +15,7 @@ import com.dlamloi.MAD.R;
  */
 
 /**
- * Handles small context activites
+ * Handles small context activities
  */
 public class Utility {
 
@@ -87,7 +84,7 @@ public class Utility {
 
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.no),
                 ((dialog, which) -> {
-                    alertDialog.hide();
+                    alertDialog.dismiss();
                 }));
 
 

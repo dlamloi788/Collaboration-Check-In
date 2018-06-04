@@ -8,12 +8,17 @@
     <color name="LoginRegisterLayoutBackground">#16223B</color>
     <color name="LoginRegisterEditText_TextColorHint">#939393</color>
     <color name="MainBackgroundColor">#D3D6DB</color>
+    <color name="error_red">#FF0000</color>
     <color name="Post_Update_Hint_Color">#E0E0E0</color>
     <color name="bottom_sheet_dialog_textcolor">#7B7B7B</color>
     <color name="material_red">#f42e2b</color>
     <color name="meeting_row_tint">#F3F3F3</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent_black">#B2000000</color>
+    <color name="black">#000000</color>
+    <color name="edittext_hint_color">@color/md_grey_500</color>
+    <color name="download_green">#00ff0c</color>
+
     <color name="higher_transparent_black">#64000000</color>
 
     <!-- Material DEFAULT colors -->
@@ -48,9 +53,6 @@
     <color name="material_drawer_dark_selected">#202020</color>
     <color name="material_drawer_dark_selected_text">@color/material_drawer_primary</color>
     <color name="material_drawer_dark_header_selection_text">#FFF</color>
-    <color name="black">#000000</color>
-    <color name="edittext_hint_color">@color/md_grey_500</color>
-    <color name="download_green">#00ff0c</color>
 
 
 

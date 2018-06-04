@@ -25,12 +25,8 @@ public interface CreateTaskContract {
 
         /**
          * Shows the date dialog
-         *
-         * @param year  the date year when the dialog is opened
-         * @param month the date month when the dialog is opened
-         * @param day   the date day when the dialog is opened
          */
-        void showDateDialog(int year, int month, int day);
+        void showDateDialog();
 
         /**
          * Sets the due date edittext with the specified date
@@ -58,6 +54,15 @@ public interface CreateTaskContract {
          * Shows the alert dialog confirming the users departure
          */
         void showAlertDialog();
+
+        /**
+         * Sets up the date picker dialog
+         *
+         * @param currentYear       the current year
+         * @param currentMonth      the current month
+         * @param currentDayOfMonth the current day
+         */
+        void setUpDatePickerDialog(int currentYear, int currentMonth, int currentDayOfMonth);
     }
 
     /**
@@ -112,6 +117,11 @@ public interface CreateTaskContract {
          * @param dueDate the due date of the task
          */
         void homeButtonPressed(String title, String dueDate);
+
+        /**
+         * Sets up the date picker dialog
+         */
+        void setUpDateDialog();
     }
 
 

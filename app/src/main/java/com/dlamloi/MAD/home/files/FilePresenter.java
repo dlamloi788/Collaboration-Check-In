@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.dlamloi.MAD.home.GroupHomeContract;
 import com.dlamloi.MAD.model.CloudFile;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
-import com.dlamloi.MAD.utilities.FirebaseStorageManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseStorageManager;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;

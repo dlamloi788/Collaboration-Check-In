@@ -25,7 +25,7 @@ public interface MessageContract {
 
 
     /**
-     * The asociated presenter in the conttract
+     * The associated presenter in the contract
      */
     interface Presenter {
 

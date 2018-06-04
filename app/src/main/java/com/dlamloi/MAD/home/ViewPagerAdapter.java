@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 /**
- * This class is reponsible for enabling users to slide through pages
+ * This class is rresponsiblefor enabling users to slide through pages
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter{
 

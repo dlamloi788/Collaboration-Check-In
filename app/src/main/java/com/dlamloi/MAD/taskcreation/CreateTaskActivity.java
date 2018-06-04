@@ -25,11 +25,10 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 /**
- * This class is reponsible for displaying the UI of the create meeting activity
+ * This class is responsible for displaying the UI of the create meeting activity
  */
 public class CreateTaskActivity extends AppCompatActivity implements CreateTaskContract.View {
 
-    public static final String SPINNER_SELECT = "Spinner item selected";
 
 
     private CreateTaskContract.Presenter mCreateTaskPresenter;
@@ -47,6 +46,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
 
     private Menu mMenu;
     private AlertDialog mLeaveAlertDialog;
+    private DatePickerDialog mDatePickerDialog;
 
     /**
      * {@inheritDoc}
@@ -64,18 +64,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
         mSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mAssignMemberSp.setAdapter(mSpinnerAdapter);
         mCreateTaskPresenter = new CreateTaskPresenter(this, mGroupId);
+        mCreateTaskPresenter.setUpDateDialog();
         mLeaveAlertDialog = Utility.setUpLeaveAlertDialog(this, getString(R.string.quit_assigning_task));
-        mAssignMemberSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mAssignMemberSp.getItemAtPosition(position);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     @OnClick(R.id.task_duedate_edittext)
@@ -122,6 +113,16 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
      * {@inheritDoc}
      */
     @Override
+    public void onBackPressed() {
+        mCreateTaskPresenter.homeButtonPressed(mTaskTitleEt.getText().toString(),
+                mTaskDueDatEt.getText().toString()
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_task_meeting, menu);
         mMenu = menu;
@@ -141,14 +142,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
      * {@inheritDoc}
      */
     @Override
-    public void showDateDialog(int currentYear, int currentMonth, int currentDayOfMonth) {
+    public void showDateDialog() {
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year, month, dayOfMonth) -> {
-                    mCreateTaskPresenter.datePicked(year, month, dayOfMonth);
-                }, currentYear, currentMonth, currentDayOfMonth);
-
-        datePickerDialog.show();
+        mDatePickerDialog.show();
     }
 
     /**
@@ -190,6 +186,14 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskC
     @Override
     public void showAlertDialog() {
         mLeaveAlertDialog.show();
+    }
+
+    @Override
+    public void setUpDatePickerDialog(int currentYear, int currentMonth, int currentDayOfMonth) {
+        mDatePickerDialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    mCreateTaskPresenter.datePicked(year, month, dayOfMonth);
+                }, currentYear, currentMonth, currentDayOfMonth);
     }
 
 }

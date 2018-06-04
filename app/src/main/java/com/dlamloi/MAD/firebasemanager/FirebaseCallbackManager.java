@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.utilities;
+package com.dlamloi.MAD.firebasemanager;
 
 /**
  * Created by Don on 25/05/2018.
@@ -218,7 +218,7 @@ public class FirebaseCallbackManager {
     }
 
     /**
-     * Attaches a listener to the task reference at a specific grup
+     * Attaches a listener to the task reference at a specific group
      *
      * @param fileListener the file listener observing any new files uploaded
      */

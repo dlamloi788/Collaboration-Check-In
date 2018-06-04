@@ -26,7 +26,7 @@ package com.dlamloi.MAD.base;
 public interface BaseAuthentication {
 
     /**
-     * Called upon successful authentcation
+     * Called upon successful authentication
      */
     void onSuccess();
 

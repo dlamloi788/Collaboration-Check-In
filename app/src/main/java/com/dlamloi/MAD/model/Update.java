@@ -1,14 +1,12 @@
 package com.dlamloi.MAD.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.io.Serializable;
-
 /**
  * Created by Don on 20/04/2018.
  */
 
+/**
+ * This class wraps the update data into a class
+ */
 public class Update {
 
     private String id;

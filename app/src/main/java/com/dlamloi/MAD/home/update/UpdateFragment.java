@@ -16,7 +16,7 @@ import com.dlamloi.MAD.model.Update;
 import java.util.ArrayList;
 
 /**
- * This class is reponsible for displaying the update screen
+ * This class is responsible for displaying the update screen
  */
 public class UpdateFragment extends Fragment implements UpdateContract.View {
 

@@ -33,7 +33,7 @@ public interface LoginContract {
         void showLoginFailedTextView();
 
         /**
-         * Shows the TextView stating that the email is not verfied
+         * Shows the TextView stating that the email is not verified
          */
         void showEmailNotVerified();
 

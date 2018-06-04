@@ -1,11 +1,6 @@
 package com.dlamloi.MAD.meetingcreation;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
 /**
  * Created by Don on 17/05/2018.
@@ -29,7 +24,7 @@ public interface CreateMeetingContract {
         void setPlaceText(Intent data);
 
         /**
-         * Displays a leave dialog confirming the users depature
+         * Displays a leave dialog confirming the users departure
          */
         void showLeaveConfirmationDialog();
 
@@ -40,20 +35,13 @@ public interface CreateMeetingContract {
 
         /**
          * Shows the date dialog
-         *
-         * @param year  the year the dialog displays when opened
-         * @param month the month the dialog displays when opened
-         * @param day   the day the dialog displays when opened
          */
-        void showDateDialog(int year, int month, int day);
+        void showDateDialog();
 
         /**
          * Shows the time dialog
-         *
-         * @param hour   the hour the dialog displays when opened
-         * @param minute the minute the dialog displays when opened
          */
-        void showTimeDialog(int hour, int minute);
+        void showTimeDialog();
 
         /**
          * Sets the meeting date edittext to the selected date
@@ -88,6 +76,23 @@ public interface CreateMeetingContract {
          * Starts the google places picker
          */
         void startSelectLocation();
+
+        /**
+         * Sets up the date picker dialog
+         *
+         * @param year the current year
+         * @param month the current month
+         * @param day the current day
+         */
+        void setUpDatePickerDialog(int year, int month, int day);
+
+        /**
+         * Sets up the time picker dialog
+         *
+         * @param hour the current hour
+         * @param minute the current minute
+         */
+        void setUpTimePickerDialog(int hour, int minute);
     }
 
     /**
@@ -106,7 +111,7 @@ public interface CreateMeetingContract {
         /**
          * Called on result returned by an activity
          *
-         * @param requestCode the requestcode of the acitivty
+         * @param requestCode the requestcode of the activity
          * @param resultCode  the result status
          * @param data        the intent that contains data
          */
@@ -163,7 +168,7 @@ public interface CreateMeetingContract {
         void shouldCreateBeEnabled(String name, String date, String time, String location);
 
         /**
-         * Shows a leave confirmation dialog none of the texts are empty; otherwise it just finishes the acitivty
+         * Shows a leave confirmation dialog none of the texts are empty; otherwise it just finishes the activity
          *
          * @param name
          * @param date
@@ -172,6 +177,16 @@ public interface CreateMeetingContract {
          * @param agenda
          */
         void homeButtonPressed(String name, String date, String time, String location, String agenda);
+
+        /**
+         * Sets up the time picker dialog
+         */
+        void setUpTimePickerDialog();
+
+        /**
+         * Sets up the date picker dialog
+         */
+        void setUpDatePickerDialog();
     }
 
 }

@@ -18,7 +18,7 @@ import com.dlamloi.MAD.model.CloudFile;
 import java.util.ArrayList;
 
 /**
- * This class is reponsible for displaying the file screen
+ * This class is responsible for displaying the file screen
  */
 public class FileFragment extends Fragment implements FileContract.View {
 

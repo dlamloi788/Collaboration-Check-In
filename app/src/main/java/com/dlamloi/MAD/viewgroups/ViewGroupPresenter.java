@@ -1,10 +1,11 @@
 package com.dlamloi.MAD.viewgroups;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.dlamloi.MAD.model.Group;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGroupContract.ViewGroupListener {
 
+    public static final String USER_EMAIL = "User email";
 
     private final ViewGroupContract.View mView;
     private FirebaseAuthenticationManager mFirebaseAuthenticationManager;
@@ -59,6 +61,7 @@ public class ViewGroupPresenter implements ViewGroupContract.Presenter, ViewGrou
      */
     @Override
     public void loadProfileData() {
+        Log.d(USER_EMAIL,"User email" + mFirebaseAuthenticationManager.getCurrentUserEmail());
         mView.setProfileImage(mFirebaseAuthenticationManager.getPhotoUrl());
         mView.setDisplayName(mFirebaseAuthenticationManager.getCurrentUserDisplayName());
         mView.setEmail(mFirebaseAuthenticationManager.getCurrentUserEmail());

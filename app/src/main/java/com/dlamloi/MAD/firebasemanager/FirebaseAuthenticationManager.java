@@ -1,4 +1,4 @@
-package com.dlamloi.MAD.utilities;
+package com.dlamloi.MAD.firebasemanager;
 
 import android.net.Uri;
 import android.util.Log;
@@ -39,7 +39,7 @@ public class FirebaseAuthenticationManager {
 
     /**
      * Creates an instance of the Firebase Authentication Manager with a listener to notify
-     * of events occuring
+     * of events occurring
      *
      * Use this when involving login or registration
      *

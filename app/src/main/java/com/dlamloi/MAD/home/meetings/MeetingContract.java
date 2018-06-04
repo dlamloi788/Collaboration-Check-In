@@ -21,7 +21,7 @@ public interface MeetingContract {
     }
 
     /**
-     * The presenter associated wtih the contract
+     * The presenter associated with the contract
      */
     interface Presenter extends BasePresenter {
 
@@ -42,7 +42,7 @@ public interface MeetingContract {
     }
 
     /**
-     * Listenes for meeting recyclerview row taps
+     * Listens for meeting recyclerview row taps
      */
     interface MeetingItemClickListener {
 

@@ -149,7 +149,7 @@
             android:id="@+id/login_failed_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF0000"
+            android:textColor="@color/error_red"
             android:text="@string/invalid_username_password"
             android:visibility="invisible"
             />

@@ -24,6 +24,7 @@ import butterknife.OnTextChanged;
 
 public class CreateGroupActivity extends AppCompatActivity implements CreateGroupContract.View {
 
+
     @BindView(R.id.group_name_textinputlayout)
     TextInputLayout mGroupNameTextInputLayout;
     @BindView(R.id.group_name_edittext)
@@ -57,6 +58,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.create_group));
         ButterKnife.bind(this);
         mCreateGroupPresenter = new CreateGroupPresenter(this);
         mMemberEts = new EditText[]{mMemberOneEt, mMemberTwoEt, mMemberThreeEt, mMemberFourEt, mMemberFiveEt};
@@ -102,6 +104,14 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
      * {@inheritDoc}
      */
     @Override
+    public void onBackPressed() {
+        mCreateGroupPresenter.homeButtonClicked(getGroupName(), getMemberEmails());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void showFab() {
         mCreateGroupButton.setVisibility(View.VISIBLE);
         mCreateGroupButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
@@ -120,8 +130,8 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
      * {@inheritDoc}
      */
     @Override
-    public void showEmailError(String error) {
-        Utility.showToast(this, error);
+    public void showEmailError() {
+        Utility.showToast(this, getString(R.string.enter_email_twice));
     }
 
     /**

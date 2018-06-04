@@ -1,6 +1,5 @@
 package com.dlamloi.MAD.home.files;
 
-import android.app.Activity;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

@@ -29,9 +29,8 @@ public interface CreateGroupContract {
         /**
          * Displays a toast with a provided error message
          *
-         * @param error the error message
          */
-        void showEmailError(String error);
+        void showEmailError();
 
         /**
          * Leaves the activity
@@ -39,7 +38,7 @@ public interface CreateGroupContract {
         void leave();
 
         /**
-         * Shows a dialog confirming the users depature
+         * Shows a dialog confirming the users departure
          */
         void showLeaveDialog();
     }
@@ -66,7 +65,7 @@ public interface CreateGroupContract {
         void shouldCreateBeEnabled(String groupName, ArrayList<String> emails);
 
         /**
-         * Determines whether a dialog confirming the users depature should be displayed
+         * Determines whether a dialog confirming the users departure should be displayed
          *
          * @param groupName the group name
          * @param emails the emails of the members of the group

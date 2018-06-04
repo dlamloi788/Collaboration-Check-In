@@ -55,7 +55,7 @@ public interface TaskContract {
         void onTaskAdd(Task task);
 
         /**
-         * Notifies the presnter that a task was marked complete
+         * Notifies the presenter that a task was marked complete
          *
          * @param taskId the id of the task that was completed
          */

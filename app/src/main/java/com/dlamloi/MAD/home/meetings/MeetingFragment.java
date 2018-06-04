@@ -16,8 +16,6 @@ import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.viewmeeting.ViewMeetingActivity;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * This class is responsible for displaying the meeting screen

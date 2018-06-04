@@ -13,16 +13,12 @@ import android.widget.EditText;
 
 import com.dlamloi.MAD.R;
 import com.dlamloi.MAD.home.GroupHomeActivity;
-import com.dlamloi.MAD.home.meetings.MeetingAdapter;
 import com.dlamloi.MAD.model.ChatMessage;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * This class is reponsible for showing the message tab
+ * This class is responsible for showing the message tab
  */
 public class MessagesFragment extends Fragment implements MessageContract.View {
 

@@ -4,6 +4,9 @@ package com.dlamloi.MAD.model;
  * Created by Don on 11/04/2018.
  */
 
+/**
+ * This class wraps user data into object
+ */
 public class User {
 
     private String mEmail;

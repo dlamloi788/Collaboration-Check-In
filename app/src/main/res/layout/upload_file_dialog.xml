@@ -50,5 +50,17 @@
         android:text="@string/upload"
         android:textColor="@color/colorPrimary" />
 
+    <TextView
+        android:id="@+id/upload_dialog_error_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_upload_button"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/error_red"
+        android:text="@string/enter_file_name"
+        android:textStyle="italic"
+        android:visibility="gone"
+        />
+
 
 </RelativeLayout>

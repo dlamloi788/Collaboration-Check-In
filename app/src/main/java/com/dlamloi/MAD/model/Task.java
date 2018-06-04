@@ -1,8 +1,5 @@
 package com.dlamloi.MAD.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by Don on 8/05/2018.
  */

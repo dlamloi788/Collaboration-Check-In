@@ -27,7 +27,7 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
     /**
      * Creates an instance of the create task presenter
      *
-     * @param view the view that the presenter will be moderating
+     * @param view    the view that the presenter will be moderating
      * @param groupId the id of the group that the user is currently in
      */
     public CreateTaskPresenter(CreateTaskContract.View view, String groupId) {
@@ -42,11 +42,7 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
      */
     @Override
     public void taskDateClicked() {
-        Calendar date = Calendar.getInstance();
-        int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH);
-        int day = date.get(Calendar.DAY_OF_MONTH);
-        mView.showDateDialog(year, month, day);
+        mView.showDateDialog();
     }
 
     /**
@@ -106,5 +102,14 @@ public class CreateTaskPresenter implements CreateTaskContract.Presenter {
         } else {
             mView.leave();
         }
+    }
+
+    @Override
+    public void setUpDateDialog() {
+        Calendar date = Calendar.getInstance();
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        mView.setUpDatePickerDialog(year, month, day);
     }
 }

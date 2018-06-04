@@ -1,16 +1,11 @@
-package com.dlamloi.MAD.utilities;
+package com.dlamloi.MAD.firebasemanager;
 
 import android.net.Uri;
 import android.util.Log;
 
 import com.dlamloi.MAD.home.GroupHomeContract;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 

@@ -40,7 +40,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ViewGroupsActivity extends AppCompatActivity implements ViewGroupContract.View {
 
-    public static final String USER_PHOTO_URI = "User uri";
     public static final String GROUP_ID_KEY = "group_id";
     public static final String GROUP_TITLE_KEY = "group_title";
     public static final String GROUP_REFERENCE = "groups";

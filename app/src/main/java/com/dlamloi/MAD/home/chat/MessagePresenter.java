@@ -2,8 +2,8 @@ package com.dlamloi.MAD.home.chat;
 
 import com.dlamloi.MAD.model.ChatMessage;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,13 +44,15 @@ public class MessagePresenter implements MessageContract.Presenter, MessageContr
      */
     @Override
     public void sendMessage(String messageText) {
-        mView.clearMessageBox();
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yy (hh:mma)");
-        String time = dateFormat.format(calendar.getTime());
-        String username = mFirebaseAuthenticationManager.getCurrentUserEmail();
-        ChatMessage message = new ChatMessage(time, username, messageText);
-        mFirebaseRepositoryManager.sendMessage(message);
+        if (!messageText.isEmpty()) {
+            mView.clearMessageBox();
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yy (hh:mma)");
+            String time = dateFormat.format(calendar.getTime());
+            String username = mFirebaseAuthenticationManager.getCurrentUserEmail();
+            ChatMessage message = new ChatMessage(time, username, messageText);
+            mFirebaseRepositoryManager.sendMessage(message);
+        }
     }
 
     /**

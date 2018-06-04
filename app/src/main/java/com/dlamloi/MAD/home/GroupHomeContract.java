@@ -112,32 +112,32 @@ public interface GroupHomeContract {
         void updateDownloadProgressBar(int currentProgress);
 
         /**
-         * Displays a toast stating that the download is coplete
+         * Displays a toast stating that the download is complete
          */
         void showUploadCompleteToast();
 
         /**
-         * Navigates to the acitivty that allow users to post an update
+         * Navigates to the activity that allow users to post an update
          */
         void navigateToPostUpdate();
 
         /**
-         * Navigates to the acitivty that allow users to schedule a meeting
+         * Navigates to the activity that allow users to schedule a meeting
          */
         void navigateToScheduleMeeting();
 
         /**
-         * Navigates to the acitivty that allow users to assign a task
+         * Navigates to the activity that allow users to assign a task
          */
         void navigateToAssignTask();
 
         /**
-         * Navigates to the acitivty that allow users to upload a file
+         * Navigates to the activity that allow users to upload a file
          */
         void navigateToUploadFile();
 
         /**
-         * Navigates to the acitivty that allow users to upload a photo via the camera application
+         * Navigates to the activity that allow users to upload a photo via the camera application
          * @param timeStamp the current time
          */
         void navigateToCameraUpload(String timeStamp);
@@ -157,6 +157,32 @@ public interface GroupHomeContract {
          */
         void goBackToGroups();
 
+
+
+        /**
+         * Hides the upload file dialog
+         */
+        void hideEnterFileNameDialog();
+
+        /**
+         *  Shakes the file edittext of the upload dialog if empty
+         */
+        void shakeUploadFileName();
+
+        /**
+         * Shows textview stating that the upload requires a file name
+         */
+        void showFileNameError();
+
+        /**
+         * Hides the textview with the upload file name error
+         */
+        void hideFileNameError();
+
+        /**
+         * Clears the file name in the upload dialog edittext
+         */
+        void clearFileName();
     }
 
     /**
@@ -235,9 +261,9 @@ public interface GroupHomeContract {
         void uploadFile();
 
         /**
-         * Checks for permissions with the associated acitivty
+         * Checks for permissions with the associated activity
          *
-         * @param activity the acitivty which invoked this method
+         * @param activity the activity which invoked this method
          */
         void generateImageURI(Activity activity);
 
@@ -264,7 +290,7 @@ public interface GroupHomeContract {
 
         /**
          * Notifies the presenter that the upload/download progress has changed
-         * @param currentProgress the progress of the upload/dowmload
+         * @param currentProgress the progress of the upload/download
          */
         void notifyProgressChange(int currentProgress);
 

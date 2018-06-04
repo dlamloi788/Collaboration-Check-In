@@ -4,6 +4,9 @@ package com.dlamloi.MAD.model;
  * Created by Don on 8/05/2018.
  */
 
+/**
+ * This class is wraps a message into an object
+ */
 public class ChatMessage {
 
     private String id;

@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.dlamloi.MAD.model.Meeting;
 import com.dlamloi.MAD.repo.FirebaseRepositoryManager;
-import com.dlamloi.MAD.utilities.FirebaseAuthenticationManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseAuthenticationManager;
 import com.dlamloi.MAD.utilities.Utility;
 
 import java.text.SimpleDateFormat;
@@ -66,10 +66,8 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
      */
     @Override
     public void meetingTimeClick() {
-        Calendar date = Calendar.getInstance();
-        int hourOfDay = date.get(Calendar.HOUR_OF_DAY);
-        int minute = date.get(Calendar.MINUTE);
-        mView.showTimeDialog(hourOfDay, minute);
+
+        mView.showTimeDialog();
     }
 
     /**
@@ -123,16 +121,30 @@ public class CreateMeetingPresenter implements CreateMeetingContract.Presenter {
         }
     }
 
+    @Override
+    public void setUpTimePickerDialog() {
+        Calendar date = Calendar.getInstance();
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        mView.setUpDatePickerDialog(year, month, day);
+    }
+
+    @Override
+    public void setUpDatePickerDialog() {
+        Calendar date = Calendar.getInstance();
+        int hourOfDay = date.get(Calendar.HOUR_OF_DAY);
+        int minute = date.get(Calendar.MINUTE);
+        mView.setUpTimePickerDialog(hourOfDay, minute);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void meetingDateEtClicked() {
-        Calendar date = Calendar.getInstance();
-        int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH);
-        int day = date.get(Calendar.DAY_OF_MONTH);
-        mView.showDateDialog(year, month, day);
+
+        mView.showDateDialog();
     }
 
     /**

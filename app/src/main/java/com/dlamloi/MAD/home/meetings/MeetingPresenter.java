@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.dlamloi.MAD.model.Meeting;
-import com.dlamloi.MAD.utilities.FirebaseCallbackManager;
+import com.dlamloi.MAD.firebasemanager.FirebaseCallbackManager;
 
 import java.util.ArrayList;
 
